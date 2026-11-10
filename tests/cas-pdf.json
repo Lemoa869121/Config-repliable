@@ -1,0 +1,1600 @@
+{
+ "source": "Liste de débit Forster PRESTO repliables (KDI-PRR), version corrigée du 10/11/2026",
+ "ecartsAcceptes": {
+  "din": [
+   "A 3+2",
+   "A 8+1",
+   "I 6+1"
+  ],
+  "montants": [
+   "A 8+1",
+   "I 3+1",
+   "I 3+3",
+   "I 5+1",
+   "I 6+1"
+  ],
+  "remarques": [
+   "Din et T/Z : positions non conformes aux règles validées (jamais T face à T ni Z face à Z).",
+   "Dormant haut > 5900 mm : coupé sur un axe de vantail (le PDF ne coupe pas ou coupe autrement).",
+   "Pièces 916320/916322 : 2 + 2 par vantail (règle Forster) ; 917017 ignoré ; 985631/985632 remplacés."
+  ]
+ },
+ "cas": [
+  {
+   "position": "A 2+1",
+   "sens": "ext",
+   "gauche": 2,
+   "droite": 1,
+   "largeur": 3000,
+   "hauteur": 2165,
+   "remplissage": "9",
+   "attendu": {
+    "dormant": [
+     2165.0,
+     2165.0,
+     3000.0
+    ],
+    "ouvrants": [
+     [
+      "32855",
+      853.3,
+      3
+     ],
+     [
+      "901246",
+      853.3,
+      6
+     ],
+     [
+      "901246",
+      1935.0,
+      6
+     ]
+    ],
+    "tz_profils": [
+     [
+      "32803",
+      993.3,
+      3
+     ],
+     [
+      "32803",
+      2115.0,
+      4
+     ],
+     [
+      "32805",
+      2115.0,
+      2
+     ]
+    ],
+    "din": [
+     "L",
+     "R",
+     "R"
+    ],
+    "montants": [
+     "TT",
+     "ZZ",
+     "TT"
+    ],
+    "verres": [
+     [
+      837,
+      1959,
+      3
+     ]
+    ],
+    "jointBattue": 31.1,
+    "jointVitrage": 16.97,
+    "boutons": 84.0
+   }
+  },
+  {
+   "position": "A 3",
+   "sens": "ext",
+   "gauche": 3,
+   "droite": 0,
+   "largeur": 3000,
+   "hauteur": 2165,
+   "remplissage": "9",
+   "attendu": {
+    "dormant": [
+     2165.0,
+     2165.0,
+     3000.0
+    ],
+    "ouvrants": [
+     [
+      "32855",
+      853.3,
+      3
+     ],
+     [
+      "901246",
+      853.3,
+      6
+     ],
+     [
+      "901246",
+      1935.0,
+      6
+     ]
+    ],
+    "tz_profils": [
+     [
+      "32803",
+      993.3,
+      3
+     ],
+     [
+      "32803",
+      2115.0,
+      4
+     ],
+     [
+      "32805",
+      2115.0,
+      2
+     ]
+    ],
+    "din": [
+     "L",
+     "R",
+     "L"
+    ],
+    "montants": [
+     "TT",
+     "ZZ",
+     "TT"
+    ],
+    "verres": [
+     [
+      837,
+      1959,
+      3
+     ]
+    ],
+    "jointBattue": 31.1,
+    "jointVitrage": 16.97,
+    "boutons": 84.0
+   }
+  },
+  {
+   "position": "A 3+1",
+   "sens": "ext",
+   "gauche": 3,
+   "droite": 1,
+   "largeur": 4000,
+   "hauteur": 2165,
+   "remplissage": "9",
+   "attendu": {
+    "dormant": [
+     2165.0,
+     2165.0,
+     4000.0
+    ],
+    "ouvrants": [
+     [
+      "32855",
+      862.5,
+      4
+     ],
+     [
+      "901246",
+      862.5,
+      8
+     ],
+     [
+      "901246",
+      1935.0,
+      8
+     ]
+    ],
+    "tz_profils": [
+     [
+      "32803",
+      1002.5,
+      4
+     ],
+     [
+      "32803",
+      2115.0,
+      5
+     ],
+     [
+      "32805",
+      2115.0,
+      3
+     ]
+    ],
+    "din": [
+     "L",
+     "R",
+     "L",
+     "R"
+    ],
+    "montants": [
+     "TT",
+     "ZZ",
+     "TZ",
+     "TT"
+    ],
+    "verres": [
+     [
+      847,
+      1959,
+      4
+     ]
+    ],
+    "jointBattue": 41.54,
+    "jointVitrage": 22.7,
+    "boutons": 112.0
+   }
+  },
+  {
+   "position": "A 3+2",
+   "sens": "ext",
+   "gauche": 3,
+   "droite": 2,
+   "largeur": 5000,
+   "hauteur": 2165,
+   "remplissage": "9",
+   "attendu": {
+    "dormant": [
+     2165.0,
+     2165.0,
+     5000.0
+    ],
+    "ouvrants": [
+     [
+      "32855",
+      868.0,
+      5
+     ],
+     [
+      "901246",
+      868.0,
+      10
+     ],
+     [
+      "901246",
+      1935.0,
+      10
+     ]
+    ],
+    "tz_profils": [
+     [
+      "32803",
+      1008.0,
+      5
+     ],
+     [
+      "32803",
+      2115.0,
+      6
+     ],
+     [
+      "32805",
+      2115.0,
+      4
+     ]
+    ],
+    "din": [
+     "L",
+     "R",
+     "L",
+     "R",
+     "R"
+    ],
+    "montants": [
+     "TT",
+     "ZZ",
+     "TT",
+     "ZT",
+     "ZT"
+    ],
+    "verres": [
+     [
+      852,
+      1959,
+      5
+     ]
+    ],
+    "jointBattue": 51.98,
+    "jointVitrage": 28.43,
+    "boutons": 140.0
+   }
+  },
+  {
+   "position": "A 3+3",
+   "sens": "ext",
+   "gauche": 3,
+   "droite": 3,
+   "largeur": 6000,
+   "hauteur": 2165,
+   "remplissage": "24",
+   "attendu": {
+    "dormant": [
+     2165.0,
+     2165.0,
+     6000.0
+    ],
+    "ouvrants": [
+     [
+      "32855",
+      871.7,
+      6
+     ],
+     [
+      "901226",
+      871.7,
+      12
+     ],
+     [
+      "901226",
+      1935.0,
+      12
+     ]
+    ],
+    "tz_profils": [
+     [
+      "32803",
+      1011.7,
+      6
+     ],
+     [
+      "32803",
+      2115.0,
+      7
+     ],
+     [
+      "32805",
+      2115.0,
+      5
+     ]
+    ],
+    "din": [
+     "L",
+     "R",
+     "L",
+     "R",
+     "L",
+     "R"
+    ],
+    "montants": [
+     "TT",
+     "ZZ",
+     "TT",
+     "ZT",
+     "ZZ",
+     "TT"
+    ],
+    "verres": [
+     [
+      856,
+      1959,
+      6
+     ]
+    ],
+    "jointBattue": 62.42,
+    "jointVitrage": 34.16,
+    "boutons": 168.0
+   }
+  },
+  {
+   "position": "A 4+1",
+   "sens": "ext",
+   "gauche": 4,
+   "droite": 1,
+   "largeur": 5000,
+   "hauteur": 2165,
+   "remplissage": "9",
+   "attendu": {
+    "dormant": [
+     2165.0,
+     2165.0,
+     5000.0
+    ],
+    "ouvrants": [
+     [
+      "32855",
+      868.0,
+      5
+     ],
+     [
+      "901246",
+      868.0,
+      10
+     ],
+     [
+      "901246",
+      1935.0,
+      10
+     ]
+    ],
+    "tz_profils": [
+     [
+      "32803",
+      1008.0,
+      5
+     ],
+     [
+      "32803",
+      2115.0,
+      6
+     ],
+     [
+      "32805",
+      2115.0,
+      4
+     ]
+    ],
+    "din": [
+     "L",
+     "R",
+     "L",
+     "R",
+     "R"
+    ],
+    "montants": [
+     "TT",
+     "ZZ",
+     "TT",
+     "ZZ",
+     "TT"
+    ],
+    "verres": [
+     [
+      852,
+      1959,
+      5
+     ]
+    ],
+    "jointBattue": 51.98,
+    "jointVitrage": 28.43,
+    "boutons": 140.0
+   }
+  },
+  {
+   "position": "A 5",
+   "sens": "ext",
+   "gauche": 5,
+   "droite": 0,
+   "largeur": 5000,
+   "hauteur": 2165,
+   "remplissage": "9",
+   "attendu": {
+    "dormant": [
+     2165.0,
+     2165.0,
+     5000.0
+    ],
+    "ouvrants": [
+     [
+      "32855",
+      868.0,
+      5
+     ],
+     [
+      "901246",
+      868.0,
+      10
+     ],
+     [
+      "901246",
+      1935.0,
+      10
+     ]
+    ],
+    "tz_profils": [
+     [
+      "32803",
+      1008.0,
+      5
+     ],
+     [
+      "32803",
+      2115.0,
+      6
+     ],
+     [
+      "32805",
+      2115.0,
+      4
+     ]
+    ],
+    "din": [
+     "L",
+     "R",
+     "L",
+     "R",
+     "L"
+    ],
+    "montants": [
+     "TT",
+     "ZZ",
+     "TT",
+     "ZZ",
+     "TT"
+    ],
+    "verres": [
+     [
+      852,
+      1959,
+      5
+     ]
+    ],
+    "jointBattue": 51.98,
+    "jointVitrage": 28.43,
+    "boutons": 140.0
+   }
+  },
+  {
+   "position": "A 5+1",
+   "sens": "ext",
+   "gauche": 5,
+   "droite": 1,
+   "largeur": 6000,
+   "hauteur": 2165,
+   "remplissage": "9",
+   "attendu": {
+    "dormant": [
+     2165.0,
+     2165.0,
+     6000.0
+    ],
+    "ouvrants": [
+     [
+      "32855",
+      871.7,
+      6
+     ],
+     [
+      "901246",
+      871.7,
+      12
+     ],
+     [
+      "901246",
+      1935.0,
+      12
+     ]
+    ],
+    "tz_profils": [
+     [
+      "32803",
+      1011.7,
+      6
+     ],
+     [
+      "32803",
+      2115.0,
+      7
+     ],
+     [
+      "32805",
+      2115.0,
+      5
+     ]
+    ],
+    "din": [
+     "L",
+     "R",
+     "L",
+     "R",
+     "L",
+     "R"
+    ],
+    "montants": [
+     "TT",
+     "ZZ",
+     "TT",
+     "ZZ",
+     "TZ",
+     "TT"
+    ],
+    "verres": [
+     [
+      856,
+      1959,
+      6
+     ]
+    ],
+    "jointBattue": 62.42,
+    "jointVitrage": 34.16,
+    "boutons": 168.0
+   }
+  },
+  {
+   "position": "A 6+1",
+   "sens": "ext",
+   "gauche": 6,
+   "droite": 1,
+   "largeur": 7000,
+   "hauteur": 2165,
+   "remplissage": "9",
+   "attendu": {
+    "dormant": [
+     2165.0,
+     2165.0,
+     7000.0
+    ],
+    "ouvrants": [
+     [
+      "32855",
+      874.3,
+      7
+     ],
+     [
+      "901246",
+      874.3,
+      14
+     ],
+     [
+      "901246",
+      1935.0,
+      14
+     ]
+    ],
+    "tz_profils": [
+     [
+      "32803",
+      1014.3,
+      7
+     ],
+     [
+      "32803",
+      2115.0,
+      8
+     ],
+     [
+      "32805",
+      2115.0,
+      6
+     ]
+    ],
+    "din": [
+     "L",
+     "R",
+     "L",
+     "R",
+     "L",
+     "R",
+     "R"
+    ],
+    "montants": [
+     "TT",
+     "ZZ",
+     "TT",
+     "ZZ",
+     "TT",
+     "ZZ",
+     "TT"
+    ],
+    "verres": [
+     [
+      858,
+      1959,
+      7
+     ]
+    ],
+    "jointBattue": 72.86,
+    "jointVitrage": 39.89,
+    "boutons": 197.0
+   }
+  },
+  {
+   "position": "A 7",
+   "sens": "ext",
+   "gauche": 7,
+   "droite": 0,
+   "largeur": 7000,
+   "hauteur": 2165,
+   "remplissage": "9",
+   "attendu": {
+    "dormant": [
+     2165.0,
+     2165.0,
+     7000.0
+    ],
+    "ouvrants": [
+     [
+      "32855",
+      874.3,
+      7
+     ],
+     [
+      "901246",
+      874.3,
+      14
+     ],
+     [
+      "901246",
+      1935.0,
+      14
+     ]
+    ],
+    "tz_profils": [
+     [
+      "32803",
+      1014.3,
+      7
+     ],
+     [
+      "32803",
+      2115.0,
+      8
+     ],
+     [
+      "32805",
+      2115.0,
+      6
+     ]
+    ],
+    "din": [
+     "L",
+     "R",
+     "L",
+     "R",
+     "L",
+     "R",
+     "L"
+    ],
+    "montants": [
+     "TT",
+     "ZZ",
+     "TT",
+     "ZZ",
+     "TT",
+     "ZZ",
+     "TT"
+    ],
+    "verres": [
+     [
+      858,
+      1959,
+      7
+     ]
+    ],
+    "jointBattue": 72.86,
+    "jointVitrage": 39.89,
+    "boutons": 197.0
+   }
+  },
+  {
+   "position": "A 7+1",
+   "sens": "ext",
+   "gauche": 7,
+   "droite": 1,
+   "largeur": 8000,
+   "hauteur": 2165,
+   "remplissage": "9",
+   "attendu": {
+    "dormant": [
+     2165.0,
+     2165.0,
+     8000.0
+    ],
+    "ouvrants": [
+     [
+      "32855",
+      876.3,
+      8
+     ],
+     [
+      "901246",
+      876.3,
+      16
+     ],
+     [
+      "901246",
+      1935.0,
+      16
+     ]
+    ],
+    "tz_profils": [
+     [
+      "32803",
+      1016.3,
+      8
+     ],
+     [
+      "32803",
+      2115.0,
+      9
+     ],
+     [
+      "32805",
+      2115.0,
+      7
+     ]
+    ],
+    "din": [
+     "L",
+     "R",
+     "L",
+     "R",
+     "L",
+     "R",
+     "L",
+     "R"
+    ],
+    "montants": [
+     "TT",
+     "ZZ",
+     "TT",
+     "ZZ",
+     "TT",
+     "ZZ",
+     "TZ",
+     "TT"
+    ],
+    "verres": [
+     [
+      860,
+      1959,
+      8
+     ]
+    ],
+    "jointBattue": 83.3,
+    "jointVitrage": 45.62,
+    "boutons": 225.0
+   }
+  },
+  {
+   "position": "A 8+1",
+   "sens": "ext",
+   "gauche": 8,
+   "droite": 1,
+   "largeur": 9000,
+   "hauteur": 2165,
+   "remplissage": "9",
+   "attendu": {
+    "dormant": [
+     2165.0,
+     2165.0,
+     4006.1,
+     4993.9
+    ],
+    "ouvrants": [
+     [
+      "32855",
+      877.8,
+      9
+     ],
+     [
+      "901246",
+      877.8,
+      18
+     ],
+     [
+      "901246",
+      1935.0,
+      18
+     ]
+    ],
+    "tz_profils": [
+     [
+      "32803",
+      1017.8,
+      9
+     ],
+     [
+      "32803",
+      2115.0,
+      10
+     ],
+     [
+      "32805",
+      2115.0,
+      8
+     ]
+    ],
+    "din": [
+     "L",
+     "R",
+     "L",
+     "R",
+     "L",
+     "R",
+     "L",
+     "L",
+     "R"
+    ],
+    "montants": [
+     "TT",
+     "ZZ",
+     "TT",
+     "ZZ",
+     "TT",
+     "ZZ",
+     "TZ",
+     "TZ",
+     "TT"
+    ],
+    "verres": [
+     [
+      862,
+      1959,
+      9
+     ]
+    ],
+    "jointBattue": 93.74,
+    "jointVitrage": 51.35,
+    "boutons": 253.0
+   }
+  },
+  {
+   "position": "I 2+1",
+   "sens": "int",
+   "gauche": 2,
+   "droite": 1,
+   "largeur": 3000,
+   "hauteur": 2165,
+   "remplissage": "9",
+   "attendu": {
+    "dormant": [
+     2165.0,
+     2165.0,
+     3000.0
+    ],
+    "ouvrants": [
+     [
+      "32855",
+      853.3,
+      3
+     ],
+     [
+      "901246",
+      853.3,
+      6
+     ],
+     [
+      "901246",
+      1935.0,
+      6
+     ]
+    ],
+    "tz_profils": [
+     [
+      "32803",
+      2115.0,
+      2
+     ],
+     [
+      "32805",
+      993.3,
+      3
+     ],
+     [
+      "32805",
+      2115.0,
+      4
+     ]
+    ],
+    "din": [
+     "R",
+     "L",
+     "L"
+    ],
+    "montants": [
+     "ZZ",
+     "TT",
+     "ZZ"
+    ],
+    "verres": [
+     [
+      837,
+      1959,
+      3
+     ]
+    ],
+    "jointBattue": 31.1,
+    "jointVitrage": 16.97,
+    "boutons": 84.0
+   }
+  },
+  {
+   "position": "I 3",
+   "sens": "int",
+   "gauche": 3,
+   "droite": 0,
+   "largeur": 3000,
+   "hauteur": 2165,
+   "remplissage": "9",
+   "attendu": {
+    "dormant": [
+     2165.0,
+     2165.0,
+     3000.0
+    ],
+    "ouvrants": [
+     [
+      "32855",
+      853.3,
+      3
+     ],
+     [
+      "901246",
+      853.3,
+      6
+     ],
+     [
+      "901246",
+      1935.0,
+      6
+     ]
+    ],
+    "tz_profils": [
+     [
+      "32803",
+      2115.0,
+      2
+     ],
+     [
+      "32805",
+      993.3,
+      3
+     ],
+     [
+      "32805",
+      2115.0,
+      4
+     ]
+    ],
+    "din": [
+     "R",
+     "L",
+     "R"
+    ],
+    "montants": [
+     "ZZ",
+     "TT",
+     "ZZ"
+    ],
+    "verres": [
+     [
+      837,
+      1959,
+      3
+     ]
+    ],
+    "jointBattue": 31.1,
+    "jointVitrage": 16.97,
+    "boutons": 84.0
+   }
+  },
+  {
+   "position": "I 3+1",
+   "sens": "int",
+   "gauche": 3,
+   "droite": 1,
+   "largeur": 4000,
+   "hauteur": 2165,
+   "remplissage": "9",
+   "attendu": {
+    "dormant": [
+     2165.0,
+     2165.0,
+     4000.0
+    ],
+    "ouvrants": [
+     [
+      "32855",
+      862.5,
+      4
+     ],
+     [
+      "901246",
+      862.5,
+      8
+     ],
+     [
+      "901246",
+      1935.0,
+      8
+     ]
+    ],
+    "tz_profils": [
+     [
+      "32803",
+      2115.0,
+      3
+     ],
+     [
+      "32805",
+      1002.5,
+      4
+     ],
+     [
+      "32805",
+      2115.0,
+      5
+     ]
+    ],
+    "din": [
+     "R",
+     "L",
+     "R",
+     "L"
+    ],
+    "montants": [
+     "ZZ",
+     "TT",
+     "TZ",
+     "ZZ"
+    ],
+    "verres": [
+     [
+      847,
+      1959,
+      4
+     ]
+    ],
+    "jointBattue": 41.54,
+    "jointVitrage": 22.7,
+    "boutons": 112.0
+   }
+  },
+  {
+   "position": "I 3+2",
+   "sens": "int",
+   "gauche": 3,
+   "droite": 2,
+   "largeur": 5000,
+   "hauteur": 2165,
+   "remplissage": "9",
+   "attendu": {
+    "dormant": [
+     2165.0,
+     2165.0,
+     5000.0
+    ],
+    "ouvrants": [
+     [
+      "32855",
+      868.0,
+      5
+     ],
+     [
+      "901246",
+      868.0,
+      10
+     ],
+     [
+      "901246",
+      1935.0,
+      10
+     ]
+    ],
+    "tz_profils": [
+     [
+      "32803",
+      2115.0,
+      4
+     ],
+     [
+      "32805",
+      1008.0,
+      5
+     ],
+     [
+      "32805",
+      2115.0,
+      6
+     ]
+    ],
+    "din": [
+     "R",
+     "L",
+     "R",
+     "R",
+     "L"
+    ],
+    "montants": [
+     "ZZ",
+     "TT",
+     "ZZ",
+     "TT",
+     "ZZ"
+    ],
+    "verres": [
+     [
+      852,
+      1959,
+      5
+     ]
+    ],
+    "jointBattue": 51.98,
+    "jointVitrage": 28.43,
+    "boutons": 140.0
+   }
+  },
+  {
+   "position": "I 3+3",
+   "sens": "int",
+   "gauche": 3,
+   "droite": 3,
+   "largeur": 6000,
+   "hauteur": 2165,
+   "remplissage": "9",
+   "attendu": {
+    "dormant": [
+     2165.0,
+     2165.0,
+     6000.0
+    ],
+    "ouvrants": [
+     [
+      "32855",
+      871.7,
+      6
+     ],
+     [
+      "901246",
+      871.7,
+      12
+     ],
+     [
+      "901246",
+      1935.0,
+      12
+     ]
+    ],
+    "tz_profils": [
+     [
+      "32803",
+      2115.0,
+      5
+     ],
+     [
+      "32805",
+      1011.7,
+      6
+     ],
+     [
+      "32805",
+      2115.0,
+      7
+     ]
+    ],
+    "din": [
+     "R",
+     "L",
+     "R",
+     "L",
+     "R",
+     "L"
+    ],
+    "montants": [
+     "ZZ",
+     "TT",
+     "ZZ",
+     "ZT",
+     "TT",
+     "ZZ"
+    ],
+    "verres": [
+     [
+      856,
+      1959,
+      6
+     ]
+    ],
+    "jointBattue": 62.42,
+    "jointVitrage": 34.16,
+    "boutons": 168.0
+   }
+  },
+  {
+   "position": "I 4+1",
+   "sens": "int",
+   "gauche": 4,
+   "droite": 1,
+   "largeur": 5000,
+   "hauteur": 2165,
+   "remplissage": "9",
+   "attendu": {
+    "dormant": [
+     2165.0,
+     2165.0,
+     5000.0
+    ],
+    "ouvrants": [
+     [
+      "32855",
+      868.0,
+      5
+     ],
+     [
+      "901246",
+      868.0,
+      10
+     ],
+     [
+      "901246",
+      1935.0,
+      10
+     ]
+    ],
+    "tz_profils": [
+     [
+      "32803",
+      2115.0,
+      4
+     ],
+     [
+      "32805",
+      1008.0,
+      5
+     ],
+     [
+      "32805",
+      2115.0,
+      6
+     ]
+    ],
+    "din": [
+     "R",
+     "L",
+     "R",
+     "L",
+     "L"
+    ],
+    "montants": [
+     "ZZ",
+     "TT",
+     "ZZ",
+     "TT",
+     "ZZ"
+    ],
+    "verres": [
+     [
+      852,
+      1959,
+      5
+     ]
+    ],
+    "jointBattue": 51.98,
+    "jointVitrage": 28.43,
+    "boutons": 140.0
+   }
+  },
+  {
+   "position": "I 5",
+   "sens": "int",
+   "gauche": 5,
+   "droite": 0,
+   "largeur": 5000,
+   "hauteur": 2165,
+   "remplissage": "9",
+   "attendu": {
+    "dormant": [
+     2165.0,
+     2165.0,
+     5000.0
+    ],
+    "ouvrants": [
+     [
+      "32855",
+      868.0,
+      5
+     ],
+     [
+      "901246",
+      868.0,
+      10
+     ],
+     [
+      "901246",
+      1935.0,
+      10
+     ]
+    ],
+    "tz_profils": [
+     [
+      "32803",
+      2115.0,
+      4
+     ],
+     [
+      "32805",
+      1008.0,
+      5
+     ],
+     [
+      "32805",
+      2115.0,
+      6
+     ]
+    ],
+    "din": [
+     "R",
+     "L",
+     "R",
+     "L",
+     "R"
+    ],
+    "montants": [
+     "ZZ",
+     "TT",
+     "ZZ",
+     "TT",
+     "ZZ"
+    ],
+    "verres": [
+     [
+      852,
+      1959,
+      5
+     ]
+    ],
+    "jointBattue": 51.98,
+    "jointVitrage": 28.43,
+    "boutons": 140.0
+   }
+  },
+  {
+   "position": "I 5+1",
+   "sens": "int",
+   "gauche": 5,
+   "droite": 1,
+   "largeur": 6000,
+   "hauteur": 2165,
+   "remplissage": "9",
+   "attendu": {
+    "dormant": [
+     2165.0,
+     2165.0,
+     6000.0
+    ],
+    "ouvrants": [
+     [
+      "32855",
+      871.7,
+      6
+     ],
+     [
+      "901246",
+      871.7,
+      12
+     ],
+     [
+      "901246",
+      1935.0,
+      12
+     ]
+    ],
+    "tz_profils": [
+     [
+      "32803",
+      2115.0,
+      5
+     ],
+     [
+      "32805",
+      1011.7,
+      6
+     ],
+     [
+      "32805",
+      2115.0,
+      7
+     ]
+    ],
+    "din": [
+     "R",
+     "L",
+     "R",
+     "L",
+     "R",
+     "L"
+    ],
+    "montants": [
+     "ZZ",
+     "TT",
+     "ZZ",
+     "TT",
+     "TZ",
+     "ZZ"
+    ],
+    "verres": [
+     [
+      856,
+      1959,
+      6
+     ]
+    ],
+    "jointBattue": 62.42,
+    "jointVitrage": 34.16,
+    "boutons": 168.0
+   }
+  },
+  {
+   "position": "I 6+1",
+   "sens": "int",
+   "gauche": 6,
+   "droite": 1,
+   "largeur": 7000,
+   "hauteur": 2165,
+   "remplissage": "9",
+   "attendu": {
+    "dormant": [
+     1039.3,
+     2165.0,
+     2165.0,
+     5960.7
+    ],
+    "ouvrants": [
+     [
+      "32855",
+      874.3,
+      7
+     ],
+     [
+      "901246",
+      874.3,
+      14
+     ],
+     [
+      "901246",
+      1935.0,
+      14
+     ]
+    ],
+    "tz_profils": [
+     [
+      "32803",
+      2115.0,
+      6
+     ],
+     [
+      "32805",
+      1014.3,
+      7
+     ],
+     [
+      "32805",
+      2115.0,
+      8
+     ]
+    ],
+    "din": [
+     "R",
+     "L",
+     "R",
+     "L",
+     "R",
+     "R",
+     "L"
+    ],
+    "montants": [
+     "ZZ",
+     "TT",
+     "ZZ",
+     "TT",
+     "TZ",
+     "TZ",
+     "ZZ"
+    ],
+    "verres": [
+     [
+      858,
+      1959,
+      7
+     ]
+    ],
+    "jointBattue": 72.86,
+    "jointVitrage": 39.89,
+    "boutons": 197.0
+   }
+  }
+ ],
+ "aTrancher": {
+  "montants": [
+   "I 3+2"
+  ],
+  "remarque": "I 3+2 : le PDF donne ZZ TT ZZ TT ZZ alors que l'inverse de A 3+2 donne ZZ TT ZZ TZ TZ. Les deux respectent la règle T/Z : question posée à Forster."
+ }
+}

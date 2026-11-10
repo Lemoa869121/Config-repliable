@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Configurateur repliable – Forster</title>
+  <link rel="icon" href="assets/logo-forster.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="entete">
+    <img src="assets/logo-forster-blanc.svg" alt="Forster">
+    <span class="filet"></span>
+    <span class="nom-appli">Configurateur repliable</span>
+  </header>
+
+  <div class="mise-en-page">
+    <!-- ========== Saisie ========== -->
+    <form id="formulaire" class="panneau" autocomplete="off">
+      <div class="bloc">
+        <label class="libelle" for="chantier">Référence chantier / repère <span class="facultatif">(facultatif)</span></label>
+        <input type="text" id="chantier" name="chantier" placeholder="ex. Chantier X – Porte P1">
+      </div>
+
+      <fieldset class="bloc">
+        <legend class="libelle">Gamme</legend>
+        <label class="choix"><input type="radio" name="gamme" value="presto" checked> Presto</label>
+        <label class="choix inactif"><input type="radio" name="gamme" value="unico" disabled> Unico <span class="bientot">à venir</span></label>
+      </fieldset>
+
+      <fieldset class="bloc">
+        <legend class="libelle">Sens d'ouverture</legend>
+        <label class="choix"><input type="radio" name="sens" value="ext" checked> Extérieur</label>
+        <label class="choix"><input type="radio" name="sens" value="int"> Intérieur</label>
+      </fieldset>
+
+      <fieldset class="bloc">
+        <legend class="libelle">Nombre de vantaux</legend>
+        <div class="deux-colonnes">
+          <label>Repliés à gauche<input type="number" name="gauche" min="0" max="9" step="1" value="3"></label>
+          <label>Repliés à droite<input type="number" name="droite" min="0" max="9" step="1" value="1"></label>
+        </div>
+        <p class="aide" id="totalVantaux"></p>
+      </fieldset>
+
+      <fieldset class="bloc">
+        <legend class="libelle">Dimensions de baie (mm)</legend>
+        <div class="deux-colonnes">
+          <label>Largeur<input type="number" name="largeur" min="1" step="1" value="4000"></label>
+          <label>Hauteur<input type="number" name="hauteur" min="1" step="1" value="2165"></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="bloc">
+        <legend class="libelle">Épaisseur des profils</legend>
+        <label class="choix"><input type="radio" name="corps" value="50" checked> Tout en corps de 50</label>
+        <label class="choix inactif"><input type="radio" name="corps" value="20" disabled> Tout en corps de 20 <span class="bientot">à venir</span></label>
+        <label class="choix inactif"><input type="radio" name="corps" value="20-50" disabled> Corps de 20, profil serrure en 50 <span class="bientot">à venir</span></label>
+      </fieldset>
+
+      <fieldset class="bloc">
+        <legend class="libelle">Remplissage</legend>
+        <label class="choix"><input type="radio" name="remplissage" value="9" checked> Verre 9 mm</label>
+        <label class="choix"><input type="radio" name="remplissage" value="24"> Verre 24 mm (4/16/4)</label>
+        <p class="aide">Autres épaisseurs : à venir.</p>
+      </fieldset>
+
+      <fieldset class="bloc inactif">
+        <legend class="libelle">Traverses <span class="bientot">à venir</span></legend>
+        <label class="choix"><input type="radio" name="traverses" value="0" checked disabled> Aucune</label>
+      </fieldset>
+
+      <fieldset class="bloc inactif">
+        <legend class="libelle">Quincaillerie <span class="bientot">à venir</span></legend>
+        <label class="choix"><input type="radio" name="quincaillerie" value="fmf100" disabled> FMF 100</label>
+        <label class="choix"><input type="radio" name="quincaillerie" value="fmf150" disabled> FMF 150</label>
+      </fieldset>
+
+      <button type="button" id="btnReinit" class="bouton secondaire">Réinitialiser</button>
+    </form>
+
+    <!-- ========== Résultat ========== -->
+    <main id="resultat" class="resultat">
+      <div class="barre-actions">
+        <h1 id="titreResultat">Liste matière</h1>
+        <div class="actions">
+          <button type="button" id="btnCopier" class="bouton secondaire">Copier</button>
+          <button type="button" id="btnCsv" class="bouton secondaire">Exporter (CSV)</button>
+          <button type="button" id="btnImprimer" class="bouton">Imprimer</button>
+        </div>
+      </div>
+      <p id="message" class="message" hidden></p>
+      <div id="contenu"></div>
+    </main>
+  </div>
+
+  <footer class="pied">
+    <img src="assets/logo-forster.svg" alt="Forster">
+    <span>Steel is our nature.</span>
+    <span class="avertissement">Calcul non contractuel – à vérifier avant fabrication. <a href="tests/tests.html">Contrôle du calcul</a></span>
+  </footer>
+
+  <script src="js/calcul.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

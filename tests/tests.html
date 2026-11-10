@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tests – Configurateur repliable</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    main { max-width: 960px; margin: 24px auto; padding: 0 20px; }
+    .ok { color: #1b7f3b; } .ko { color: #b45309; font-weight: 500; }
+    li { margin: 2px 0; } .detail { opacity: .7; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <header class="entete"><img src="../assets/logo-forster-blanc.svg" alt="Forster"><span class="filet"></span><span class="nom-appli">Tests du calcul</span></header>
+  <main>
+    <p>Comparaison du calcul avec les positions de la liste de débit Forster « PRESTO repliables ».</p>
+    <h2 id="bilan">Chargement…</h2>
+    <ul id="liste"></ul>
+  </main>
+  <script src="../js/calcul.js"></script>
+  <script src="verifier.js"></script>
+  <script>
+    Promise.all([fetch('../data/presto.json').then(r => r.json()), fetch('cas-pdf.json').then(r => r.json())])
+      .then(([data, jeu]) => {
+        const res = verifier(Calcul, data, jeu);
+        document.getElementById('bilan').textContent =
+          (res.total - res.echecs) + ' / ' + res.total + ' contrôles réussis' + (res.echecs ? ' – ÉCHECS' : '');
+        const ul = document.getElementById('liste');
+        res.resultats.forEach(r => {
+          const ko = r.controles.filter(c => !c.ok);
+          const notes = r.controles.filter(c => c.ok && c.detail);
+          const li = document.createElement('li');
+          li.innerHTML = '<span class="' + (ko.length ? 'ko">✗ ' : 'ok">✓ ') + r.position + '</span>' +
+            ko.map(c => '<div class="detail ko">' + c.nom + ' : ' + c.detail + '</div>').join('') +
+            notes.map(c => '<div class="detail">' + c.nom + ' : ' + c.detail + '</div>').join('');
+          ul.appendChild(li);
+        });
+      })
+      .catch(e => { document.getElementById('bilan').textContent = 'Erreur : ' + e.message + ' (ouvrir via un serveur local)'; });
+  </script>
+</body>
+</html>
