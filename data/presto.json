@@ -7,10 +7,22 @@
     "50": {
       "libelle": "Tout en corps de 50",
       "articles": {
-        "dormant": { "ref": "32800", "designation": "PRESTO L 70MM (50MM)" },
-        "T": { "ref": "32803", "designation": "PRESTO T 90MM (50MM)" },
-        "Z": { "ref": "32805", "designation": "PRESTO Z 90MM (50MM)" },
-        "traverseBasse": { "ref": "32855", "designation": "PRESTO H 90MM (50MM)" }
+        "dormant": {
+          "ref": "32800",
+          "designation": "PRESTO L 70MM (50MM)"
+        },
+        "T": {
+          "ref": "32803",
+          "designation": "PRESTO T 90MM (50MM)"
+        },
+        "Z": {
+          "ref": "32805",
+          "designation": "PRESTO Z 90MM (50MM)"
+        },
+        "traverseBasse": {
+          "ref": "32855",
+          "designation": "PRESTO H 90MM (50MM)"
+        }
       },
       "cotes": {
         "dormantLargeur": 110,
@@ -30,21 +42,48 @@
   "remplissages": {
     "9": {
       "libelle": "Verre 9 mm",
-      "parclose": { "ref": "901246", "designation": "PARCLOSE 30X20MM" }
+      "parclose": {
+        "ref": "901246",
+        "designation": "PARCLOSE 30X20MM"
+      }
     },
     "24": {
       "libelle": "Verre 24 mm (4/16/4)",
-      "parclose": { "ref": "901226", "designation": "PARCLOSE 15X20MM" }
+      "parclose": {
+        "ref": "901226",
+        "designation": "PARCLOSE 15X20MM"
+      }
     }
   },
   "accessoires": {
-    "jointBattue": { "ref": "905306", "designation": "JOINT DE BATTUE" },
-    "jointVitrageExt": { "ref": "905312", "designation": "JOINT VITRAGE EXT.2MM" },
-    "jointVitrageInt": { "ref": "905316", "designation": "JOINT VITRAGE INT.4-6MM" },
-    "boutonParclose": { "ref": "906579", "designation": "BOUTON DE PARCLOSE", "pasMetres": 0.2 },
+    "jointBattue": {
+      "ref": "905306",
+      "designation": "JOINT DE BATTUE"
+    },
+    "jointVitrageExt": {
+      "ref": "905312",
+      "designation": "JOINT VITRAGE EXT.2MM"
+    },
+    "jointVitrageInt": {
+      "ref": "905316",
+      "designation": "JOINT VITRAGE INT.4-6MM"
+    },
+    "boutonParclose": {
+      "ref": "906579",
+      "designation": "BOUTON DE PARCLOSE",
+      "pasMetres": 0.2
+    },
     "piecesAngle": [
-      { "ref": "916320", "designation": "PIÈCE INTERCALAIRE", "parVantail": 2 },
-      { "ref": "916322", "designation": "PIÈCE INTERCALAIRE", "parVantail": 2 }
+      {
+        "ref": "916320",
+        "designation": "PIÈCE INTERCALAIRE",
+        "parVantail": 2
+      },
+      {
+        "ref": "916322",
+        "designation": "PIÈCE INTERCALAIRE",
+        "parVantail": 2
+      }
     ]
   },
   "barres": {
@@ -60,9 +99,76 @@
     "hauteurMax": null,
     "remarque": "Limites dimensionnelles à fournir par Forster : en attendant, aucun blocage sur les dimensions."
   },
-  "configurationsVerifiees": [
-    [2, 1], [3, 0], [3, 1], [3, 2], [3, 3], [4, 1], [5, 0], [5, 1], [6, 1], [7, 0], [7, 1]
-  ],
+  "configurationsVerifiees": {
+    "ext": [
+      [
+        2,
+        1
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        3,
+        1
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        3
+      ],
+      [
+        4,
+        1
+      ],
+      [
+        5,
+        0
+      ],
+      [
+        5,
+        1
+      ],
+      [
+        6,
+        1
+      ],
+      [
+        7,
+        0
+      ],
+      [
+        7,
+        1
+      ]
+    ],
+    "int": [
+      [
+        2,
+        1
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        4,
+        1
+      ],
+      [
+        5,
+        0
+      ]
+    ]
+  },
   "aConfirmer": [
     "Joint de battue : formule vérifiée uniquement à 2165 mm de hauteur."
   ]

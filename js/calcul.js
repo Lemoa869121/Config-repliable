@@ -29,40 +29,64 @@
   }
 
   /* ---------- Montants T / Z ----------
-   * Règle (validée le 10/11/2026, cas I 3+2 = ZZ TT ZZ TT ZZ) :
-   *  - extérieur : chaque groupe alterne TT, ZZ, TT… en partant de son mur ;
-   *  - montants contre le dormant toujours en T ;
-   *  - jamais T face à T ni Z face à Z : en cas de conflit à la rencontre des deux groupes,
-   *    un seul vantail devient mixte (le dernier du groupe gauche si un seul vantail à droite,
-   *    sinon le premier du groupe droit) ;
-   *  - intérieur : tout inversé (T <-> Z).
+   * Règle générale : jamais T face à T ni Z face à Z.
+   * Positions confirmées par Forster le 10/11/2026 : A 3+2 = TT ZZ TT ZT ZT ; I 3+2 = ZZ TT ZZ TT ZZ.
+   * L'intérieur n'est donc PAS le simple inverse de l'extérieur.
    */
   function inverserTZ(s) {
     return s.split('').map(function (c) { return c === 'T' ? 'Z' : 'T'; }).join('');
   }
   function oppose(x) { return x === 'T' ? 'Z' : 'T'; }
 
+  /* Extérieur – par jonctions. 'TZ' = montant droit du vantail de gauche en T, montant gauche du suivant en Z.
+   *  - montants contre le dormant : T ;
+   *  - groupe gauche depuis le mur : T|Z, Z|T, T|Z… ;
+   *  - 1 vantail à droite : rencontre Z|T ; 2 ou plus : rencontre T|Z puis T|Z, Z|T… depuis la rencontre ;
+   *  - tout à droite : miroir de « tout à gauche ».
+   */
+  function jonctionsExterieur(k, m) {
+    var j = [], i;
+    for (i = 0; i < k - 1; i++) j.push(i % 2 === 0 ? 'TZ' : 'ZT');
+    if (m === 0) return j;
+    if (m === 1) { j.push('ZT'); return j; }
+    j.push('TZ');
+    for (i = 0; i < m - 1; i++) j.push(i % 2 === 0 ? 'TZ' : 'ZT');
+    return j;
+  }
+
   function montantsExterieur(k, m) {
+    var n = k + m;
+    var jonctions = k === 0
+      ? jonctionsExterieur(m, 0).reverse().map(function (s) { return s[1] + s[0]; })
+      : jonctionsExterieur(k, m);
+    var v = [], i;
+    for (i = 0; i < n; i++) v.push({ g: 'T', d: 'T' });
+    for (i = 0; i < n - 1; i++) { v[i].d = jonctions[i][0]; v[i + 1].g = jonctions[i][1]; }
+    return v;
+  }
+
+  /* Intérieur – par groupes, profils inversés (montants contre le dormant en Z) :
+   *  - chaque groupe alterne ZZ, TT, ZZ… en partant de son mur ;
+   *  - en cas de conflit à la rencontre, un seul vantail mixte (le dernier du groupe gauche
+   *    s'il n'y a qu'un vantail à droite, sinon le premier du groupe droit).
+   */
+  function montantsInterieur(k, m) {
     var n = k + m, v = [], i;
     for (i = 0; i < k; i++) { var a = i % 2 === 0 ? 'T' : 'Z'; v.push({ g: a, d: a }); }
     var droite = [];
     for (i = 0; i < m; i++) { var b = i % 2 === 0 ? 'T' : 'Z'; droite.push({ g: b, d: b }); }
     v = v.concat(droite.reverse());
-    // Montants contre le dormant : T
     v[0].g = 'T'; v[n - 1].d = 'T';
-    // Rencontre des deux groupes
     if (k >= 1 && m >= 1 && v[k - 1].d === v[k].g) {
       if (m === 1) v[k - 1].d = oppose(v[k].g);
       else v[k].g = oppose(v[k - 1].d);
     }
-    return v;
+    return v.map(function (x) { return { g: inverserTZ(x.g), d: inverserTZ(x.d) }; });
   }
 
   /* Profil (T ou Z) des montants gauche / droit de chaque vantail */
   function montantsVantaux(k, m, sens) {
-    var v = montantsExterieur(k, m);
-    if (sens === 'int') v = v.map(function (x) { return { g: inverserTZ(x.g), d: inverserTZ(x.d) }; });
-    return v;
+    return sens === 'int' ? montantsInterieur(k, m) : montantsExterieur(k, m);
   }
 
   /* ---------- Coupe d'une pièce trop longue sur les axes des vantaux ---------- */
@@ -140,12 +164,14 @@
       if (min && cfg[c] < min) alertes.push('La ' + c + ' est inférieure au minimum (' + min + ' mm).');
       if (max && cfg[c] > max) alertes.push('La ' + c + ' dépasse le maximum (' + max + ' mm).');
     });
-    var verifiee = (data.configurationsVerifiees || []).some(function (c) {
+    var listes = data.configurationsVerifiees || {};
+    var verifiee = (listes[cfg.sens] || []).some(function (c) {
       return c[0] === cfg.gauche && c[1] === cfg.droite;
     });
     if (!verifiee && n >= 2) {
       alertes.push('Répartition ' + cfg.gauche + ' à gauche / ' + cfg.droite +
-        ' à droite non vérifiée sur un exemple Forster : contrôlez les T / Z et les Din sur le schéma.');
+        ' à droite en ouverture ' + (cfg.sens === 'int' ? 'intérieure' : 'extérieure') +
+        ' non vérifiée sur un exemple Forster : contrôlez les T / Z et les Din sur le schéma.');
     }
     return { erreurs: erreurs, alertes: alertes };
   }

@@ -7,7 +7,6 @@
    "I 6+1"
   ],
   "montants": [
-   "A 3+2",
    "A 8+1",
    "I 3+1",
    "I 3+3",
@@ -16,7 +15,7 @@
   ],
   "remarques": [
    "Din et T/Z : positions non conformes aux règles validées (jamais T face à T ni Z face à Z).",
-   "T/Z : I 3+2 confirmé par Forster le 10/11/2026 (ZZ TT ZZ TT ZZ) ; A 3+2 du PDF (TT ZZ TT ZT ZT) incohérent avec ce cas, calculé TT ZZ TT ZZ TT.",
+   "T/Z confirmés par Forster le 10/11/2026 : A 3+2 = TT ZZ TT ZT ZT, I 3+2 = ZZ TT ZZ TT ZZ (l'intérieur n'est pas le simple inverse de l'extérieur).",
    "Dormant haut > 5900 mm : coupé sur un axe de vantail (le PDF ne coupe pas ou coupe autrement).",
    "Pièces 916320/916322 : 2 + 2 par vantail (règle Forster) ; 917017 ignoré ; 985631/985632 remplacés."
   ]
