@@ -58,13 +58,14 @@ k = vantaux repliés à gauche, m = à droite. « 3 » seul = 3 à gauche, 0 à 
 **Din (extérieur)** : groupe gauche depuis le mur L, R, L… ; groupe droit depuis le mur R, L, R… Intérieur : inverse.
 
 **T / Z (extérieur)** :
-- montants contre le dormant : T ;
-- jonctions du groupe gauche depuis le mur : T|Z, Z|T, T|Z… ;
-- si m = 1 : jonction de rencontre Z|T ;
-- si m ≥ 2 : jonction de rencontre T|Z, puis jonctions du groupe droit alternées depuis la rencontre ;
-- si k = 0 : miroir de « m à gauche, 0 à droite ».
+- chaque groupe alterne TT, ZZ, TT… en partant de son mur ;
+- montants contre le dormant : toujours T ;
+- jamais T face à T ni Z face à Z : en cas de conflit à la rencontre des deux groupes, un seul vantail devient mixte
+  (le dernier du groupe gauche s'il n'y a qu'un vantail à droite, sinon le premier du groupe droit).
 
-**Intérieur** : tout inversé (T ↔ Z), traverse haute en Z.
+Exemples : 3+1 = TT ZZ TZ TT · 3+2 = TT ZZ TT ZZ TT · 3+3 = TT ZZ TT ZT ZZ TT.
+
+**Intérieur** : tout inversé (T ↔ Z), traverse haute en Z. Ex. I 3+2 = ZZ TT ZZ TT ZZ (confirmé par Forster le 10/11/2026).
 
 Répartitions vérifiées sur un exemple Forster : 2+1, 3, 3+1, 3+2, 3+3, 4+1, 5, 5+1, 6+1, 7, 7+1.
 Les autres affichent une alerte « non vérifiée ».
@@ -94,12 +95,12 @@ Les remplissages (pas de référence article) ne sont pas exportés.
 
 ## 9. Écarts connus avec la liste de débit de référence
 
-- A 3+2 et A 8+1 (Din, T/Z), I 6+1 (Din) : non conformes aux règles retenues.
+- A 3+2 : le PDF donne TT ZZ TT ZT ZT (et Din L R L R R), incohérent avec I 3+2 confirmé → calculé TT ZZ TT ZZ TT (Din L R L L R).
+- A 8+1 (Din, T/Z), I 6+1 (Din) : non conformes aux règles retenues.
 - I 3+1, I 3+3, I 5+1, I 6+1 : T face à T ou Z face à Z dans le PDF → erreurs du PDF.
-- I 3+2 : le PDF donne ZZ TT ZZ TT ZZ, la règle « intérieur = inverse » donne ZZ TT ZZ TZ TZ → **à trancher**.
 - Dormant haut > 5900 : coupé par le configurateur (le PDF ne coupe pas toujours).
 
 ## 10. Questions ouvertes
 
-Intérieur = inverse de l'extérieur (cas I 3+2) · joint de battue à une autre hauteur · limites dimensionnelles ·
+Confirmation de A 3+2 (TT ZZ TT ZZ TT) · joint de battue à une autre hauteur · limites dimensionnelles ·
 bas de porte · corps 20 et mixte · autres remplissages · traverses · FMF 100 / 150 · Unico.
