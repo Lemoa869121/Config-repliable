@@ -2,20 +2,16 @@
  "source": "Liste de débit Forster PRESTO repliables (KDI-PRR), version corrigée du 10/11/2026",
  "ecartsAcceptes": {
   "din": [
-   "A 3+2",
    "A 8+1",
    "I 6+1"
   ],
   "montants": [
    "A 8+1",
-   "I 3+1",
-   "I 3+3",
-   "I 5+1",
    "I 6+1"
   ],
   "remarques": [
    "Din et T/Z : positions non conformes aux règles validées (jamais T face à T ni Z face à Z).",
-   "T/Z confirmés par Forster le 10/11/2026 : A 3+2 = TT ZZ TT ZT ZT, I 3+2 = ZZ TT ZZ TT ZZ (l'intérieur n'est pas le simple inverse de l'extérieur).",
+   "T/Z et Din confirmés par Forster le 10/11/2026 : A 3+2 = TT ZZ TT ZT ZT / L R L R R ; I 3+2 = ZZ TT ZZ TT ZZ ; I 3+1, I 3+3, I 5+1 = règle intérieure (vantail mixte ZT / TZ).",
    "Dormant haut > 5900 mm : coupé sur un axe de vantail (le PDF ne coupe pas ou coupe autrement).",
    "Pièces 916320/916322 : 2 + 2 par vantail (règle Forster) ; 917017 ignoré ; 985631/985632 remplacés."
   ]
@@ -1123,7 +1119,7 @@
     "montants": [
      "ZZ",
      "TT",
-     "TZ",
+     "ZT",
      "ZZ"
     ],
     "verres": [
@@ -1135,7 +1131,14 @@
     ],
     "jointBattue": 41.54,
     "jointVitrage": 22.7,
-    "boutons": 112.0
+    "boutons": 112.0,
+    "montantsPdf": [
+     "ZZ",
+     "TT",
+     "TZ",
+     "ZZ"
+    ],
+    "source_montants": "Confirmé par Forster le 10/11/2026 (le PDF inversait les lettres du vantail mixte)"
    }
   },
   {
@@ -1272,7 +1275,7 @@
      "ZZ",
      "TT",
      "ZZ",
-     "ZT",
+     "TZ",
      "TT",
      "ZZ"
     ],
@@ -1285,7 +1288,16 @@
     ],
     "jointBattue": 62.42,
     "jointVitrage": 34.16,
-    "boutons": 168.0
+    "boutons": 168.0,
+    "montantsPdf": [
+     "ZZ",
+     "TT",
+     "ZZ",
+     "ZT",
+     "TT",
+     "ZZ"
+    ],
+    "source_montants": "Confirmé par Forster le 10/11/2026 (le PDF inversait les lettres du vantail mixte)"
    }
   },
   {
@@ -1497,7 +1509,7 @@
      "TT",
      "ZZ",
      "TT",
-     "TZ",
+     "ZT",
      "ZZ"
     ],
     "verres": [
@@ -1509,7 +1521,16 @@
     ],
     "jointBattue": 62.42,
     "jointVitrage": 34.16,
-    "boutons": 168.0
+    "boutons": 168.0,
+    "montantsPdf": [
+     "ZZ",
+     "TT",
+     "ZZ",
+     "TT",
+     "TZ",
+     "ZZ"
+    ],
+    "source_montants": "Confirmé par Forster le 10/11/2026 (le PDF inversait les lettres du vantail mixte)"
    }
   },
   {

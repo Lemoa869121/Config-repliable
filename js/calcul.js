@@ -15,16 +15,22 @@
   }
 
   /* ---------- Din de chaque vantail ----------
-   * Extérieur : groupe gauche depuis le mur L, R, L… ; groupe droit depuis le mur R, L, R…
-   * Intérieur : inverse.
+   * Extérieur (A 3+2 = L R L R R confirmé le 10/11/2026) : alternance L, R, L… depuis la gauche ;
+   *   s'il y a au moins un vantail à droite, le dernier vantail est toujours R ; tout à droite : miroir.
+   * Intérieur : groupe gauche depuis le mur L, R, L… ; groupe droit depuis le mur R, L, R… ; puis tout inversé.
    */
   function dinVantaux(k, m, sens) {
-    var res = [], i;
-    for (i = 0; i < k; i++) res.push(i % 2 === 0 ? 'L' : 'R');
-    var droite = [];
-    for (i = 0; i < m; i++) droite.push(i % 2 === 0 ? 'R' : 'L');
-    res = res.concat(droite.reverse());
-    if (sens === 'int') res = res.map(function (d) { return d === 'L' ? 'R' : 'L'; });
+    var res = [], i, n = k + m;
+    function inv(d) { return d === 'L' ? 'R' : 'L'; }
+    if (sens === 'int') {
+      for (i = 0; i < k; i++) res.push(i % 2 === 0 ? 'L' : 'R');
+      var droite = [];
+      for (i = 0; i < m; i++) droite.push(i % 2 === 0 ? 'R' : 'L');
+      return res.concat(droite.reverse()).map(inv);
+    }
+    if (k === 0) return dinVantaux(m, 0, 'ext').reverse().map(inv);
+    for (i = 0; i < n; i++) res.push(i % 2 === 0 ? 'L' : 'R');
+    if (m >= 1) res[n - 1] = 'R';
     return res;
   }
 

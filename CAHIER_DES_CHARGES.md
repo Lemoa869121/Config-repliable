@@ -55,7 +55,9 @@ Arrondis : Lv au dixième ; verres au millimètre.
 
 k = vantaux repliés à gauche, m = à droite. « 3 » seul = 3 à gauche, 0 à droite.
 
-**Din (extérieur)** : groupe gauche depuis le mur L, R, L… ; groupe droit depuis le mur R, L, R… Intérieur : inverse.
+**Din (extérieur)** : alternance L, R, L… depuis la gauche ; s'il y a au moins un vantail à droite, le dernier est toujours R
+(A 3+2 = L R L R R, confirmé le 10/11/2026) ; tout à droite : miroir.
+**Din (intérieur)** : groupe gauche depuis le mur L, R, L… ; groupe droit depuis le mur R, L, R… ; puis tout inversé (I 3+2 = R L R R L).
 
 **T / Z** – règle générale : jamais T face à T ni Z face à Z. L'intérieur n'est **pas** le simple inverse de
 l'extérieur (confirmé par Forster le 10/11/2026 : A 3+2 = TT ZZ TT ZT ZT, I 3+2 = ZZ TT ZZ TT ZZ).
@@ -71,9 +73,9 @@ Ex. 3+1 = TT ZZ TZ TT · 3+2 = TT ZZ TT ZT ZT · 3+3 = TT ZZ TT ZT ZZ TT.
 - chaque groupe alterne ZZ, TT, ZZ… en partant de son mur (montants contre le dormant en Z) ; traverse haute en Z ;
 - en cas de conflit à la rencontre, un seul vantail mixte (dernier du groupe gauche si un seul vantail à droite,
   sinon premier du groupe droit).
-Ex. 3+2 = ZZ TT ZZ TT ZZ · 3+1 = ZZ TT ZT ZZ (à confirmer) · 3+3 = ZZ TT ZZ TZ TT ZZ (à confirmer).
+Ex. 3+2 = ZZ TT ZZ TT ZZ · 3+1 = ZZ TT ZT ZZ · 3+3 = ZZ TT ZZ TZ TT ZZ · 5+1 = ZZ TT ZZ TT ZT ZZ (confirmés le 10/11/2026).
 
-Répartitions vérifiées sur un exemple Forster : extérieur 2+1, 3, 3+1, 3+2, 3+3, 4+1, 5, 5+1, 6+1, 7, 7+1 ; intérieur 2+1, 3, 3+2, 4+1, 5.
+Répartitions vérifiées sur un exemple Forster : extérieur 2+1, 3, 3+1, 3+2, 3+3, 4+1, 5, 5+1, 6+1, 7, 7+1 ; intérieur 2+1, 3, 3+1, 3+2, 3+3, 4+1, 5, 5+1.
 Les autres affichent une alerte « non vérifiée ».
 
 ## 7. Coupe du dormant haut
@@ -101,12 +103,11 @@ Les remplissages (pas de référence article) ne sont pas exportés.
 
 ## 9. Écarts connus avec la liste de débit de référence
 
-- A 3+2 : Din du PDF L R L R R, calculé L R L L R (T/Z conformes).
 - A 8+1 (Din, T/Z), I 6+1 (Din) : non conformes aux règles retenues.
-- I 3+1, I 3+3, I 5+1, I 6+1 : T face à T ou Z face à Z dans le PDF → erreurs du PDF.
+- I 3+1, I 3+3, I 5+1, I 6+1 : T face à T ou Z face à Z dans le PDF → erreurs du PDF (corrigées par la règle intérieure, confirmée).
 - Dormant haut > 5900 : coupé par le configurateur (le PDF ne coupe pas toujours).
 
 ## 10. Questions ouvertes
 
-T/Z intérieur pour un nombre pair de vantaux (3+1, 3+3, 5+1) · Din de A 3+2 · joint de battue à une autre hauteur · limites dimensionnelles ·
+joint de battue à une autre hauteur · limites dimensionnelles ·
 bas de porte · corps 20 et mixte · autres remplissages · traverses · FMF 100 / 150 · Unico.
