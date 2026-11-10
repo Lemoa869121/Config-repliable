@@ -92,12 +92,14 @@
   },
   "limites": {
     "vantauxMin": 2,
-    "vantauxMax": 9,
+    "vantauxMax": 13,
+    "largeurParVantailMin": 500,
+    "largeurParVantailMax": 1000,
     "largeurMin": null,
     "largeurMax": null,
     "hauteurMin": null,
     "hauteurMax": null,
-    "remarque": "Limites dimensionnelles à fournir par Forster : en attendant, aucun blocage sur les dimensions."
+    "remarque": "Largeur par vantail = largeur de baie ÷ nombre de vantaux (règle Forster du 10/11/2026 : 500 à 1000 mm, 13 vantaux maxi)."
   },
   "configurationsVerifiees": {
     "ext": [

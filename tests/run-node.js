@@ -32,4 +32,25 @@ jeu.cas.forEach(function (cas) {
   if (!ok) { echecsExport++; console.log('✗ export Excel ' + cas.position); }
 });
 console.log('Export Excel : ' + (jeu.cas.length - echecsExport) + ' / ' + jeu.cas.length + ' fichiers conformes');
-process.exit(res.echecs || echecsExport ? 1 : 0);
+
+// Quincaillerie FMF 150 : quantités dépendant du nombre de vantaux (40 devis Slidsoft)
+var fmf = JSON.parse(fs.readFileSync(path.join(__dirname, 'cas-fmf150.json'), 'utf8'));
+var q = JSON.parse(fs.readFileSync(path.join(racine, 'data', 'fmf150.json'), 'utf8'));
+var echecsFmf = 0;
+fmf.cas.forEach(function (cas) {
+  var lignes = Calcul.quincaillerieFMF150(cas.gauche, cas.droite, cas.sens, cas.largeurSlidsoft, q);
+  var ecarts = Object.keys(cas.attendu).filter(function (ref) {
+    var l = lignes.filter(function (x) { return x.ref === ref; })[0];
+    return (l ? l.qte : 0) !== cas.attendu[ref];
+  });
+  if (ecarts.length) { echecsFmf++; console.log('✗ FMF150 ' + cas.configuration + ' : ' + ecarts.join(', ')); }
+});
+// Règles Forster : barres de 6000 mm, supports tous les 500 mm (sets de 4)
+[[3000, 1, 2], [4500, 1, 3], [6000, 1, 4], [7000, 2, 4], [9000, 2, 5]].forEach(function (t) {
+  var l = Calcul.quincaillerieFMF150(3, 2, 'int', t[0], q);
+  var rail = l.filter(function (x) { return x.ref === '10500A/600'; })[0].qte;
+  var sup = l.filter(function (x) { return x.ref === 'GJ10530B'; })[0].qte;
+  if (rail !== t[1] || sup !== t[2]) { echecsFmf++; console.log('✗ FMF150 barres/supports à ' + t[0] + ' mm : ' + rail + ' / ' + sup); }
+});
+console.log('Quincaillerie FMF150 : ' + (echecsFmf ? echecsFmf + ' écart(s)' : fmf.cas.length + ' / ' + fmf.cas.length + ' devis Slidsoft retrouvés + règles barres / supports OK'));
+process.exit(res.echecs || echecsExport || echecsFmf ? 1 : 0);

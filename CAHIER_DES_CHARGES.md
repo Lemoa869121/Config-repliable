@@ -83,7 +83,30 @@ Les autres affichent une alerte « non vérifiée ».
 Si L > 5900 : coupe sur un axe de vantail, nombre minimal de morceaux, morceaux les plus équilibrés possible.
 Coupe droite à la jonction, 45° aux angles.
 
-## 8. Export Excel (fichier d'import)
+## 8. Quincaillerie FMF 150 (Mantion OPENTEC)
+
+Source : 40 devis Slidsoft (20 configurations × repli intérieur / extérieur) relevés le 10/11/2026 et règles Forster
+du même jour. Les cotes Slidsoft ne sont qu'indicatives : seules comptent les quantités liées au nombre de vantaux.
+Le « repli intérieur » Slidsoft correspond à l'ouverture intérieure du configurateur.
+k = vantaux à gauche, m = à droite, n = k + m, L = largeur de baie.
+
+| Article | Règle |
+|---|---|
+| GJ10530HOL / HOR (sets de 3 paumelles) | Par groupe de g vantaux : floor(g/2) + 1 sets. Groupe gauche : 1 HOL + le reste en HOR ; groupe droit : le reste en HOL + 1 HOR (intérieur). Extérieur : HOL ↔ HOR |
+| GJ10530IH / EHL / EHR (montures) | Total floor((n − 1)/2). Une EH remplace une IH si k ≥ 1 et m ≥ 1 sont de parités différentes : intérieur EHL si le côté pair est à gauche, sinon EHR ; extérieur inversé |
+| GHLK-02 (aimants) | floor(n/2) + 1 |
+| GJ10530FO (pênes bas) | floor(n/2) |
+| 10500A/600, GH10430R, GH10430DC, GHPG16 | barres de 6000 mm : arrondi supérieur de L / 6000 |
+| GJ10530B (sets de 4 supports) | 1 support à chaque bout + 1 tous les 500 mm = ceil(L / 500) + 1 supports → arrondi supérieur ÷ 4 |
+| GJ10530GS-6, GH10430LSB, NM_FMF15_001 | 1 chacun |
+
+Vérification : les quantités dépendant du nombre de vantaux redonnent les 40 devis Slidsoft.
+
+## 9. Limites
+
+Largeur par vantail (largeur de baie ÷ nombre de vantaux) : 500 à 1000 mm, bloquant. 2 à 13 vantaux.
+
+## 10. Export Excel (fichier d'import)
 
 Bouton « Excel Forster Pro », fichier `export_excel_FP_<chantier>_<sens>_<k>+<m>_<L>x<H>.xlsx`. Format du fichier « export_excel_FP.xlsx » / « 2020 - Import - EN - Zusatzartikel.xlsx » fourni par Forster (feuille Tabelle1, listes de choix
 de la feuille Tabelle2 conservées). Une ligne par pièce identique (article, longueur, coupes, emplacement).
@@ -99,15 +122,17 @@ de la feuille Tabelle2 conservées). Une ligne par pièce identique (article, lo
 | Secondary Angles 1 / 2 | 90 / 90 | vide | vide |
 | Per Meter, Extension, Colour, Price, Formula 2, Length 2, Assembly Name | vides | vides | vides |
 
+La quincaillerie est exportée comme les accessoires à la pièce (Lenght = 0).
+
 Les remplissages (pas de référence article) ne sont pas exportés.
 
-## 9. Écarts connus avec la liste de débit de référence
+## 11. Écarts connus avec la liste de débit de référence
 
 - A 8+1 (Din, T/Z), I 6+1 (Din) : non conformes aux règles retenues.
 - I 3+1, I 3+3, I 5+1, I 6+1 : T face à T ou Z face à Z dans le PDF → erreurs du PDF (corrigées par la règle intérieure, confirmée).
 - Dormant haut > 5900 : coupé par le configurateur (le PDF ne coupe pas toujours).
 
-## 10. Questions ouvertes
+## 12. Questions ouvertes
 
-joint de battue à une autre hauteur · limites dimensionnelles ·
-bas de porte · corps 20 et mixte · autres remplissages · traverses · FMF 100 / 150 · Unico.
+joint de battue à une autre hauteur · limites de hauteur ·
+bas de porte · corps 20 et mixte · autres remplissages · traverses · FMF 100 · Unico.

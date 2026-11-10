@@ -30,7 +30,8 @@
       largeur: parseFloat(f.get('largeur')) || 0,
       hauteur: parseFloat(f.get('hauteur')) || 0,
       corps: f.get('corps') || '50',
-      remplissage: f.get('remplissage') || '9'
+      remplissage: f.get('remplissage') || '9',
+      quincaillerie: f.get('quincaillerie') || 'aucune'
     };
   }
 
@@ -157,6 +158,16 @@
           '</td><td class="n">' + (a.unite === 'ML' ? nf(a.qte, 2) : nf(a.qte)) + '</td><td>' + a.unite + '</td></tr>';
       }).join('') + '</tbody></table></section>');
 
+    // Quincaillerie
+    if (r.quincaillerie.length) {
+      html.push('<section class="section"><div class="bandeau">Quincaillerie <span class="note">' + esc(r.libelleQuincaillerie) + '</span></div>' +
+        '<table><thead><tr><th>Réf.</th><th>Désignation</th><th class="n">Qté</th><th>Unité</th></tr></thead><tbody>' +
+        r.quincaillerie.map(function (a) {
+          return '<tr><td class="ref">' + esc(a.ref) + '</td><td>' + esc(a.designation) + '</td><td class="n">' + nf(a.qte) +
+            '</td><td>' + a.unite + '</td></tr>';
+        }).join('') + '</tbody></table></section>');
+    }
+
     // Verres
     html.push('<section class="section"><div class="bandeau">Remplissage</div>' +
       '<table><thead><tr><th>Remplissage</th><th class="n">Qté</th><th class="n">Largeur</th><th class="n">Hauteur</th><th class="n">m² / pièce</th><th class="n">m² total</th></tr></thead><tbody>' +
@@ -176,7 +187,8 @@
     lignes.push(['Configurateur repliable Forster – liste matière (calcul non contractuel)']);
     if (e.chantier) lignes.push(['Chantier', e.chantier]);
     lignes.push(['Gamme', data.libelle, 'Sens', e.sens === 'ext' ? 'Extérieur' : 'Intérieur', 'Vantaux', e.gauche + ' à gauche + ' + e.droite + ' à droite']);
-    lignes.push(['Largeur', e.largeur, 'Hauteur', e.hauteur, 'Corps', data.corps[e.corps].libelle, 'Remplissage', data.remplissages[e.remplissage].libelle]);
+    lignes.push(['Largeur', e.largeur, 'Hauteur', e.hauteur, 'Corps', data.corps[e.corps].libelle, 'Remplissage', data.remplissages[e.remplissage].libelle,
+      'Quincaillerie', r.libelleQuincaillerie || 'Sans']);
     lignes.push([]);
     lignes.push(['LISTE DE DÉBIT']);
     lignes.push(['Réf.', 'Désignation', 'Élément', 'Qté', 'Longueur (mm)', 'Coupe', 'Vantaux']);
@@ -189,6 +201,12 @@
     lignes.push(['ACCESSOIRES']);
     lignes.push(['Réf.', 'Désignation', 'Qté', 'Unité']);
     r.accessoires.forEach(function (a) { lignes.push([a.ref, a.designation, a.qte, a.unite]); });
+    if (r.quincaillerie.length) {
+      lignes.push([]);
+      lignes.push(['QUINCAILLERIE – ' + r.libelleQuincaillerie]);
+      lignes.push(['Réf.', 'Désignation', 'Qté', 'Unité']);
+      r.quincaillerie.forEach(function (a) { lignes.push([a.ref, a.designation, a.qte, a.unite]); });
+    }
     lignes.push([]);
     lignes.push(['REMPLISSAGE']);
     lignes.push(['Remplissage', 'Qté', 'Largeur', 'Hauteur', 'm² total']);
@@ -245,7 +263,9 @@
 
   /* ---------- Cycle ---------- */
   function majTotal(v) {
-    document.getElementById('totalVantaux').textContent = 'Total : ' + (v.gauche + v.droite) + ' vantaux';
+    var n = v.gauche + v.droite;
+    document.getElementById('totalVantaux').textContent = 'Total : ' + n + ' vantaux' +
+      (n && v.largeur ? ' – ' + nf(v.largeur / n, 0) + ' mm par vantail (500 à 1000)' : '');
   }
 
   function recalculer() {
@@ -278,9 +298,20 @@
     form.reset(); recalculer();
   });
 
-  fetch('data/presto.json', { cache: 'no-cache' })
-    .then(function (rep) { if (!rep.ok) throw new Error('HTTP ' + rep.status); return rep.json(); })
-    .then(function (d) { data = d; remplirFormulaire(lireStockage()); recalculer(); })
+  function charger(url) {
+    return fetch(url, { cache: 'no-cache' }).then(function (rep) {
+      if (!rep.ok) throw new Error(url + ' : HTTP ' + rep.status);
+      return rep.json();
+    });
+  }
+
+  Promise.all([charger('data/presto.json'), charger('data/fmf150.json')])
+    .then(function (res) {
+      data = res[0];
+      data.quincailleries = { fmf150: res[1] };
+      remplirFormulaire(lireStockage());
+      recalculer();
+    })
     .catch(function (e) {
       message.hidden = false;
       message.textContent = 'Impossible de charger les données (' + e.message + '). Ouvrez l\'application par son adresse web ou via un serveur local.';

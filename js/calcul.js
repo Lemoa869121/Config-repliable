@@ -154,6 +154,44 @@
     };
   }
 
+  /* ---------- Quincaillerie FMF 150 (Mantion OPENTEC) ----------
+   * Règles vérifiées sur les 40 devis Slidsoft (20 configurations × repli intérieur / extérieur) :
+   *  - paumelles : par groupe de g vantaux, floor(g/2) + 1 sets ; groupe gauche 1 HOL + reste HOR,
+   *    groupe droit reste HOL + 1 HOR (intérieur) ; extérieur : HOL <-> HOR ;
+   *  - montures : floor((n - 1)/2) ; une EH remplace une IH si les deux côtés ont des vantaux en nombres
+   *    de parités différentes (intérieur : EHL si le côté pair est à gauche ; extérieur : inversé) ;
+   *  - aimants floor(n/2) + 1 ; pênes bas floor(n/2) ;
+   * Règles Forster (10/11/2026) :
+   *  - rail, profil bas, joint, seuil : barres de 6000 mm → arrondi supérieur de L / 6000 ;
+   *  - supports : 1 à chaque bout + 1 tous les 500 mm → ceil(L / 500) + 1 supports, par sets de 4.
+   */
+  function quincaillerieFMF150(k, m, sens, largeur, q) {
+    var n = k + m, a = q.articles;
+    function sets(g) { return g > 0 ? Math.floor(g / 2) + 1 : 0; }
+    var hol = (k > 0 ? 1 : 0) + (m > 0 ? sets(m) - 1 : 0);
+    var hor = (k > 0 ? sets(k) - 1 : 0) + (m > 0 ? 1 : 0);
+    if (sens === 'ext') { var t = hol; hol = hor; hor = t; }
+    var montures = Math.floor((n - 1) / 2);
+    var ehl = 0, ehr = 0;
+    if (k > 0 && m > 0 && (k % 2) !== (m % 2) && montures > 0) {
+      var pairAGauche = k % 2 === 0;
+      if ((sens === 'int') === pairAGauche) ehl = 1; else ehr = 1;
+    }
+    var barres = Math.ceil(largeur / q.barres.longueur - 1e-9);
+    var nbSupports = Math.ceil(largeur / q.supports.entraxe - 1e-9) + 1;
+    var lignes = [
+      [a.rail, barres], [a.profilBas, barres], [a.joint, barres], [a.seuil, barres],
+      [a.montureIntermediaire, montures - ehl - ehr], [a.montureExtremiteGauche, ehl], [a.montureExtremiteDroite, ehr],
+      [a.paumellesGauche, hol], [a.paumellesDroite, hor],
+      [a.supports, Math.ceil(nbSupports / q.supports.parSet)],
+      [a.aimant, Math.floor(n / 2) + 1], [a.pene, Math.floor(n / 2)],
+      [a.gabarit, 1], [a.emballage, 1], [a.notice, 1]
+    ];
+    return lignes.filter(function (l) { return l[1] > 0; }).map(function (l) {
+      return { ref: l[0].ref, designation: l[0].designation, qte: l[1], unite: 'Pce' };
+    });
+  }
+
   /* ---------- Contrôle des saisies ---------- */
   function controler(cfg, data) {
     var erreurs = [], alertes = [];
@@ -165,6 +203,21 @@
     if (lim.vantauxMax && n > lim.vantauxMax) erreurs.push('Maximum ' + lim.vantauxMax + ' vantaux.');
     if (!data.corps[cfg.corps]) erreurs.push('Épaisseur de profil non disponible pour le moment.');
     if (!data.remplissages[cfg.remplissage]) erreurs.push('Remplissage non disponible pour le moment.');
+    if (n >= 1 && cfg.largeur > 0) {
+      var parVantail = cfg.largeur / n;
+      if (lim.largeurParVantailMax && parVantail > lim.largeurParVantailMax + 1e-9) {
+        erreurs.push('Largeur par vantail trop grande : ' + arrondi(parVantail, 1) + ' mm (maximum ' + lim.largeurParVantailMax +
+          ' mm). Il faut au moins ' + Math.ceil(cfg.largeur / lim.largeurParVantailMax - 1e-9) + ' vantaux.');
+      }
+      if (lim.largeurParVantailMin && parVantail < lim.largeurParVantailMin - 1e-9) {
+        erreurs.push('Largeur par vantail trop petite : ' + arrondi(parVantail, 1) + ' mm (minimum ' + lim.largeurParVantailMin +
+          ' mm). Au plus ' + Math.floor(cfg.largeur / lim.largeurParVantailMin + 1e-9) + ' vantaux.');
+      }
+    }
+    if (cfg.quincaillerie && cfg.quincaillerie !== 'aucune' &&
+        !(data.quincailleries && data.quincailleries[cfg.quincaillerie])) {
+      erreurs.push('Quincaillerie non disponible pour le moment.');
+    }
     ['largeur', 'hauteur'].forEach(function (c) {
       var min = lim[c + 'Min'], max = lim[c + 'Max'];
       if (min && cfg[c] < min) alertes.push('La ' + c + ' est inférieure au minimum (' + min + ' mm).');
@@ -294,6 +347,13 @@
     var verres = [{ libelle: remp.libelle, qte: n, largeur: vL, hauteur: vH,
       m2Unitaire: arrondi(vL * vH / 1e6, 2), m2Total: arrondi(n * vL * vH / 1e6, 2) }];
 
+    var quincaillerie = [], libelleQuincaillerie = null;
+    if (cfg.quincaillerie === 'fmf150') {
+      var q = data.quincailleries.fmf150;
+      quincaillerie = quincaillerieFMF150(k, m, cfg.sens, L, q);
+      libelleQuincaillerie = q.libelle;
+    }
+
     return {
       ok: true,
       alertes: alertes,
@@ -308,6 +368,8 @@
       debit: debit,
       barres: barres,
       accessoires: accessoires,
+      quincaillerie: quincaillerie,
+      libelleQuincaillerie: libelleQuincaillerie,
       verres: verres
     };
   }
@@ -317,6 +379,7 @@
     dinVantaux: dinVantaux,
     montantsVantaux: montantsVantaux,
     decouperSurAxes: decouperSurAxes,
+    quincaillerieFMF150: quincaillerieFMF150,
     optimiserBarres: optimiserBarres,
     arrondi: arrondi
   };

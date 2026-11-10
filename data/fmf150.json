@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "code": "fmf150",
+  "libelle": "FMF 150 (Mantion OPENTEC)",
+  "source": "Relevé Slidsoft de 20 configurations en repli intérieur et extérieur (10/11/2026) + règles Forster du 10/11/2026",
+  "remarque": "Les quantités dépendent du nombre de vantaux (k à gauche, m à droite) ; les cotes Slidsoft ne sont qu'indicatives. Rails, profil bas, joint et seuil : barres de 6000 mm. Supports : 1 à chaque bout et 1 tous les 500 mm, vendus par sets de 4.",
+  "articles": {
+    "rail": { "ref": "10500A/600", "designation": "RAIL ALU 72X64 ANODISE 20µ 6M MANTION®" },
+    "profilBas": { "ref": "GH10430R", "designation": "PROFIL BAS ENCASTRE 6M ANOD. 20µ FWF-FMF MANTION®" },
+    "joint": { "ref": "GH10430DC", "designation": "JOINT CACHE POUSSIERE 6M MANTION®" },
+    "seuil": { "ref": "GHPG16", "designation": "SEUIL TAPEE DE PORTE 6M AVEC JOINT MANTION®" },
+    "montureIntermediaire": { "ref": "GJ10530IH", "designation": "SET MONTURE INTERMEDIAIRE FMF150 MANTION®" },
+    "montureExtremiteGauche": { "ref": "GJ10530EHL", "designation": "SET MONTURE EXTREMITE GAUCHE FMF150 MANTION®" },
+    "montureExtremiteDroite": { "ref": "GJ10530EHR", "designation": "SET MONTURE EXTREMITE DROIT FMF150 MANTION®" },
+    "paumellesGauche": { "ref": "GJ10530HOL", "designation": "SET 3 PAUMELLES GAUCHE DEP REG FMF150 MANTION®" },
+    "paumellesDroite": { "ref": "GJ10530HOR", "designation": "SET 3 PAUMELLES DROITE DEP REG FMF150 MANTION®" },
+    "supports": { "ref": "GJ10530B", "designation": "SET DE 4 SUPPORTS EQUERRE ANOD 20µ FMF150 MANTION®" },
+    "aimant": { "ref": "GHLK-02", "designation": "AIMANT DE MAINTIEN 60MM MANTION®" },
+    "pene": { "ref": "GJ10530FO", "designation": "PENE BAS ADAPTATION FORSTER MANTION®" },
+    "gabarit": { "ref": "GJ10530GS-6", "designation": "GABARIT DE PERCAGE DU JOINT MANTION®" },
+    "emballage": { "ref": "GH10430LSB", "designation": "EMBALLAGE PROFILS LONG OPENTEC SS BANDEAU MANTION®" },
+    "notice": { "ref": "NM_FMF15_001", "designation": "NOTICE DE MONTAGE OPENTEC FMF150 MANTION®" }
+  },
+  "barres": { "longueur": 6000 },
+  "supports": { "entraxe": 500, "parSet": 4 }
+}

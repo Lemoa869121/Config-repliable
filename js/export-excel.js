@@ -5,7 +5,7 @@
  * Correspondance validée le 10/11/2026 :
  *  - profilés et parcloses : Formula = Fixed Length, Lenght = longueur de débit, Quantity = quantité ;
  *  - joints au mètre : Lenght = longueur totale en mm, Quantity = 1 ;
- *  - accessoires à la pièce : Lenght = 0, Quantity = nombre de pièces ;
+ *  - accessoires et quincaillerie à la pièce : Lenght = 0, Quantity = nombre de pièces ;
  *  - Location : dormant haut = Top, dormant gauche = Left, dormant droit = Right, le reste = Free ;
  *  - Primary Angles 1 / 2 = angle de coupe à chaque bout (45 ou 90), Secondary Angles 1 / 2 = 90 (profilés et parcloses) ;
  *  - Price, Colour, Extension, Per Meter, Formula 2, Length 2, Assembly Name : vides.
@@ -48,7 +48,7 @@
         emplacement: lieu, anglePrimaire1: a[0], anglePrimaire2: a[1], angleSecondaire1: 90, angleSecondaire2: 90 };
       lignes.push(index[cle]);
     });
-    r.accessoires.forEach(function (x) {
+    (r.accessoires.concat(r.quincaillerie || [])).forEach(function (x) {
       if (x.unite === 'ML') {
         lignes.push({ article: x.ref, longueur: Math.round(x.qte * 1000), quantite: 1, formule: 'Fixed Length', emplacement: 'Free' });
       } else {

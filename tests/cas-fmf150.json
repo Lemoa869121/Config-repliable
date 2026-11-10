@@ -1,0 +1,766 @@
+{
+ "source": "Relevé Slidsoft FMF150 du 10/11/2026 (FMF150_quincaillerie_par_configuration.xlsx)",
+ "remarque": "Seules les quantités qui dépendent du nombre de vantaux sont comparées. Rails, profil bas, joint, seuil et supports suivent les règles Forster (barres de 6000 mm, supports tous les 500 mm), pas les devis Slidsoft.",
+ "cas": [
+  {
+   "configuration": "Int 2000x2100 3+0",
+   "sens": "int",
+   "gauche": 3,
+   "droite": 0,
+   "largeurSlidsoft": 2000,
+   "attendu": {
+    "GJ10530HOL": 1,
+    "GJ10530HOR": 1,
+    "GJ10530IH": 1,
+    "GJ10530EHL": 0,
+    "GJ10530EHR": 0,
+    "GHLK-02": 2,
+    "GJ10530FO": 1,
+    "GJ10530GS-6": 1,
+    "GH10430LSB": 1,
+    "NM_FMF15_001": 1
+   }
+  },
+  {
+   "configuration": "Int 2000x2100 2+1",
+   "sens": "int",
+   "gauche": 2,
+   "droite": 1,
+   "largeurSlidsoft": 2000,
+   "attendu": {
+    "GJ10530HOL": 1,
+    "GJ10530HOR": 2,
+    "GJ10530IH": 0,
+    "GJ10530EHL": 1,
+    "GJ10530EHR": 0,
+    "GHLK-02": 2,
+    "GJ10530FO": 1,
+    "GJ10530GS-6": 1,
+    "GH10430LSB": 1,
+    "NM_FMF15_001": 1
+   }
+  },
+  {
+   "configuration": "Int 3000x2200 3+0",
+   "sens": "int",
+   "gauche": 3,
+   "droite": 0,
+   "largeurSlidsoft": 3000,
+   "attendu": {
+    "GJ10530HOL": 1,
+    "GJ10530HOR": 1,
+    "GJ10530IH": 1,
+    "GJ10530EHL": 0,
+    "GJ10530EHR": 0,
+    "GHLK-02": 2,
+    "GJ10530FO": 1,
+    "GJ10530GS-6": 1,
+    "GH10430LSB": 1,
+    "NM_FMF15_001": 1
+   }
+  },
+  {
+   "configuration": "Int 3000x2200 2+1",
+   "sens": "int",
+   "gauche": 2,
+   "droite": 1,
+   "largeurSlidsoft": 3000,
+   "attendu": {
+    "GJ10530HOL": 1,
+    "GJ10530HOR": 2,
+    "GJ10530IH": 0,
+    "GJ10530EHL": 1,
+    "GJ10530EHR": 0,
+    "GHLK-02": 2,
+    "GJ10530FO": 1,
+    "GJ10530GS-6": 1,
+    "GH10430LSB": 1,
+    "NM_FMF15_001": 1
+   }
+  },
+  {
+   "configuration": "Int 3000x2200 3+1",
+   "sens": "int",
+   "gauche": 3,
+   "droite": 1,
+   "largeurSlidsoft": 3000,
+   "attendu": {
+    "GJ10530HOL": 1,
+    "GJ10530HOR": 2,
+    "GJ10530IH": 1,
+    "GJ10530EHL": 0,
+    "GJ10530EHR": 0,
+    "GHLK-02": 3,
+    "GJ10530FO": 2,
+    "GJ10530GS-6": 1,
+    "GH10430LSB": 1,
+    "NM_FMF15_001": 1
+   }
+  },
+  {
+   "configuration": "Int 3000x2200 5+0",
+   "sens": "int",
+   "gauche": 5,
+   "droite": 0,
+   "largeurSlidsoft": 3000,
+   "attendu": {
+    "GJ10530HOL": 1,
+    "GJ10530HOR": 2,
+    "GJ10530IH": 2,
+    "GJ10530EHL": 0,
+    "GJ10530EHR": 0,
+    "GHLK-02": 3,
+    "GJ10530FO": 2,
+    "GJ10530GS-6": 1,
+    "GH10430LSB": 1,
+    "NM_FMF15_001": 1
+   }
+  },
+  {
+   "configuration": "Int 3000x2200 4+1",
+   "sens": "int",
+   "gauche": 4,
+   "droite": 1,
+   "largeurSlidsoft": 3000,
+   "attendu": {
+    "GJ10530HOL": 1,
+    "GJ10530HOR": 3,
+    "GJ10530IH": 1,
+    "GJ10530EHL": 1,
+    "GJ10530EHR": 0,
+    "GHLK-02": 3,
+    "GJ10530FO": 2,
+    "GJ10530GS-6": 1,
+    "GH10430LSB": 1,
+    "NM_FMF15_001": 1
+   }
+  },
+  {
+   "configuration": "Int 3000x2200 3+2",
+   "sens": "int",
+   "gauche": 3,
+   "droite": 2,
+   "largeurSlidsoft": 3000,
+   "attendu": {
+    "GJ10530HOL": 2,
+    "GJ10530HOR": 2,
+    "GJ10530IH": 1,
+    "GJ10530EHL": 0,
+    "GJ10530EHR": 1,
+    "GHLK-02": 3,
+    "GJ10530FO": 2,
+    "GJ10530GS-6": 1,
+    "GH10430LSB": 1,
+    "NM_FMF15_001": 1
+   }
+  },
+  {
+   "configuration": "Int 4500x2400 5+0",
+   "sens": "int",
+   "gauche": 5,
+   "droite": 0,
+   "largeurSlidsoft": 4500,
+   "attendu": {
+    "GJ10530HOL": 1,
+    "GJ10530HOR": 2,
+    "GJ10530IH": 2,
+    "GJ10530EHL": 0,
+    "GJ10530EHR": 0,
+    "GHLK-02": 3,
+    "GJ10530FO": 2,
+    "GJ10530GS-6": 1,
+    "GH10430LSB": 1,
+    "NM_FMF15_001": 1
+   }
+  },
+  {
+   "configuration": "Int 4500x2400 3+2",
+   "sens": "int",
+   "gauche": 3,
+   "droite": 2,
+   "largeurSlidsoft": 4500,
+   "attendu": {
+    "GJ10530HOL": 2,
+    "GJ10530HOR": 2,
+    "GJ10530IH": 1,
+    "GJ10530EHL": 0,
+    "GJ10530EHR": 1,
+    "GHLK-02": 3,
+    "GJ10530FO": 2,
+    "GJ10530GS-6": 1,
+    "GH10430LSB": 1,
+    "NM_FMF15_001": 1
+   }
+  },
+  {
+   "configuration": "Int 4500x2400 3+3",
+   "sens": "int",
+   "gauche": 3,
+   "droite": 3,
+   "largeurSlidsoft": 4500,
+   "attendu": {
+    "GJ10530HOL": 2,
+    "GJ10530HOR": 2,
+    "GJ10530IH": 2,
+    "GJ10530EHL": 0,
+    "GJ10530EHR": 0,
+    "GHLK-02": 4,
+    "GJ10530FO": 3,
+    "GJ10530GS-6": 1,
+    "GH10430LSB": 1,
+    "NM_FMF15_001": 1
+   }
+  },
+  {
+   "configuration": "Int 4500x2400 7+0",
+   "sens": "int",
+   "gauche": 7,
+   "droite": 0,
+   "largeurSlidsoft": 4500,
+   "attendu": {
+    "GJ10530HOL": 1,
+    "GJ10530HOR": 3,
+    "GJ10530IH": 3,
+    "GJ10530EHL": 0,
+    "GJ10530EHR": 0,
+    "GHLK-02": 4,
+    "GJ10530FO": 3,
+    "GJ10530GS-6": 1,
+    "GH10430LSB": 1,
+    "NM_FMF15_001": 1
+   }
+  },
+  {
+   "configuration": "Int 4500x2400 4+3",
+   "sens": "int",
+   "gauche": 4,
+   "droite": 3,
+   "largeurSlidsoft": 4500,
+   "attendu": {
+    "GJ10530HOL": 2,
+    "GJ10530HOR": 3,
+    "GJ10530IH": 2,
+    "GJ10530EHL": 1,
+    "GJ10530EHR": 0,
+    "GHLK-02": 4,
+    "GJ10530FO": 3,
+    "GJ10530GS-6": 1,
+    "GH10430LSB": 1,
+    "NM_FMF15_001": 1
+   }
+  },
+  {
+   "configuration": "Int 4500x2400 5+3",
+   "sens": "int",
+   "gauche": 5,
+   "droite": 3,
+   "largeurSlidsoft": 4500,
+   "attendu": {
+    "GJ10530HOL": 2,
+    "GJ10530HOR": 3,
+    "GJ10530IH": 3,
+    "GJ10530EHL": 0,
+    "GJ10530EHR": 0,
+    "GHLK-02": 5,
+    "GJ10530FO": 4,
+    "GJ10530GS-6": 1,
+    "GH10430LSB": 1,
+    "NM_FMF15_001": 1
+   }
+  },
+  {
+   "configuration": "Int 7000x2800 7+0",
+   "sens": "int",
+   "gauche": 7,
+   "droite": 0,
+   "largeurSlidsoft": 7000,
+   "attendu": {
+    "GJ10530HOL": 1,
+    "GJ10530HOR": 3,
+    "GJ10530IH": 3,
+    "GJ10530EHL": 0,
+    "GJ10530EHR": 0,
+    "GHLK-02": 4,
+    "GJ10530FO": 3,
+    "GJ10530GS-6": 1,
+    "GH10430LSB": 1,
+    "NM_FMF15_001": 1
+   }
+  },
+  {
+   "configuration": "Int 7000x2800 4+3",
+   "sens": "int",
+   "gauche": 4,
+   "droite": 3,
+   "largeurSlidsoft": 7000,
+   "attendu": {
+    "GJ10530HOL": 2,
+    "GJ10530HOR": 3,
+    "GJ10530IH": 2,
+    "GJ10530EHL": 1,
+    "GJ10530EHR": 0,
+    "GHLK-02": 4,
+    "GJ10530FO": 3,
+    "GJ10530GS-6": 1,
+    "GH10430LSB": 1,
+    "NM_FMF15_001": 1
+   }
+  },
+  {
+   "configuration": "Int 7000x2800 5+3",
+   "sens": "int",
+   "gauche": 5,
+   "droite": 3,
+   "largeurSlidsoft": 7000,
+   "attendu": {
+    "GJ10530HOL": 2,
+    "GJ10530HOR": 3,
+    "GJ10530IH": 3,
+    "GJ10530EHL": 0,
+    "GJ10530EHR": 0,
+    "GHLK-02": 5,
+    "GJ10530FO": 4,
+    "GJ10530GS-6": 1,
+    "GH10430LSB": 1,
+    "NM_FMF15_001": 1
+   }
+  },
+  {
+   "configuration": "Int 7000x2800 5+5",
+   "sens": "int",
+   "gauche": 5,
+   "droite": 5,
+   "largeurSlidsoft": 7000,
+   "attendu": {
+    "GJ10530HOL": 3,
+    "GJ10530HOR": 3,
+    "GJ10530IH": 4,
+    "GJ10530EHL": 0,
+    "GJ10530EHR": 0,
+    "GHLK-02": 6,
+    "GJ10530FO": 5,
+    "GJ10530GS-6": 1,
+    "GH10430LSB": 1,
+    "NM_FMF15_001": 1
+   }
+  },
+  {
+   "configuration": "Int 7000x2800 7+4",
+   "sens": "int",
+   "gauche": 7,
+   "droite": 4,
+   "largeurSlidsoft": 7000,
+   "attendu": {
+    "GJ10530HOL": 3,
+    "GJ10530HOR": 4,
+    "GJ10530IH": 4,
+    "GJ10530EHL": 0,
+    "GJ10530EHR": 1,
+    "GHLK-02": 6,
+    "GJ10530FO": 5,
+    "GJ10530GS-6": 1,
+    "GH10430LSB": 1,
+    "NM_FMF15_001": 1
+   }
+  },
+  {
+   "configuration": "Int 7000x2800 7+6",
+   "sens": "int",
+   "gauche": 7,
+   "droite": 6,
+   "largeurSlidsoft": 7000,
+   "attendu": {
+    "GJ10530HOL": 4,
+    "GJ10530HOR": 4,
+    "GJ10530IH": 5,
+    "GJ10530EHL": 0,
+    "GJ10530EHR": 1,
+    "GHLK-02": 7,
+    "GJ10530FO": 6,
+    "GJ10530GS-6": 1,
+    "GH10430LSB": 1,
+    "NM_FMF15_001": 1
+   }
+  },
+  {
+   "configuration": "Ext 2000x2100 3+0",
+   "sens": "ext",
+   "gauche": 3,
+   "droite": 0,
+   "largeurSlidsoft": 2000,
+   "attendu": {
+    "GJ10530HOL": 1,
+    "GJ10530HOR": 1,
+    "GJ10530IH": 1,
+    "GJ10530EHL": 0,
+    "GJ10530EHR": 0,
+    "GHLK-02": 2,
+    "GJ10530FO": 1,
+    "GJ10530GS-6": 1,
+    "GH10430LSB": 1,
+    "NM_FMF15_001": 1
+   }
+  },
+  {
+   "configuration": "Ext 2000x2100 2+1",
+   "sens": "ext",
+   "gauche": 2,
+   "droite": 1,
+   "largeurSlidsoft": 2000,
+   "attendu": {
+    "GJ10530HOL": 2,
+    "GJ10530HOR": 1,
+    "GJ10530IH": 0,
+    "GJ10530EHL": 0,
+    "GJ10530EHR": 1,
+    "GHLK-02": 2,
+    "GJ10530FO": 1,
+    "GJ10530GS-6": 1,
+    "GH10430LSB": 1,
+    "NM_FMF15_001": 1
+   }
+  },
+  {
+   "configuration": "Ext 3000x2200 3+0",
+   "sens": "ext",
+   "gauche": 3,
+   "droite": 0,
+   "largeurSlidsoft": 3000,
+   "attendu": {
+    "GJ10530HOL": 1,
+    "GJ10530HOR": 1,
+    "GJ10530IH": 1,
+    "GJ10530EHL": 0,
+    "GJ10530EHR": 0,
+    "GHLK-02": 2,
+    "GJ10530FO": 1,
+    "GJ10530GS-6": 1,
+    "GH10430LSB": 1,
+    "NM_FMF15_001": 1
+   }
+  },
+  {
+   "configuration": "Ext 3000x2200 2+1",
+   "sens": "ext",
+   "gauche": 2,
+   "droite": 1,
+   "largeurSlidsoft": 3000,
+   "attendu": {
+    "GJ10530HOL": 2,
+    "GJ10530HOR": 1,
+    "GJ10530IH": 0,
+    "GJ10530EHL": 0,
+    "GJ10530EHR": 1,
+    "GHLK-02": 2,
+    "GJ10530FO": 1,
+    "GJ10530GS-6": 1,
+    "GH10430LSB": 1,
+    "NM_FMF15_001": 1
+   }
+  },
+  {
+   "configuration": "Ext 3000x2200 3+1",
+   "sens": "ext",
+   "gauche": 3,
+   "droite": 1,
+   "largeurSlidsoft": 3000,
+   "attendu": {
+    "GJ10530HOL": 2,
+    "GJ10530HOR": 1,
+    "GJ10530IH": 1,
+    "GJ10530EHL": 0,
+    "GJ10530EHR": 0,
+    "GHLK-02": 3,
+    "GJ10530FO": 2,
+    "GJ10530GS-6": 1,
+    "GH10430LSB": 1,
+    "NM_FMF15_001": 1
+   }
+  },
+  {
+   "configuration": "Ext 3000x2200 5+0",
+   "sens": "ext",
+   "gauche": 5,
+   "droite": 0,
+   "largeurSlidsoft": 3000,
+   "attendu": {
+    "GJ10530HOL": 2,
+    "GJ10530HOR": 1,
+    "GJ10530IH": 2,
+    "GJ10530EHL": 0,
+    "GJ10530EHR": 0,
+    "GHLK-02": 3,
+    "GJ10530FO": 2,
+    "GJ10530GS-6": 1,
+    "GH10430LSB": 1,
+    "NM_FMF15_001": 1
+   }
+  },
+  {
+   "configuration": "Ext 3000x2200 4+1",
+   "sens": "ext",
+   "gauche": 4,
+   "droite": 1,
+   "largeurSlidsoft": 3000,
+   "attendu": {
+    "GJ10530HOL": 3,
+    "GJ10530HOR": 1,
+    "GJ10530IH": 1,
+    "GJ10530EHL": 0,
+    "GJ10530EHR": 1,
+    "GHLK-02": 3,
+    "GJ10530FO": 2,
+    "GJ10530GS-6": 1,
+    "GH10430LSB": 1,
+    "NM_FMF15_001": 1
+   }
+  },
+  {
+   "configuration": "Ext 3000x2200 3+2",
+   "sens": "ext",
+   "gauche": 3,
+   "droite": 2,
+   "largeurSlidsoft": 3000,
+   "attendu": {
+    "GJ10530HOL": 2,
+    "GJ10530HOR": 2,
+    "GJ10530IH": 1,
+    "GJ10530EHL": 1,
+    "GJ10530EHR": 0,
+    "GHLK-02": 3,
+    "GJ10530FO": 2,
+    "GJ10530GS-6": 1,
+    "GH10430LSB": 1,
+    "NM_FMF15_001": 1
+   }
+  },
+  {
+   "configuration": "Ext 4500x2400 5+0",
+   "sens": "ext",
+   "gauche": 5,
+   "droite": 0,
+   "largeurSlidsoft": 4500,
+   "attendu": {
+    "GJ10530HOL": 2,
+    "GJ10530HOR": 1,
+    "GJ10530IH": 2,
+    "GJ10530EHL": 0,
+    "GJ10530EHR": 0,
+    "GHLK-02": 3,
+    "GJ10530FO": 2,
+    "GJ10530GS-6": 1,
+    "GH10430LSB": 1,
+    "NM_FMF15_001": 1
+   }
+  },
+  {
+   "configuration": "Ext 4500x2400 3+2",
+   "sens": "ext",
+   "gauche": 3,
+   "droite": 2,
+   "largeurSlidsoft": 4500,
+   "attendu": {
+    "GJ10530HOL": 2,
+    "GJ10530HOR": 2,
+    "GJ10530IH": 1,
+    "GJ10530EHL": 1,
+    "GJ10530EHR": 0,
+    "GHLK-02": 3,
+    "GJ10530FO": 2,
+    "GJ10530GS-6": 1,
+    "GH10430LSB": 1,
+    "NM_FMF15_001": 1
+   }
+  },
+  {
+   "configuration": "Ext 4500x2400 3+3",
+   "sens": "ext",
+   "gauche": 3,
+   "droite": 3,
+   "largeurSlidsoft": 4500,
+   "attendu": {
+    "GJ10530HOL": 2,
+    "GJ10530HOR": 2,
+    "GJ10530IH": 2,
+    "GJ10530EHL": 0,
+    "GJ10530EHR": 0,
+    "GHLK-02": 4,
+    "GJ10530FO": 3,
+    "GJ10530GS-6": 1,
+    "GH10430LSB": 1,
+    "NM_FMF15_001": 1
+   }
+  },
+  {
+   "configuration": "Ext 4500x2400 7+0",
+   "sens": "ext",
+   "gauche": 7,
+   "droite": 0,
+   "largeurSlidsoft": 4500,
+   "attendu": {
+    "GJ10530HOL": 3,
+    "GJ10530HOR": 1,
+    "GJ10530IH": 3,
+    "GJ10530EHL": 0,
+    "GJ10530EHR": 0,
+    "GHLK-02": 4,
+    "GJ10530FO": 3,
+    "GJ10530GS-6": 1,
+    "GH10430LSB": 1,
+    "NM_FMF15_001": 1
+   }
+  },
+  {
+   "configuration": "Ext 4500x2400 4+3",
+   "sens": "ext",
+   "gauche": 4,
+   "droite": 3,
+   "largeurSlidsoft": 4500,
+   "attendu": {
+    "GJ10530HOL": 3,
+    "GJ10530HOR": 2,
+    "GJ10530IH": 2,
+    "GJ10530EHL": 0,
+    "GJ10530EHR": 1,
+    "GHLK-02": 4,
+    "GJ10530FO": 3,
+    "GJ10530GS-6": 1,
+    "GH10430LSB": 1,
+    "NM_FMF15_001": 1
+   }
+  },
+  {
+   "configuration": "Ext 4500x2400 5+3",
+   "sens": "ext",
+   "gauche": 5,
+   "droite": 3,
+   "largeurSlidsoft": 4500,
+   "attendu": {
+    "GJ10530HOL": 3,
+    "GJ10530HOR": 2,
+    "GJ10530IH": 3,
+    "GJ10530EHL": 0,
+    "GJ10530EHR": 0,
+    "GHLK-02": 5,
+    "GJ10530FO": 4,
+    "GJ10530GS-6": 1,
+    "GH10430LSB": 1,
+    "NM_FMF15_001": 1
+   }
+  },
+  {
+   "configuration": "Ext 7000x2800 7+0",
+   "sens": "ext",
+   "gauche": 7,
+   "droite": 0,
+   "largeurSlidsoft": 7000,
+   "attendu": {
+    "GJ10530HOL": 3,
+    "GJ10530HOR": 1,
+    "GJ10530IH": 3,
+    "GJ10530EHL": 0,
+    "GJ10530EHR": 0,
+    "GHLK-02": 4,
+    "GJ10530FO": 3,
+    "GJ10530GS-6": 1,
+    "GH10430LSB": 1,
+    "NM_FMF15_001": 1
+   }
+  },
+  {
+   "configuration": "Ext 7000x2800 4+3",
+   "sens": "ext",
+   "gauche": 4,
+   "droite": 3,
+   "largeurSlidsoft": 7000,
+   "attendu": {
+    "GJ10530HOL": 3,
+    "GJ10530HOR": 2,
+    "GJ10530IH": 2,
+    "GJ10530EHL": 0,
+    "GJ10530EHR": 1,
+    "GHLK-02": 4,
+    "GJ10530FO": 3,
+    "GJ10530GS-6": 1,
+    "GH10430LSB": 1,
+    "NM_FMF15_001": 1
+   }
+  },
+  {
+   "configuration": "Ext 7000x2800 5+3",
+   "sens": "ext",
+   "gauche": 5,
+   "droite": 3,
+   "largeurSlidsoft": 7000,
+   "attendu": {
+    "GJ10530HOL": 3,
+    "GJ10530HOR": 2,
+    "GJ10530IH": 3,
+    "GJ10530EHL": 0,
+    "GJ10530EHR": 0,
+    "GHLK-02": 5,
+    "GJ10530FO": 4,
+    "GJ10530GS-6": 1,
+    "GH10430LSB": 1,
+    "NM_FMF15_001": 1
+   }
+  },
+  {
+   "configuration": "Ext 7000x2800 5+5",
+   "sens": "ext",
+   "gauche": 5,
+   "droite": 5,
+   "largeurSlidsoft": 7000,
+   "attendu": {
+    "GJ10530HOL": 3,
+    "GJ10530HOR": 3,
+    "GJ10530IH": 4,
+    "GJ10530EHL": 0,
+    "GJ10530EHR": 0,
+    "GHLK-02": 6,
+    "GJ10530FO": 5,
+    "GJ10530GS-6": 1,
+    "GH10430LSB": 1,
+    "NM_FMF15_001": 1
+   }
+  },
+  {
+   "configuration": "Ext 7000x2800 7+4",
+   "sens": "ext",
+   "gauche": 7,
+   "droite": 4,
+   "largeurSlidsoft": 7000,
+   "attendu": {
+    "GJ10530HOL": 4,
+    "GJ10530HOR": 3,
+    "GJ10530IH": 4,
+    "GJ10530EHL": 1,
+    "GJ10530EHR": 0,
+    "GHLK-02": 6,
+    "GJ10530FO": 5,
+    "GJ10530GS-6": 1,
+    "GH10430LSB": 1,
+    "NM_FMF15_001": 1
+   }
+  },
+  {
+   "configuration": "Ext 7000x2800 7+6",
+   "sens": "ext",
+   "gauche": 7,
+   "droite": 6,
+   "largeurSlidsoft": 7000,
+   "attendu": {
+    "GJ10530HOL": 4,
+    "GJ10530HOR": 4,
+    "GJ10530IH": 5,
+    "GJ10530EHL": 1,
+    "GJ10530EHR": 0,
+    "GHLK-02": 7,
+    "GJ10530FO": 6,
+    "GJ10530GS-6": 1,
+    "GH10430LSB": 1,
+    "NM_FMF15_001": 1
+   }
+  }
+ ]
+}

@@ -11,12 +11,12 @@ Application web qui sort la **liste matière d'une porte repliable** : débit de
 |---|---|---|
 | Gamme | Presto | Unico |
 | Sens d'ouverture | Extérieur, intérieur | – |
-| Vantaux | Repliés à gauche / à droite (2 à 9 au total) | – |
-| Dimensions | Largeur et hauteur de baie | Limites mini / maxi |
+| Vantaux | Repliés à gauche / à droite (2 à 13 au total, 500 à 1000 mm par vantail) | – |
+| Dimensions | Largeur et hauteur de baie | Limites de hauteur |
 | Profils | Tout en corps de 50 | Corps de 20, corps de 20 avec profil serrure en 50 |
 | Remplissage | Verre 9 mm, verre 24 mm | Autres épaisseurs |
 | Traverses | – | Quantité et épaisseur (50 / 20 / 10) |
-| Quincaillerie | – | FMF 100, FMF 150, Mantion |
+| Quincaillerie | FMF 150 (Mantion OPENTEC), sans quincaillerie | FMF 100 |
 
 Aucun prix n'est stocké dans le dépôt (dépôt public).
 
@@ -44,8 +44,10 @@ Un double-clic sur `index.html` ne fonctionne pas : le navigateur bloque la lect
 | `js/app.js` | Formulaire, schéma, tableaux, impression, copie, export CSV |
 | `js/export-excel.js` | Bouton « Excel Forster Pro » : fichier `export_excel_FP_….xlsx` au format d'import « Import – Zusatzartikel » |
 | `js/modele-import-excel.js` | Modèle de ce fichier (généré, ne pas modifier à la main) |
-| `data/presto.json` | Articles, cotes de déduction, règles Presto |
+| `data/presto.json` | Articles, cotes de déduction, règles Presto, limites |
+| `data/fmf150.json` | Articles et paramètres de la quincaillerie FMF 150 |
 | `tests/cas-pdf.json` | Positions de la liste de débit Forster utilisées comme référence |
+| `tests/cas-fmf150.json` | 40 devis Slidsoft FMF 150 (quantités dépendant du nombre de vantaux) |
 | `tests/verifier.js` | Comparaison calcul / référence |
 | `tests/tests.html`, `tests/run-node.js` | Lancement des tests (navigateur / ligne de commande) |
 | `CAHIER_DES_CHARGES.md` | Règles métier (fait foi) |
