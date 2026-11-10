@@ -42,6 +42,8 @@ Un double-clic sur `index.html` ne fonctionne pas : le navigateur bloque la lect
 | `css/style.css` | Charte graphique Forster (Faktum, couleurs, logo) |
 | `js/calcul.js` | Moteur de calcul (fonctions pures, aussi utilisable sous Node) |
 | `js/app.js` | Formulaire, schéma, tableaux, impression, copie, export CSV |
+| `js/export-excel.js` | Export au format du fichier d'import « Import – Zusatzartikel » (.xlsx) |
+| `js/modele-import-excel.js` | Modèle de ce fichier (généré, ne pas modifier à la main) |
 | `data/presto.json` | Articles, cotes de déduction, règles Presto |
 | `tests/cas-pdf.json` | Positions de la liste de débit Forster utilisées comme référence |
 | `tests/verifier.js` | Comparaison calcul / référence |

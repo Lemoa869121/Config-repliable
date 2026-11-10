@@ -207,13 +207,26 @@
 
   function exporterCsv() {
     if (!dernier || !dernier.ok) return;
+    telecharger(new Blob(['\ufeff' + enTexte(tableau(dernier), ';')], { type: 'text/csv;charset=utf-8' }), nomFichier('csv'));
+  }
+
+  function nomFichier(ext) {
     var e = dernier.entree;
-    var nom = 'repliable_' + (e.sens === 'ext' ? 'ext' : 'int') + '_' + e.gauche + '+' + e.droite + '_' + e.largeur + 'x' + e.hauteur + '.csv';
-    var blob = new Blob(['﻿' + enTexte(tableau(dernier), ';')], { type: 'text/csv;charset=utf-8' });
+    return 'repliable_' + (e.chantier ? e.chantier.replace(/[^\w\-]+/g, '_') + '_' : '') +
+      (e.sens === 'ext' ? 'ext' : 'int') + '_' + e.gauche + '+' + e.droite + '_' + e.largeur + 'x' + e.hauteur + '.' + ext;
+  }
+
+  function telecharger(blob, nom) {
     var a = document.createElement('a');
     a.href = URL.createObjectURL(blob); a.download = nom;
     document.body.appendChild(a); a.click(); a.remove();
     setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+  }
+
+  function exporterExcel() {
+    if (!dernier || !dernier.ok) return;
+    var octets = ExportExcel.classeur(dernier);
+    telecharger(new Blob([octets], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }), nomFichier('xlsx'));
   }
 
   function copier() {
@@ -258,6 +271,7 @@
   form.addEventListener('submit', function (e) { e.preventDefault(); });
   document.getElementById('btnImprimer').addEventListener('click', function () { window.print(); });
   document.getElementById('btnCsv').addEventListener('click', exporterCsv);
+  document.getElementById('btnExcel').addEventListener('click', exporterExcel);
   document.getElementById('btnCopier').addEventListener('click', copier);
   document.getElementById('btnReinit').addEventListener('click', function () {
     try { localStorage.removeItem(CLE_STOCKAGE); } catch (e) { /* rien */ }

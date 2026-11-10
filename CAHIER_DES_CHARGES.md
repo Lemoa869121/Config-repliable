@@ -74,14 +74,32 @@ Les autres affichent une alerte « non vérifiée ».
 Si L > 5900 : coupe sur un axe de vantail, nombre minimal de morceaux, morceaux les plus équilibrés possible.
 Coupe droite à la jonction, 45° aux angles.
 
-## 8. Écarts connus avec la liste de débit de référence
+## 8. Export Excel (fichier d'import)
+
+Format du fichier « 2020 - Import - EN - Zusatzartikel.xlsx » fourni par Forster (feuille Tabelle1, listes de choix
+de la feuille Tabelle2 conservées). Une ligne par pièce identique (article, longueur, coupes, emplacement).
+
+| Colonne | Profilés et parcloses | Joints (au mètre) | Accessoires à la pièce |
+|---|---|---|---|
+| Article Number | référence | référence | référence |
+| Lenght [mm] | longueur de débit | longueur totale en mm | 0 |
+| Quantity | nombre de pièces | 1 | nombre de pièces |
+| Formula | Fixed Length | Fixed Length | Fixed Length |
+| Location | Top (dormant haut), Left (dormant gauche), Right (dormant droit), Free (le reste) | Free | Free |
+| Primary Angles 1 / 2 | angle de coupe à chaque bout (45 ou 90) | vide | vide |
+| Secondary Angles 1 / 2 | 90 / 90 | vide | vide |
+| Per Meter, Extension, Colour, Price, Formula 2, Length 2, Assembly Name | vides | vides | vides |
+
+Les remplissages (pas de référence article) ne sont pas exportés.
+
+## 9. Écarts connus avec la liste de débit de référence
 
 - A 3+2 et A 8+1 (Din, T/Z), I 6+1 (Din) : non conformes aux règles retenues.
 - I 3+1, I 3+3, I 5+1, I 6+1 : T face à T ou Z face à Z dans le PDF → erreurs du PDF.
 - I 3+2 : le PDF donne ZZ TT ZZ TT ZZ, la règle « intérieur = inverse » donne ZZ TT ZZ TZ TZ → **à trancher**.
 - Dormant haut > 5900 : coupé par le configurateur (le PDF ne coupe pas toujours).
 
-## 9. Questions ouvertes
+## 10. Questions ouvertes
 
 Intérieur = inverse de l'extérieur (cas I 3+2) · joint de battue à une autre hauteur · limites dimensionnelles ·
 bas de porte · corps 20 et mixte · autres remplissages · traverses · FMF 100 / 150 · Unico.
