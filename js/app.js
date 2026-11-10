@@ -210,9 +210,9 @@
     telecharger(new Blob(['\ufeff' + enTexte(tableau(dernier), ';')], { type: 'text/csv;charset=utf-8' }), nomFichier('csv'));
   }
 
-  function nomFichier(ext) {
+  function nomFichier(ext, prefixe) {
     var e = dernier.entree;
-    return 'repliable_' + (e.chantier ? e.chantier.replace(/[^\w\-]+/g, '_') + '_' : '') +
+    return (prefixe || 'repliable_') + (e.chantier ? e.chantier.replace(/[^\w\-]+/g, '_') + '_' : '') +
       (e.sens === 'ext' ? 'ext' : 'int') + '_' + e.gauche + '+' + e.droite + '_' + e.largeur + 'x' + e.hauteur + '.' + ext;
   }
 
@@ -226,7 +226,7 @@
   function exporterExcel() {
     if (!dernier || !dernier.ok) return;
     var octets = ExportExcel.classeur(dernier);
-    telecharger(new Blob([octets], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }), nomFichier('xlsx'));
+    telecharger(new Blob([octets], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }), nomFichier('xlsx', 'export_excel_FP_'));
   }
 
   function copier() {

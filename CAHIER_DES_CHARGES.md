@@ -77,7 +77,7 @@ Coupe droite à la jonction, 45° aux angles.
 
 ## 8. Export Excel (fichier d'import)
 
-Format du fichier « 2020 - Import - EN - Zusatzartikel.xlsx » fourni par Forster (feuille Tabelle1, listes de choix
+Bouton « Excel Forster Pro », fichier `export_excel_FP_<chantier>_<sens>_<k>+<m>_<L>x<H>.xlsx`. Format du fichier « export_excel_FP.xlsx » / « 2020 - Import - EN - Zusatzartikel.xlsx » fourni par Forster (feuille Tabelle1, listes de choix
 de la feuille Tabelle2 conservées). Une ligne par pièce identique (article, longueur, coupes, emplacement).
 
 | Colonne | Profilés et parcloses | Joints (au mètre) | Accessoires à la pièce |
