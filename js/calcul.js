@@ -192,6 +192,47 @@
     });
   }
 
+  /* ---------- Quincaillerie FMF 100 (Mantion OPENTEC) ----------
+   * Règles vérifiées sur les 80 devis Slidsoft (20 configurations × intérieur / extérieur × murale / plafond) :
+   *  - aucun article gauche / droite : intérieur = extérieur ;
+   *  - montures : floor((n - 1)/2) ; une GJ10430EH remplace une IH si les deux côtés ont des vantaux
+   *    en nombres de parités différentes ;
+   *  - 1512SOM12 = montures ; 1512SOG = 2 × n + 2 × côtés équipés + EH ;
+   *  - GHLK-01 = montures ; GHLK-02 = nombre de côtés ayant un nombre impair de vantaux ≥ 3 ;
+   *  - emballage (GH10430L en murale, GH10430LSB en plafond) seulement si les deux côtés ont des vantaux ;
+   *  - fixation murale seulement : bandeau, équerres, supports et embouts de bandeau ;
+   *    supports de bandeau : arrondi supérieur de L / 2500 (relevé Slidsoft, à confirmer).
+   * Règles Forster (comme le FMF 150) : rail, bandeau, profil bas, joint, seuil en barres de 6000 mm ;
+   *  équerres : 1 à chaque bout + 1 tous les 500 mm, par sets de 4.
+   */
+  function quincaillerieFMF100(k, m, largeur, fixation, q) {
+    var n = k + m, a = q.articles, murale = fixation !== 'plafond';
+    var montures = Math.floor((n - 1) / 2);
+    var eh = (k > 0 && m > 0 && (k % 2) !== (m % 2) && montures > 0) ? 1 : 0;
+    var cotes = (k > 0 ? 1 : 0) + (m > 0 ? 1 : 0);
+    var impairs3 = [k, m].filter(function (g) { return g >= 3 && g % 2 === 1; }).length;
+    var barres = Math.ceil(largeur / q.barres.longueur - 1e-9);
+    var equerres = Math.ceil((Math.ceil(largeur / q.equerres.entraxe - 1e-9) + 1) / q.equerres.parSet);
+    var emballage = (k > 0 && m > 0) ? 1 : 0;
+    var lignes = [
+      [a.rail, barres],
+      [a.bandeau, murale ? barres : 0],
+      [a.equerres, murale ? equerres : 0],
+      [a.supportsBandeau, murale ? Math.ceil(largeur / q.supportsBandeau.largeurParSet - 1e-9) : 0],
+      [a.emboutsBandeau, murale ? 1 : 0],
+      [a.profilBas, barres], [a.joint, barres], [a.seuil, barres],
+      [a.montureIntermediaire, montures - eh], [a.montureExtremite, eh],
+      [a.charniereM12, montures], [a.charniereGraisseur, 2 * n + 2 * cotes + eh],
+      [a.aimant26, montures], [a.aimant60, impairs3],
+      [a.gabarit, 1],
+      [murale ? a.emballageMural : a.emballagePlafond, emballage],
+      [a.notice, 1]
+    ];
+    return lignes.filter(function (l) { return l[1] > 0; }).map(function (l) {
+      return { ref: l[0].ref, designation: l[0].designation, qte: l[1], unite: 'Pce' };
+    });
+  }
+
   /* ---------- Contrôle des saisies ---------- */
   function controler(cfg, data) {
     var erreurs = [], alertes = [];
@@ -214,9 +255,21 @@
           ' mm). Au plus ' + Math.floor(cfg.largeur / lim.largeurParVantailMin + 1e-9) + ' vantaux.');
       }
     }
-    if (cfg.quincaillerie && cfg.quincaillerie !== 'aucune' &&
-        !(data.quincailleries && data.quincailleries[cfg.quincaillerie])) {
-      erreurs.push('Quincaillerie non disponible pour le moment.');
+    if (cfg.quincaillerie && cfg.quincaillerie !== 'aucune') {
+      var qc = data.quincailleries && data.quincailleries[cfg.quincaillerie];
+      if (!qc) {
+        erreurs.push('Quincaillerie non disponible pour le moment.');
+      } else if (qc.limites) {
+        var lq = qc.limites, nomQ = qc.libelle.replace(/ \(.*\)$/, '');
+        if (lq.vantauxMin && n < lq.vantauxMin) erreurs.push(nomQ + ' : au moins ' + lq.vantauxMin + ' vantaux.');
+        if (lq.vantauxMax && n > lq.vantauxMax) erreurs.push(nomQ + ' : ' + lq.vantauxMax + ' vantaux maximum.');
+        if (lq.largeurMax && cfg.largeur > lq.largeurMax) erreurs.push(nomQ + ' : largeur maximum ' + lq.largeurMax + ' mm.');
+        if (lq.hauteurMax && cfg.hauteur > lq.hauteurMax) erreurs.push(nomQ + ' : hauteur maximum ' + lq.hauteurMax + ' mm.');
+        if (lq.pairPairInterdit && cfg.gauche % 2 === 0 && cfg.droite % 2 === 0) {
+          erreurs.push(nomQ + ' : répartition ' + cfg.gauche + ' + ' + cfg.droite +
+            ' impossible (nombre pair de vantaux des deux côtés).');
+        }
+      }
     }
     ['largeur', 'hauteur'].forEach(function (c) {
       var min = lim[c + 'Min'], max = lim[c + 'Max'];
@@ -352,6 +405,10 @@
       var q = data.quincailleries.fmf150;
       quincaillerie = quincaillerieFMF150(k, m, cfg.sens, L, q);
       libelleQuincaillerie = q.libelle;
+    } else if (cfg.quincaillerie === 'fmf100') {
+      var q100 = data.quincailleries.fmf100;
+      quincaillerie = quincaillerieFMF100(k, m, L, cfg.fixation, q100);
+      libelleQuincaillerie = q100.libelle + ' – fixation ' + (cfg.fixation === 'plafond' ? 'plafond' : 'murale');
     }
 
     return {
@@ -380,6 +437,7 @@
     montantsVantaux: montantsVantaux,
     decouperSurAxes: decouperSurAxes,
     quincaillerieFMF150: quincaillerieFMF150,
+    quincaillerieFMF100: quincaillerieFMF100,
     optimiserBarres: optimiserBarres,
     arrondi: arrondi
   };

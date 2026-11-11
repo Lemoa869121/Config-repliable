@@ -31,7 +31,8 @@
       hauteur: parseFloat(f.get('hauteur')) || 0,
       corps: f.get('corps') || '50',
       remplissage: f.get('remplissage') || '9',
-      quincaillerie: f.get('quincaillerie') || 'aucune'
+      quincaillerie: f.get('quincaillerie') || 'aucune',
+      fixation: f.get('fixation') || 'murale'
     };
   }
 
@@ -270,6 +271,7 @@
 
   function recalculer() {
     var v = lireFormulaire();
+    document.getElementById('blocFixation').hidden = v.quincaillerie !== 'fmf100';
     ecrireStockage(v);
     majTotal(v);
     document.getElementById('titreResultat').textContent = 'Liste matière' + (v.chantier ? ' – ' + v.chantier : '');
@@ -305,10 +307,10 @@
     });
   }
 
-  Promise.all([charger('data/presto.json'), charger('data/fmf150.json')])
+  Promise.all([charger('data/presto.json'), charger('data/fmf150.json'), charger('data/fmf100.json')])
     .then(function (res) {
       data = res[0];
-      data.quincailleries = { fmf150: res[1] };
+      data.quincailleries = { fmf150: res[1], fmf100: res[2] };
       remplirFormulaire(lireStockage());
       recalculer();
     })

@@ -102,6 +102,32 @@ k = vantaux à gauche, m = à droite, n = k + m, L = largeur de baie.
 
 Vérification : les quantités dépendant du nombre de vantaux redonnent les 40 devis Slidsoft.
 
+## 8 bis. Quincaillerie FMF 100 (Mantion OPENTEC)
+
+Source : 80 devis Slidsoft (20 configurations × repli intérieur / extérieur × fixation murale / plafond) relevés le
+10/11/2026. Mêmes principes que le FMF 150 : cotes Slidsoft indicatives, barres de 6000 mm, équerres tous les 500 mm.
+Saisie supplémentaire : **fixation du rail** (murale ou plafond). Aucun article gauche / droite : intérieur = extérieur.
+
+| Article | Règle |
+|---|---|
+| GJ10430IH / GJ10430EH (montures) | Total floor((n − 1)/2) ; une EH remplace une IH si k ≥ 1 et m ≥ 1 sont de parités différentes |
+| 1512SOM12 (charnières M12) | = nombre de montures |
+| 1512SOG (charnières à graisseur) | 2 × n + 2 × nombre de côtés équipés + nombre de EH |
+| GHLK-01 (aimants 26 mm) | = nombre de montures |
+| GHLK-02 (aimants 60 mm) | nombre de côtés ayant un nombre impair de vantaux ≥ 3 |
+| 10400A/600, GH10430R, GH10430DC, GHPG16 | arrondi supérieur de L / 6000 |
+| GH10430P (bandeau) | murale : arrondi supérieur de L / 6000 ; plafond : aucun |
+| GH10430B (sets de 4 équerres) | murale : (ceil(L / 500) + 1) supports ÷ 4, arrondi supérieur ; plafond : aucun |
+| GH10430BP (sets de supports de bandeau) | murale : arrondi supérieur de L / 2500 (relevé Slidsoft, à confirmer) ; plafond : aucun |
+| GH10430EN (embouts de bandeau) | murale : 1 ; plafond : aucun |
+| GH10430L / GH10430LSB (emballage) | 1 seulement si les deux côtés ont des vantaux (L en murale, LSB en plafond) – à confirmer |
+| GJ10430GS-4, NM_FMF10_001 | 1 chacun |
+
+Limites propres au FMF 100 (fiche Slidsoft), bloquantes : 3 à 8 vantaux, largeur ≤ 6000 mm, hauteur ≤ 2400 mm,
+pas de nombre pair de vantaux des deux côtés (4+2, 2+2, 6+0…).
+
+Vérification : 80 / 80 devis Slidsoft retrouvés (hors barres de 3 m que Slidsoft utilise jusqu'à 3000 mm).
+
 ## 9. Limites
 
 Largeur par vantail (largeur de baie ÷ nombre de vantaux) : 500 à 1000 mm, bloquant. 2 à 13 vantaux.

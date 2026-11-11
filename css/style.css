@@ -65,6 +65,8 @@ input[type=number], input[type=text] {
   border: 1px solid #b9c3d0; border-radius: 4px; padding: 7px 9px; background: #fff; margin-top: 3px;
 }
 input:focus { outline: 2px solid var(--fo-blue2); outline-offset: -1px; border-color: var(--fo-blue2); }
+.sous-bloc { margin: 8px 0 0 24px; padding-left: 10px; border-left: 2px solid #b9c3d0; }
+.sous-bloc .libelle { font-size: 14px; margin-bottom: 2px; }
 .aide { font-size: 13px; color: var(--fo-ink-70); margin: 6px 0 0; }
 
 /* Boutons */

@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "code": "fmf100",
+  "libelle": "FMF 100 (Mantion OPENTEC)",
+  "source": "Relevé Slidsoft de 20 configurations × repli intérieur / extérieur × fixation murale / plafond (10/11/2026) + règles Forster appliquées au FMF 150",
+  "remarque": "Quantités liées au nombre de vantaux ; cotes Slidsoft indicatives. Aucun article gauche / droite : intérieur = extérieur. Rails, bandeau, profil bas, joint et seuil en barres de 6000 mm. Équerres : 1 à chaque bout + 1 tous les 500 mm, par sets de 4. Bandeau, équerres, supports et embouts de bandeau : fixation murale uniquement.",
+  "articles": {
+    "rail": { "ref": "10400A/600", "designation": "RAIL 51,5X47,5 ALU 6M ANODISE 20µ PERCE MANTION®" },
+    "bandeau": { "ref": "GH10430P", "designation": "BANDEAU ALU BRUT 10400 6M MANTION®" },
+    "equerres": { "ref": "GH10430B", "designation": "SET 4 SUPPORTS EQUERRES ANODISES 10400 MANTION®" },
+    "supportsBandeau": { "ref": "GH10430BP", "designation": "SET 4 SUPPORTS BANDEAU 10400 MANTION®" },
+    "emboutsBandeau": { "ref": "GH10430EN", "designation": "SET EMBOUT BANDEAU 10400 MANTION®" },
+    "profilBas": { "ref": "GH10430R", "designation": "PROFIL BAS ENCASTRE 6M ANOD. 20µ FWF-FMF MANTION®" },
+    "joint": { "ref": "GH10430DC", "designation": "JOINT CACHE POUSSIERE 6M MANTION®" },
+    "seuil": { "ref": "GHPG16", "designation": "SEUIL TAPEE DE PORTE 6M AVEC JOINT MANTION®" },
+    "montureIntermediaire": { "ref": "GJ10430IH", "designation": "SET MONTURE INTERMEDIAIRE FMF100 MANTION®" },
+    "montureExtremite": { "ref": "GJ10430EH", "designation": "SET MONTURE EXTREMITE FMF100 MANTION®" },
+    "charniereM12": { "ref": "1512SOM12", "designation": "CHARNIERE A SOUDER -VIS CHC M12 MANTION®" },
+    "charniereGraisseur": { "ref": "1512SOG", "designation": "CHARNIERE A SOUDER D12 GRAISSEUR MANTION®" },
+    "aimant26": { "ref": "GHLK-01", "designation": "AIMANT DE MAINTIEN 26MM MANTION®" },
+    "aimant60": { "ref": "GHLK-02", "designation": "AIMANT DE MAINTIEN 60MM MANTION®" },
+    "gabarit": { "ref": "GJ10430GS-4", "designation": "GABARIT DE SOUDURE POUR MENUISERIE AFFLEURANTE MANTION®" },
+    "emballageMural": { "ref": "GH10430L", "designation": "EMBALLAGE PROFILS LONGS OPENTEC MANTION®" },
+    "emballagePlafond": { "ref": "GH10430LSB", "designation": "EMBALLAGE PROFILS LONG OPENTEC SS BANDEAU MANTION®" },
+    "notice": { "ref": "NM_FMF10_001", "designation": "NOTICE DE MONTAGE OPENTEC FMF100 MANTION®" }
+  },
+  "barres": { "longueur": 6000 },
+  "equerres": { "entraxe": 500, "parSet": 4 },
+  "supportsBandeau": { "largeurParSet": 2500 },
+  "fixations": { "murale": "Murale", "plafond": "Plafond" },
+  "limites": {
+    "vantauxMin": 3,
+    "vantauxMax": 8,
+    "largeurMax": 6000,
+    "hauteurMax": 2400,
+    "pairPairInterdit": true,
+    "remarque": "Fiche Slidsoft FMF100 : ouverture maxi 6 × 2,40 m, 3 à 8 vantaux ; répartitions pair + pair refusées (4+2, 2+2, 6+0…)."
+  }
+}

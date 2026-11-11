@@ -16,7 +16,7 @@ Application web qui sort la **liste matière d'une porte repliable** : débit de
 | Profils | Tout en corps de 50 | Corps de 20, corps de 20 avec profil serrure en 50 |
 | Remplissage | Verre 9 mm, verre 24 mm | Autres épaisseurs |
 | Traverses | – | Quantité et épaisseur (50 / 20 / 10) |
-| Quincaillerie | FMF 150 (Mantion OPENTEC), sans quincaillerie | FMF 100 |
+| Quincaillerie | FMF 150, FMF 100 (fixation murale ou plafond) – Mantion OPENTEC ; sans quincaillerie | – |
 
 Aucun prix n'est stocké dans le dépôt (dépôt public).
 
@@ -46,8 +46,10 @@ Un double-clic sur `index.html` ne fonctionne pas : le navigateur bloque la lect
 | `js/modele-import-excel.js` | Modèle de ce fichier (généré, ne pas modifier à la main) |
 | `data/presto.json` | Articles, cotes de déduction, règles Presto, limites |
 | `data/fmf150.json` | Articles et paramètres de la quincaillerie FMF 150 |
+| `data/fmf100.json` | Articles, paramètres et limites de la quincaillerie FMF 100 |
 | `tests/cas-pdf.json` | Positions de la liste de débit Forster utilisées comme référence |
 | `tests/cas-fmf150.json` | 40 devis Slidsoft FMF 150 (quantités dépendant du nombre de vantaux) |
+| `tests/cas-fmf100.json` | 80 devis Slidsoft FMF 100 (intérieur / extérieur × murale / plafond) |
 | `tests/verifier.js` | Comparaison calcul / référence |
 | `tests/tests.html`, `tests/run-node.js` | Lancement des tests (navigateur / ligne de commande) |
 | `CAHIER_DES_CHARGES.md` | Règles métier (fait foi) |

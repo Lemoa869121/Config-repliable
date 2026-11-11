@@ -73,8 +73,14 @@
       <fieldset class="bloc">
         <legend class="libelle">Quincaillerie</legend>
         <label class="choix"><input type="radio" name="quincaillerie" value="fmf150" checked> FMF 150 (Mantion OPENTEC)</label>
-        <label class="choix inactif"><input type="radio" name="quincaillerie" value="fmf100" disabled> FMF 100 <span class="bientot">à venir</span></label>
+        <label class="choix"><input type="radio" name="quincaillerie" value="fmf100"> FMF 100 (Mantion OPENTEC)</label>
         <label class="choix"><input type="radio" name="quincaillerie" value="aucune"> Sans quincaillerie</label>
+        <div id="blocFixation" class="sous-bloc" hidden>
+          <span class="libelle">Fixation du rail</span>
+          <label class="choix"><input type="radio" name="fixation" value="murale" checked> Murale (avec bandeau)</label>
+          <label class="choix"><input type="radio" name="fixation" value="plafond"> Plafond (sans bandeau)</label>
+          <p class="aide">FMF 100 : 3 à 8 vantaux, 6000 × 2400 mm maximum, pas de nombre pair des deux côtés.</p>
+        </div>
       </fieldset>
 
       <button type="button" id="btnReinit" class="bouton secondaire">Réinitialiser</button>

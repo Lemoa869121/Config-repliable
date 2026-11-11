@@ -53,4 +53,30 @@ fmf.cas.forEach(function (cas) {
   if (rail !== t[1] || sup !== t[2]) { echecsFmf++; console.log('✗ FMF150 barres/supports à ' + t[0] + ' mm : ' + rail + ' / ' + sup); }
 });
 console.log('Quincaillerie FMF150 : ' + (echecsFmf ? echecsFmf + ' écart(s)' : fmf.cas.length + ' / ' + fmf.cas.length + ' devis Slidsoft retrouvés + règles barres / supports OK'));
-process.exit(res.echecs || echecsExport || echecsFmf ? 1 : 0);
+
+// Quincaillerie FMF 100 : 80 devis Slidsoft (intérieur / extérieur × murale / plafond)
+var fmf100 = JSON.parse(fs.readFileSync(path.join(__dirname, 'cas-fmf100.json'), 'utf8'));
+var q100 = JSON.parse(fs.readFileSync(path.join(racine, 'data', 'fmf100.json'), 'utf8'));
+var echecs100 = 0;
+fmf100.cas.forEach(function (cas) {
+  var lignes = Calcul.quincaillerieFMF100(cas.gauche, cas.droite, cas.largeurSlidsoft, cas.fixation, q100);
+  var ecarts = Object.keys(cas.attendu).filter(function (ref) {
+    var l = lignes.filter(function (x) { return x.ref === ref; })[0];
+    return (l ? l.qte : 0) !== cas.attendu[ref];
+  });
+  var enTrop = lignes.filter(function (x) { return !(x.ref in cas.attendu) && !(cas.largeurSlidsoft <= 3000); });
+  if (ecarts.length || enTrop.length) {
+    echecs100++; console.log('✗ FMF100 ' + cas.configuration + ' : ' + ecarts.concat(enTrop.map(function (x) { return x.ref; })).join(', '));
+  }
+});
+// Contrôles de saisie propres au FMF 100
+var base100 = { corps: '50', sens: 'int', largeur: 4500, hauteur: 2400, remplissage: '9', quincaillerie: 'fmf100', fixation: 'murale' };
+data.quincailleries = { fmf100: q100 };
+[[4, 2, false], [3, 0, true], [6, 0, false], [5, 4, false], [4, 3, true]].forEach(function (t) {
+  var c = Object.assign({}, base100, { gauche: t[0], droite: t[1] });
+  c.largeur = Math.min(6000, 900 * (c.gauche + c.droite));
+  var ok = Calcul.calculer(c, data).ok;
+  if (ok !== t[2]) { echecs100++; console.log('✗ FMF100 contrôle ' + t[0] + '+' + t[1] + ' : ' + (ok ? 'accepté' : 'refusé')); }
+});
+console.log('Quincaillerie FMF100 : ' + (echecs100 ? echecs100 + ' écart(s)' : fmf100.cas.length + ' / ' + fmf100.cas.length + ' devis Slidsoft retrouvés + contrôles de saisie OK'));
+process.exit(res.echecs || echecsExport || echecsFmf || echecs100 ? 1 : 0);
