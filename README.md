@@ -13,7 +13,7 @@ Application web qui sort la **liste matière d'une porte repliable** : débit de
 | Sens d'ouverture | Extérieur, intérieur | – |
 | Vantaux | Repliés à gauche / à droite (2 à 13 au total, 500 à 1100 mm par vantail) | – |
 | Dimensions | Largeur et hauteur de baie | Limites de hauteur |
-| Profils | Tout en corps de 50 | Corps de 20, corps de 20 avec profil serrure en 50 |
+| Profils | Tout en corps de 50, tout en corps de 20, corps de 20 avec profil serrure en 50 | – |
 | Remplissage | Épaisseur libre de 4 à 27 mm ; parclose et joints selon le tableau Forster Presto (choix parmi les combinaisons possibles) | – |
 | Traverses | – | Quantité et épaisseur (50 / 20 / 10) |
 | Serrurerie | Serrure 1 ou 3 points, crémone à levier ou à cylindre (si impair des deux côtés), pièces de paumelle (par paire de vantaux repliés) | – |
@@ -51,6 +51,7 @@ Un double-clic sur `index.html` ne fonctionne pas : le navigateur bloque la lect
 | `data/fmf100.json` | Articles, paramètres et limites de la quincaillerie FMF 100 |
 | `tests/cas-pdf.json` | Positions de la liste de débit Forster utilisées comme référence |
 | `tests/cas-fmf150.json` | 40 devis Slidsoft FMF 150 (quantités dépendant du nombre de vantaux) |
+| `tests/cas-corps20.json` | 6 positions Forster en corps 20 et mixte 20/50 |
 | `tests/cas-fmf100.json` | 80 devis Slidsoft FMF 100 (intérieur / extérieur × murale / plafond) |
 | `tests/verifier.js` | Comparaison calcul / référence |
 | `tests/tests.html`, `tests/run-node.js` | Lancement des tests (navigateur / ligne de commande) |

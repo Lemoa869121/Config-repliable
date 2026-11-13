@@ -139,4 +139,48 @@ if (rChoix.pieces.filter(function (p) { return p.famille === 'parclose'; })[0].r
   echecsPcl++; console.log('✗ parclosage : choix utilisateur non appliqué');
 }
 console.log('Parclosage : ' + (echecsPcl ? echecsPcl + ' écart(s)' : pcl.tableau.length + ' lignes du tableau OK, 4 à 27 mm couverts, choix par défaut et choix utilisateur OK'));
-process.exit(res.echecs || echecsExport || echecsFmf || echecs100 || echecsFerm || echecsPcl ? 1 : 0);
+
+// Corps 20 et mixte 20/50 : liste de débit Forster du 13/11/2026
+var c20 = JSON.parse(fs.readFileSync(path.join(__dirname, 'cas-corps20.json'), 'utf8'));
+var echecs20 = 0, controles20 = 0;
+c20.cas.forEach(function (cas) {
+  var r = Calcul.calculer({ corps: cas.corps, sens: cas.sens, gauche: cas.gauche, droite: cas.droite, largeur: cas.largeur,
+    hauteur: cas.hauteur, remplissage: cas.remplissage }, data);
+  var a = cas.attendu, ko = [];
+  function ctrl(nom, ok, detail) { controles20++; if (!ok) ko.push(nom + ' : ' + detail); }
+  if (!r.ok) { echecs20++; console.log('✗ ' + cas.position + ' : ' + r.erreurs.join(' ')); return; }
+  var mont = r.vantaux.map(function (v) { return v.montantGauche + v.montantDroit; }).join(' ');
+  ctrl('T / Z', mont === a.montants.join(' '), mont + ' ≠ ' + a.montants.join(' '));
+  // Pièces : comparaison complète si les largeurs sont comparables, sinon hauteurs + nombre de pièces par article
+  function compte(liste) { var o = {}; liste.forEach(function (x) { o[x[0] + '|' + x[1]] = (o[x[0] + '|' + x[1]] || 0) + x[2]; }); return o; }
+  var calc = r.pieces.map(function (p) { return [p.ref, p.longueur, 1]; });
+  var att = a.pieces.filter(function (x) { return !(x[0] === r.pieces[0].ref && x[1] === cas.largeur && cas.largeur > 5900); });
+  var calcSansCoupe = calc.filter(function (x) { return !(x[0] === r.pieces[0].ref && r.pieces.some(function (p) { return p.element.indexOf('Dormant haut (morceau') === 0 && p.longueur === x[1]; })); });
+  var hauteurs = [cas.hauteur, cas.hauteur - 25, cas.hauteur - 25 - 125];
+  if (cas.largeursComparables) {
+    var A = compte(att), C = compte(calcSansCoupe);
+    var diff = Object.keys(A).concat(Object.keys(C)).filter(function (k, i, t) { return t.indexOf(k) === i && A[k] !== C[k]; });
+    ctrl('pièces', !diff.length, diff.map(function (k) { return k + ' attendu ' + (A[k] || 0) + ' / calculé ' + (C[k] || 0); }).join(' ; '));
+  } else {
+    var Ah = compte(att.filter(function (x) { return hauteurs.indexOf(x[1]) >= 0; }));
+    var Ch = compte(calcSansCoupe.filter(function (x) { return hauteurs.indexOf(x[1]) >= 0; }));
+    var dh = Object.keys(Ah).concat(Object.keys(Ch)).filter(function (k, i, t) { return t.indexOf(k) === i && Ah[k] !== Ch[k]; });
+    ctrl('pièces en hauteur', !dh.length, dh.join(' ; '));
+    var parRef = function (l) { var o = {}; l.forEach(function (x) { o[x[0]] = (o[x[0]] || 0) + x[2]; }); return JSON.stringify(Object.keys(o).sort().map(function (k) { return k + ':' + o[k]; })); };
+    ctrl('nombre de pièces par article', parRef(att) === parRef(calcSansCoupe), parRef(att) + ' ≠ ' + parRef(calcSansCoupe));
+  }
+  function accQ(ref) { var l = r.accessoires.filter(function (x) { return x.ref === ref; })[0]; return l ? l.qte : null; }
+  ctrl('joint de battue', Math.abs(accQ('905306') - a.jointBattue) < 0.011, accQ('905306') + ' ≠ ' + a.jointBattue);
+  ctrl('joints vitrage', Math.abs(accQ('905312') - a.jointVitrage) < 0.011, accQ('905312') + ' ≠ ' + a.jointVitrage);
+  ctrl('boutons', accQ('906579') === a.boutons, accQ('906579') + ' ≠ ' + a.boutons);
+  var vh = r.verres.every(function (v) { return v.hauteur === a.verres[0][1]; });
+  ctrl('hauteur des verres', vh, JSON.stringify(r.verres));
+  if (cas.largeursComparables) {
+    var vr = r.verres.map(function (v) { return [v.largeur, v.hauteur, v.qte].join('x'); }).sort().join(' ');
+    var va = a.verres.map(function (v) { return v.join('x'); }).sort().join(' ');
+    ctrl('verres', vr === va, vr + ' ≠ ' + va);
+  }
+  if (ko.length) { echecs20++; console.log('✗ ' + cas.position); ko.forEach(function (x) { console.log('    ✗ ' + x); }); }
+});
+console.log('Corps 20 / mixte 20-50 : ' + (echecs20 ? echecs20 + ' position(s) en écart' : c20.cas.length + ' positions, ' + controles20 + ' contrôles OK'));
+process.exit(res.echecs || echecsExport || echecsFmf || echecs100 || echecsFerm || echecsPcl || echecs20 ? 1 : 0);

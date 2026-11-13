@@ -35,7 +35,97 @@
         "parcloseVerticale": 180,
         "feuillure": 140,
         "verre": 156,
+        "jointBattueConstante": 80,
+        "feuillureHauteur": 140,
+        "verreHauteur": 156
+      },
+      "source": "Liste de débit Forster PRESTO repliables (2018, corrigée le 10/11/2026)"
+    },
+    "20": {
+      "libelle": "Tout en corps de 20",
+      "source": "Liste de débit Forster corps 20 du 13/11/2026 (ouvrants égaux : cotes d'axe d'extrémité + 30, règle Forster)",
+      "articles": {
+        "dormant": {
+          "ref": "32818",
+          "designation": "PRESTO L 44MM BT50MM"
+        },
+        "T": {
+          "ref": "32807",
+          "designation": "PRESTO T 65MM (50MM)"
+        },
+        "Z": {
+          "ref": "32808",
+          "designation": "PRESTO Z 65MM (50MM)"
+        },
+        "traverseBasse": {
+          "ref": "05535",
+          "designation": "NORM H 60MM"
+        }
+      },
+      "cotes": {
+        "dormantLargeur": 60,
+        "recouvrementOuvrant": 30,
+        "dormantHauteur": 25,
+        "axeExtreme": 0,
+        "axeCourant": -30,
+        "traverseBasse": 90,
+        "parcloseHorizontale": 90,
+        "parcloseVerticale": 125,
+        "feuillure": 90,
+        "feuillureHauteur": 85,
+        "verre": 106,
+        "verreHauteur": 101,
         "jointBattueConstante": 80
+      }
+    },
+    "20-50": {
+      "libelle": "Corps de 20, profil serrure en 50",
+      "source": "Liste de débit Forster mixte 20/50 du 13/11/2026",
+      "articles": {
+        "dormant": {
+          "ref": "32818",
+          "designation": "PRESTO L 44MM BT50MM"
+        },
+        "T": {
+          "ref": "32807",
+          "designation": "PRESTO T 65MM (50MM)"
+        },
+        "Z": {
+          "ref": "32808",
+          "designation": "PRESTO Z 65MM (50MM)"
+        },
+        "traverseBasse": {
+          "ref": "05535",
+          "designation": "NORM H 60MM"
+        }
+      },
+      "cotes": {
+        "dormantLargeur": 60,
+        "recouvrementOuvrant": 30,
+        "dormantHauteur": 25,
+        "axeExtreme": 0,
+        "axeCourant": -30,
+        "traverseBasse": 90,
+        "parcloseHorizontale": 90,
+        "parcloseVerticale": 125,
+        "feuillure": 90,
+        "feuillureHauteur": 85,
+        "verre": 106,
+        "verreHauteur": 101,
+        "jointBattueConstante": 80
+      },
+      "profilSerrure": {
+        "T": {
+          "ref": "32803",
+          "designation": "PRESTO T 90MM (50MM)"
+        },
+        "Z": {
+          "ref": "32805",
+          "designation": "PRESTO Z 90MM (50MM)"
+        },
+        "reductionLargeurVantail": 25,
+        "longueur": "hauteur de baie",
+        "position": "1 seul vantail d'un côté → montant de ce vantail côté rencontre ; sinon dernier vantail du groupe gauche côté rencontre ; tout d'un côté → montant du dernier vantail côté dormant opposé (règle Forster du 13/11/2026)"
       }
     }
   },

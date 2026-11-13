@@ -87,8 +87,8 @@
       s.push('<text x="' + cx + '" y="' + (cy + 1 * u) + '" font-size="' + fs + '" fill="#051939" text-anchor="middle" font-weight="500">Din ' + (v.din === 'L' ? 'G' : 'D') + '</text>');
       // T / Z
       var ty = vy + 5 * u;
-      s.push('<text x="' + (vx + 0.9 * u) + '" y="' + ty + '" font-size="' + fs * 0.9 + '" fill="#0F4196" font-weight="600">' + v.montantGauche + '</text>');
-      s.push('<text x="' + (vx + vw - 0.9 * u) + '" y="' + ty + '" font-size="' + fs * 0.9 + '" fill="#0F4196" font-weight="600" text-anchor="end">' + v.montantDroit + '</text>');
+      s.push('<text x="' + (vx + 0.9 * u) + '" y="' + ty + '" font-size="' + fs * 0.9 + '" fill="#0F4196" font-weight="600">' + v.montantGauche + (v.profilSerrure === 'g' ? '⁵⁰' : '') + '</text>');
+      s.push('<text x="' + (vx + vw - 0.9 * u) + '" y="' + ty + '" font-size="' + fs * 0.9 + '" fill="#0F4196" font-weight="600" text-anchor="end">' + v.montantDroit + (v.profilSerrure === 'd' ? '⁵⁰' : '') + '</text>');
       s.push('<text x="' + cx + '" y="' + (vy + 1.9 * u) + '" font-size="' + fs * 0.75 + '" fill="#0F4196" text-anchor="middle" dominant-baseline="middle">' + v.traverseHaute + '</text>');
       // Cote d'axe
       s.push(ligneCote(x, oy + H + 4 * u, x + la, oy + H + 4 * u, nf(la, 1), fs * 0.85, u));
@@ -128,7 +128,7 @@
       tuile('Parclose', r.parclosage.choix.parclose + ' · ' + r.parclosage.choix.jointExterieur + ' / ' + r.parclosage.choix.jointInterieur) +
       '</div>');
 
-    html.push('<section class="section"><div class="bandeau">Schéma <span class="note">vue de l\'extérieur – T / Z : profil des montants et de la traverse haute</span></div><div class="schema">' + schema(r) + '</div></section>');
+    html.push('<section class="section"><div class="bandeau">Schéma <span class="note">vue de l\'extérieur – T / Z : profil des montants et de la traverse haute ; ⁵⁰ : profil serrure en corps 50</span></div><div class="schema">' + schema(r) + '</div></section>');
 
     // Débit
     var lignes = '';

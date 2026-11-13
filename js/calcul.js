@@ -47,7 +47,8 @@
   /* Extérieur – par jonctions. 'TZ' = montant droit du vantail de gauche en T, montant gauche du suivant en Z.
    *  - montants contre le dormant : T ;
    *  - groupe gauche depuis le mur : T|Z, Z|T, T|Z… ;
-   *  - 1 vantail à droite : rencontre Z|T ; 2 ou plus : rencontre T|Z puis T|Z, Z|T… depuis la rencontre ;
+   *  - 1 vantail à droite : rencontre Z|T ; 2 ou plus : rencontre T|Z si le groupe gauche est impair,
+   *    Z|T s'il est pair (4+3 = TT ZZ TT ZZ TT ZZ TT), puis T|Z, Z|T… depuis la rencontre ;
    *  - tout à droite : miroir de « tout à gauche ».
    */
   function jonctionsExterieur(k, m) {
@@ -55,7 +56,8 @@
     for (i = 0; i < k - 1; i++) j.push(i % 2 === 0 ? 'TZ' : 'ZT');
     if (m === 0) return j;
     if (m === 1) { j.push('ZT'); return j; }
-    j.push('TZ');
+    // Rencontre : groupe gauche impair → T|Z (3+2, 3+3) ; pair → on continue l'alternance, Z|T (4+3) – Forster 13/11/2026
+    j.push(k % 2 === 1 ? 'TZ' : 'ZT');
     for (i = 0; i < m - 1; i++) j.push(i % 2 === 0 ? 'TZ' : 'ZT');
     return j;
   }
@@ -88,6 +90,18 @@
       else v[k].g = oppose(v[k - 1].d);
     }
     return v.map(function (x) { return { g: inverserTZ(x.g), d: inverserTZ(x.d) }; });
+  }
+
+  /* Montant « profil serrure » (option corps 20 + profil serrure en 50) – règle Forster du 13/11/2026 :
+   * 1 seul vantail d'un côté → montant de ce vantail côté rencontre ; sinon dernier vantail du groupe gauche
+   * côté rencontre ; tout d'un côté → montant du dernier vantail, côté dormant opposé. */
+  function positionProfilSerrure(k, m) {
+    var n = k + m;
+    if (m === 0) return { vantail: n, cote: 'd' };
+    if (k === 0) return { vantail: 1, cote: 'g' };
+    if (m === 1) return { vantail: n, cote: 'g' };
+    if (k === 1) return { vantail: 1, cote: 'd' };
+    return { vantail: k, cote: 'd' };
   }
 
   /* Profil (T ou Z) des montants gauche / droit de chaque vantail */
@@ -396,12 +410,23 @@
     }
 
     // Ouvrants
+    var ps = corps.profilSerrure ? positionProfilSerrure(k, m) : null;
+    var largeursVantaux = [];
     for (var v = 1; v <= n; v++) {
-      ajouter('profil', art[profilTraverseHaute], Lv, '45° / 45°', 'Traverse haute', v);
-      ajouter('profil', art[montants[v - 1].g], Hv, '45° haut / 90° bas', 'Montant gauche', v);
-      ajouter('profil', art[montants[v - 1].d], Hv, '45° haut / 90° bas', 'Montant droit', v);
-      ajouter('profil', art.traverseBasse, Lv - c.traverseBasse, '90° / 90°', 'Traverse basse', v);
-      for (var p = 0; p < 2; p++) ajouter('parclose', parclose, Lv - c.parcloseHorizontale, 'droite', 'Parclose horizontale', v);
+      var serrureIci = ps && ps.vantail === v;
+      var Lvv = serrureIci ? Lv - corps.profilSerrure.reductionLargeurVantail : Lv;
+      largeursVantaux.push(Lvv);
+      ajouter('profil', art[profilTraverseHaute], Lvv, '45° / 45°', 'Traverse haute', v);
+      ['g', 'd'].forEach(function (cote) {
+        var nom = cote === 'g' ? 'Montant gauche' : 'Montant droit';
+        if (serrureIci && ps.cote === cote) {
+          ajouter('profil', corps.profilSerrure[montants[v - 1][cote]], H, '45° haut / 90° bas', nom + ' (profil serrure)', v);
+        } else {
+          ajouter('profil', art[montants[v - 1][cote]], Hv, '45° haut / 90° bas', nom, v);
+        }
+      });
+      ajouter('profil', art.traverseBasse, Lvv - c.traverseBasse, '90° / 90°', 'Traverse basse', v);
+      for (var p = 0; p < 2; p++) ajouter('parclose', parclose, Lvv - c.parcloseHorizontale, 'droite', 'Parclose horizontale', v);
       for (p = 0; p < 2; p++) ajouter('parclose', parclose, Hv - c.parcloseVerticale, 'droite', 'Parclose verticale', v);
     }
 
@@ -438,8 +463,12 @@
     // Accessoires
     var mlParclose = arrondi(pieces.filter(function (x) { return x.famille === 'parclose'; })
       .reduce(function (s, x) { return s + x.longueur; }, 0) / 1000, 2);
-    var feuillureL = Lv - c.feuillure, feuillureH = Hv - c.feuillure;
-    var mlJointVitrage = arrondi(n * 2 * (feuillureL + feuillureH) / 1000, 2);
+    var fH = c.feuillureHauteur || c.feuillure, vHd = c.verreHauteur || c.verre;
+    var feuillureL = Lv - c.feuillure, feuillureH = Hv - fH;
+    // Joint vitrage : périmètre de feuillure de chaque vantail (largeur réelle, y compris vantail à profil serrure)
+    var mlJointVitrage = arrondi(largeursVantaux.reduce(function (s, lv) {
+      return s + 2 * ((lv - c.feuillure) + feuillureH);
+    }, 0) / 1000, 2);
     var mlJointBattue = arrondi(n * (2 * Lv + 4 * Hv - c.jointBattueConstante) / 1000, 2);
     var accessoires = [
       { ref: acc.jointBattue.ref, designation: acc.jointBattue.designation, qte: mlJointBattue, unite: 'ML' },
@@ -453,9 +482,14 @@
     });
 
     // Verres
-    var vL = Math.floor(Lv - c.verre + 0.5), vH = Math.floor(Hv - c.verre + 0.5);
-    var verres = [{ libelle: 'Remplissage ' + epaisseur + ' mm', qte: n, largeur: vL, hauteur: vH,
-      m2Unitaire: arrondi(vL * vH / 1e6, 2), m2Total: arrondi(n * vL * vH / 1e6, 2) }];
+    var vH = Math.floor(Hv - vHd + 0.5), verres = [];
+    largeursVantaux.forEach(function (lv) {
+      var vL = Math.floor(lv - c.verre + 0.5);
+      var g = verres.filter(function (x) { return x.largeur === vL; })[0];
+      if (g) { g.qte++; return; }
+      verres.push({ libelle: 'Remplissage ' + epaisseur + ' mm', qte: 1, largeur: vL, hauteur: vH, m2Unitaire: arrondi(vL * vH / 1e6, 2) });
+    });
+    verres.forEach(function (x) { x.m2Total = arrondi(x.qte * x.largeur * x.hauteur / 1e6, 2); });
 
     var quincaillerie = [], libelleQuincaillerie = null;
     if (cfg.quincaillerie === 'fmf150') {
@@ -478,7 +512,8 @@
       cotes: { n: n, Lv: Lv, Hv: Hv, axes: axes, feuillure: [arrondi(feuillureL, 1), feuillureH] },
       vantaux: din.map(function (d, idx) {
         return { numero: idx + 1, din: d, montantGauche: montants[idx].g, montantDroit: montants[idx].d,
-          traverseHaute: profilTraverseHaute, cote: idx < k ? 'gauche' : 'droite' };
+          traverseHaute: profilTraverseHaute, cote: idx < k ? 'gauche' : 'droite',
+          profilSerrure: ps && ps.vantail === idx + 1 ? ps.cote : null };
       }),
       pieces: pieces,
       debit: debit,
@@ -501,6 +536,7 @@
     quincaillerieFMF100: quincaillerieFMF100,
     fermeture: fermeture,
     combinaisonsParclosage: combinaisonsParclosage,
+    positionProfilSerrure: positionProfilSerrure,
     avecCremone: avecCremone,
     pairesRepliees: pairesRepliees,
     optimiserBarres: optimiserBarres,

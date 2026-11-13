@@ -51,6 +51,31 @@ L = largeur baie, H = hauteur baie, n = nombre de vantaux.
 
 Arrondis : Lv au dixième ; verres au millimètre.
 
+## 5 ter. Corps 20 et mixte « corps 20, profil serrure en 50 »
+
+Source : liste de débit Forster corps 20 / mixte du 13/11/2026 (6 positions) et règles Forster du même jour.
+Articles corps 20 : dormant 32818 (L 44 BT50), T 32807, Z 32808 (T/Z 65), traverse basse 05535 (NORM H 60).
+Parcloses et joints : même tableau que le corps 50 (§5 bis).
+
+| Élément | Corps 20 |
+|---|---|
+| Largeur ouvrant Lv | (L + 30 × (n − 2)) ÷ n — **ouvrants égaux** (cotes d'axe d'extrémité = Lv, courantes = Lv − 30) |
+| Hauteur ouvrant Hv | H − 25 |
+| Traverse basse, parcloses horizontales | Lv − 90 |
+| Parcloses verticales | Hv − 125 |
+| Verre | (Lv − 106) × (Hv − 101) |
+| Joint vitrage | Σ 2 × ((Lv − 90) + (Hv − 85)) |
+| Joint de battue | n × (2 Lv + 4 Hv − 80) (même formule que le corps 50, confirmée ici à 4 hauteurs) |
+| Dormant | 1 × L + 2 × H (comme le corps 50) |
+
+**Mixte** : un seul montant en profil 50 (T 32803 ou Z 32805, selon la règle T/Z), de longueur H. Le vantail qui le porte
+a une largeur réduite de 25 mm (traverses, parcloses horizontales, verre, joint vitrage) ; le joint de battue reste calculé
+sur la largeur nominale. Position : 1 seul vantail d'un côté → montant de ce vantail côté rencontre ; sinon dernier vantail
+du groupe gauche côté rencontre ; tout d'un côté → montant du dernier vantail côté dormant opposé.
+
+Remarques sur la liste de référence : en intérieur, VG / VD sont lus depuis l'intérieur ; A 3+1 et A 3+2 y ont gardé la
+répartition du corps 50 (Forster a retenu les ouvrants égaux).
+
 ## 5 bis. Parclosage (épaisseur de remplissage libre)
 
 Source : Forster Presto, Verarbeitung VP 3.8.22 / 3.8.23, « Variantes de vitrages – vitrage à sec (EPDM), 1 parclose »
@@ -89,7 +114,8 @@ l'extérieur (confirmé par Forster le 10/11/2026 : A 3+2 = TT ZZ TT ZT ZT, I 3+
 *Extérieur* (par jonctions ; « T|Z » = montant droit du vantail de gauche en T, montant gauche du suivant en Z) :
 - montants contre le dormant : T ;
 - groupe gauche depuis le mur : T|Z, Z|T, T|Z… ;
-- 1 vantail à droite : rencontre Z|T ; 2 vantaux ou plus : rencontre T|Z, puis T|Z, Z|T… depuis la rencontre ;
+- 1 vantail à droite : rencontre Z|T ; 2 vantaux ou plus : rencontre T|Z si le groupe gauche est impair, Z|T s'il est pair
+  (4+3 = TT ZZ TT ZZ TT ZZ TT, Forster 13/11/2026), puis T|Z, Z|T… depuis la rencontre ;
 - tout à droite : miroir de « tout à gauche ».
 Ex. 3+1 = TT ZZ TZ TT · 3+2 = TT ZZ TT ZT ZT · 3+3 = TT ZZ TT ZT ZZ TT.
 
