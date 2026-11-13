@@ -14,7 +14,7 @@ Application web qui sort la **liste matière d'une porte repliable** : débit de
 | Vantaux | Repliés à gauche / à droite (2 à 13 au total, 500 à 1100 mm par vantail) | – |
 | Dimensions | Largeur et hauteur de baie | Limites de hauteur |
 | Profils | Tout en corps de 50 | Corps de 20, corps de 20 avec profil serrure en 50 |
-| Remplissage | Verre 9 mm, verre 24 mm | Autres épaisseurs |
+| Remplissage | Épaisseur libre de 4 à 27 mm ; parclose et joints selon le tableau Forster Presto (choix parmi les combinaisons possibles) | – |
 | Traverses | – | Quantité et épaisseur (50 / 20 / 10) |
 | Serrurerie | Serrure 1 ou 3 points, crémone à levier ou à cylindre (si impair des deux côtés), pièces de paumelle | – |
 | Quincaillerie | FMF 150, FMF 100 (fixation murale ou plafond) – Mantion OPENTEC ; sans quincaillerie | – |

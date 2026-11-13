@@ -31,6 +31,7 @@
       hauteur: parseFloat(f.get('hauteur')) || 0,
       corps: f.get('corps') || '50',
       remplissage: f.get('remplissage') || '9',
+      parclosage: f.get('parclosage') || '',
       quincaillerie: f.get('quincaillerie') || 'aucune',
       fixation: f.get('fixation') || 'murale',
       serrure: f.get('serrure') || '1pt',
@@ -124,6 +125,7 @@
       tuile('Baie', nf(e.largeur) + ' × ' + nf(e.hauteur)) +
       tuile('Ouvrant (Lv × Hv)', nf(r.cotes.Lv, 1) + ' × ' + nf(r.cotes.Hv)) +
       tuile('Verre', nf(r.verres[0].largeur) + ' × ' + nf(r.verres[0].hauteur)) +
+      tuile('Parclose', r.parclosage.choix.parclose + ' · ' + r.parclosage.choix.jointExterieur + ' / ' + r.parclosage.choix.jointInterieur) +
       '</div>');
 
     html.push('<section class="section"><div class="bandeau">Schéma <span class="note">vue de l\'extérieur – T / Z : profil des montants et de la traverse haute</span></div><div class="schema">' + schema(r) + '</div></section>');
@@ -208,7 +210,7 @@
     lignes.push(['Configurateur repliable Forster – liste matière (calcul non contractuel)']);
     if (e.chantier) lignes.push(['Chantier', e.chantier]);
     lignes.push(['Gamme', data.libelle, 'Sens', e.sens === 'ext' ? 'Extérieur' : 'Intérieur', 'Vantaux', e.gauche + ' à gauche + ' + e.droite + ' à droite']);
-    lignes.push(['Largeur', e.largeur, 'Hauteur', e.hauteur, 'Corps', data.corps[e.corps].libelle, 'Remplissage', data.remplissages[e.remplissage].libelle,
+    lignes.push(['Largeur', e.largeur, 'Hauteur', e.hauteur, 'Corps', data.corps[e.corps].libelle, 'Remplissage', e.remplissage + ' mm', 'Parclose', r.parclosage.choix.parclose,
       'Quincaillerie', r.libelleQuincaillerie || 'Sans']);
     lignes.push([]);
     lignes.push(['LISTE DE DÉBIT']);
@@ -296,9 +298,34 @@
         nf(data.limites.largeurParVantailMin) + ' à ' + nf(data.limites.largeurParVantailMax) + ')' : '');
   }
 
+  /* Liste des parcloses et joints possibles pour l'épaisseur saisie (tableau Forster) */
+  function majParclosage(v) {
+    var sel = document.getElementById('parclosage');
+    var y = Number(v.remplissage);
+    var combis = (y > 0 && Math.round(y) === y) ? Calcul.combinaisonsParclosage(y, data.parclosage) : [];
+    var cle = combis.map(function (c) { return c.cle; }).join(',');
+    if (sel.dataset.cle !== cle) {
+      var garder = v.parclosage || (lireStockage() || {}).parclosage;
+      sel.innerHTML = combis.map(function (c, i) {
+        var p = data.parclosage;
+        return '<option value="' + c.cle + '">' + c.parclose + ' (' + c.b + ' mm) · ext. ' + c.jointExterieur +
+          ' (a1 ' + p.jointsExterieurs[c.jointExterieur].a1 + ') · int. ' + c.jointInterieur + ' (a2 ' + c.a2 + ')' +
+          (i === 0 ? ' – recommandé' : '') + '</option>';
+      }).join('');
+      sel.dataset.cle = cle;
+      if (combis.some(function (c) { return c.cle === garder; })) sel.value = garder;
+    }
+    sel.disabled = !combis.length;
+    document.getElementById('aideParclosage').textContent = combis.length
+      ? combis.length + ' combinaison' + (combis.length > 1 ? 's' : '') + ' possible' + (combis.length > 1 ? 's' : '') + ' pour ' + y + ' mm (tableau Forster Presto « vitrage à sec, 1 parclose »).'
+      : 'Tableau Forster Presto « vitrage à sec, 1 parclose » : ' + data.parclosage.epaisseurMin + ' à ' + data.parclosage.epaisseurMax + ' mm, nombre entier.';
+  }
+
   function recalculer() {
     var v = lireFormulaire();
     document.getElementById('blocFixation').hidden = v.quincaillerie !== 'fmf100';
+    majParclosage(v);
+    v.parclosage = document.getElementById('parclosage').value;
     var cremoneUtile = Calcul.avecCremone(v.gauche, v.droite);
     document.getElementById('blocCremone').classList.toggle('inactif', !cremoneUtile);
     Array.prototype.forEach.call(form.elements.cremone, function (r) { r.disabled = !cremoneUtile; });

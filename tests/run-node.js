@@ -112,4 +112,27 @@ function qte(r, ref) { var l = r.fermeture.lignes.filter(function (x) { return x
   if (!ok) { echecsFerm++; console.log('✗ serrurerie ' + t[0] + '+' + t[1] + ' ' + t[2] + ' ' + t[3] + ' : ' + JSON.stringify(r.fermeture || r.erreurs)); }
 });
 console.log('Serrurerie : ' + (echecsFerm ? echecsFerm + ' écart(s)' : '7 / 7 cas conformes (serrure, crémone, pièces de paumelle)'));
-process.exit(res.echecs || echecsExport || echecsFmf || echecs100 || echecsFerm ? 1 : 0);
+
+// Parclosage : tableau Forster Presto (y + a1 + a2 + b = 47), choix par défaut, épaisseurs hors tableau
+var pcl = data.parclosage, echecsPcl = 0;
+pcl.tableau.forEach(function (l) {
+  if (l[0] + pcl.jointsExterieurs[l[2]].a1 + l[4] + pcl.parcloses[l[1]].b !== 47) { echecsPcl++; console.log('✗ parclosage ligne ' + l.join(' ')); }
+});
+for (var y = pcl.epaisseurMin; y <= pcl.epaisseurMax; y++) {
+  if (!Calcul.combinaisonsParclosage(y, pcl).length) { echecsPcl++; console.log('✗ parclosage : rien pour ' + y + ' mm'); }
+}
+[[9, '901246|905312|905316'], [24, '901226|905312|905316'], [4, '901247|905312|905316'], [27, '901226|905312|905315']].forEach(function (t) {
+  var d0 = Calcul.combinaisonsParclosage(t[0], pcl)[0].cle;
+  if (d0 !== t[1]) { echecsPcl++; console.log('✗ parclosage par défaut ' + t[0] + ' mm : ' + d0); }
+});
+[[3, false], [28, false], [9.5, false], [17, true]].forEach(function (t) {
+  var ok = Calcul.calculer({ corps: '50', sens: 'ext', gauche: 2, droite: 1, largeur: 2700, hauteur: 2165, remplissage: t[0] }, data).ok;
+  if (ok !== t[1]) { echecsPcl++; console.log('✗ parclosage contrôle ' + t[0] + ' mm : ' + (ok ? 'accepté' : 'refusé')); }
+});
+var rChoix = Calcul.calculer({ corps: '50', sens: 'ext', gauche: 2, droite: 1, largeur: 2700, hauteur: 2165, remplissage: 9, parclosage: '901228|905314|905317' }, data);
+if (rChoix.pieces.filter(function (p) { return p.famille === 'parclose'; })[0].ref !== '901228' ||
+    !rChoix.accessoires.some(function (a) { return a.ref === '905314'; }) || !rChoix.accessoires.some(function (a) { return a.ref === '905317'; })) {
+  echecsPcl++; console.log('✗ parclosage : choix utilisateur non appliqué');
+}
+console.log('Parclosage : ' + (echecsPcl ? echecsPcl + ' écart(s)' : pcl.tableau.length + ' lignes du tableau OK, 4 à 27 mm couverts, choix par défaut et choix utilisateur OK'));
+process.exit(res.echecs || echecsExport || echecsFmf || echecs100 || echecsFerm || echecsPcl ? 1 : 0);

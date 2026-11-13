@@ -42,14 +42,38 @@ L = largeur baie, H = hauteur baie, n = nombre de vantaux.
 | Traverse haute | 32803 T (ext.) / 32805 Z (int.) | 1 / vantail | Lv | 45° / 45° |
 | Montants | 32803 T ou 32805 Z | 2 / vantail | Hv | 45° haut / 90° bas |
 | Traverse basse | 32855 | 1 / vantail | Lv − 140 | 90° / 90° |
-| Parclose horizontale | 901246 (verre 9) / 901226 (verre 24) | 2 / vantail | Lv − 140 | droite |
+| Parclose horizontale | selon le parclosage (§5 bis) | 2 / vantail | Lv − 140 | droite |
 | Parclose verticale | idem | 2 / vantail | Hv − 180 | droite |
 | Verre | – | 1 / vantail | (Lv − 156) × (Hv − 156) | – |
-| Joint vitrage ext. / int. | 905312 / 905316 | – | n × 2 × ((Lv − 140) + (Hv − 140)) | – |
+| Joint vitrage ext. / int. | selon le parclosage (§5 bis) | – | n × 2 × ((Lv − 140) + (Hv − 140)) | – |
 | Joint de battue | 905306 | – | n × (2 Lv + 4 Hv − 80) — **à confirmer** (vérifié à H = 2165 seulement) | – |
 | Bouton de parclose | 906579 | arrondi(ml de parclose ÷ 0,20) | – | – |
 
 Arrondis : Lv au dixième ; verres au millimètre.
+
+## 5 bis. Parclosage (épaisseur de remplissage libre)
+
+Source : Forster Presto, Verarbeitung VP 3.8.22 / 3.8.23, « Variantes de vitrages – vitrage à sec (EPDM), 1 parclose »
+(acier, 01/21). Tableau théorique pour parcloses affleurées ; pas autorisé pour coupe-feu.
+Saisie : épaisseur y de 4 à 27 mm (entier). Les 80 combinaisons du tableau sont dans `data/presto.json` (`parclosage.tableau`)
+et vérifient y + a1 + a2 + b = 47.
+
+| Parclose | b | Épaisseurs |
+|---|---|---|
+| 901247 | 35 | 4 à 7 |
+| 901246 | 30 | 4 à 12 |
+| 901228 | 25 | 9 à 17 |
+| 901227 | 20 | 14 à 22 |
+| 901226 | 15 | 19 à 27 |
+
+Joints extérieurs : 905312 (a1 = 2) ou 905314 (a1 = 5). Joints intérieurs : 905315 (a2 3–5), 905316 (a2 4–6), 905317 (a2 6–8).
+
+Plusieurs combinaisons conviennent souvent : le configurateur les liste et propose par défaut la première selon
+l'ordre de préférence **joint extérieur 905312 puis 905314 ; joint intérieur 905316, puis 905315, puis 905317 ;
+à égalité, parclose la plus large**. L'utilisateur peut en choisir une autre. Ex. 9 mm → 901246 + 905312 + 905316 ;
+24 mm → 901226 + 905312 + 905316 (identiques à la liste de débit de référence).
+
+Les longueurs de parcloses, les dimensions de verre et les métrages de joints ne changent pas (profondeur de parclose 20 mm partout).
 
 ## 6. Répartition des vantaux
 

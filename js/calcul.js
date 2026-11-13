@@ -264,6 +264,22 @@
     return { lignes: lignes, serrure: serrure.libelle, cremone: cremone ? cremone.libelle : null, paumellesMantion: nbPaumelles };
   }
 
+  /* ---------- Parclosage (tableau Forster Presto VP 3.8.22 / 3.8.23) ----------
+   * Pour une épaisseur de remplissage y, liste des combinaisons parclose + joint extérieur + joint intérieur
+   * possibles, triées par préférence : joint extérieur 905312 avant 905314 ; joint intérieur 905316,
+   * puis 905315, puis 905317 ; à égalité, parclose la plus large.
+   */
+  function combinaisonsParclosage(y, p) {
+    var pe = p.priorite.jointsExterieurs, pi = p.priorite.jointsInterieurs;
+    return p.tableau.filter(function (l) { return l[0] === y; }).map(function (l) {
+      return { cle: l[1] + '|' + l[2] + '|' + l[3], epaisseur: l[0], parclose: l[1], jointExterieur: l[2], jointInterieur: l[3], a2: l[4],
+        b: p.parcloses[l[1]].b };
+    }).sort(function (x, z) {
+      return pe.indexOf(x.jointExterieur) - pe.indexOf(z.jointExterieur) ||
+        pi.indexOf(x.jointInterieur) - pi.indexOf(z.jointInterieur) || z.b - x.b;
+    });
+  }
+
   /* ---------- Contrôle des saisies ---------- */
   function controler(cfg, data) {
     var erreurs = [], alertes = [];
@@ -274,7 +290,12 @@
     if (n < (lim.vantauxMin || 2)) erreurs.push('Il faut au moins ' + (lim.vantauxMin || 2) + ' vantaux.');
     if (lim.vantauxMax && n > lim.vantauxMax) erreurs.push('Maximum ' + lim.vantauxMax + ' vantaux.');
     if (!data.corps[cfg.corps]) erreurs.push('Épaisseur de profil non disponible pour le moment.');
-    if (!data.remplissages[cfg.remplissage]) erreurs.push('Remplissage non disponible pour le moment.');
+    var pc = data.parclosage, ep = Number(cfg.remplissage);
+    if (!(ep > 0)) erreurs.push('Indiquez l\'épaisseur du remplissage.');
+    else if (Math.round(ep) !== ep) erreurs.push('Épaisseur du remplissage : nombre entier de millimètres (tableau de parclosage).');
+    else if (ep < pc.epaisseurMin || ep > pc.epaisseurMax) {
+      erreurs.push('Épaisseur du remplissage hors tableau de parclosage : ' + pc.epaisseurMin + ' à ' + pc.epaisseurMax + ' mm.');
+    } else if (!combinaisonsParclosage(ep, pc).length) erreurs.push('Aucune parclose ne convient pour ' + ep + ' mm.');
     if (n >= 1 && cfg.largeur > 0) {
       var parVantail = cfg.largeur / n;
       if (lim.largeurParVantailMax && parVantail > lim.largeurParVantailMax + 1e-9) {
@@ -326,7 +347,12 @@
 
     var corps = data.corps[cfg.corps];
     var c = corps.cotes, art = corps.articles;
-    var remp = data.remplissages[cfg.remplissage];
+    var pcl = data.parclosage, epaisseur = Number(cfg.remplissage);
+    var combinaisons = combinaisonsParclosage(epaisseur, pcl);
+    var choixParclosage = combinaisons.filter(function (x) { return x.cle === cfg.parclosage; })[0] || combinaisons[0];
+    var parclose = { ref: choixParclosage.parclose, designation: pcl.parcloses[choixParclosage.parclose].designation };
+    var jointExt = { ref: choixParclosage.jointExterieur, designation: pcl.jointsExterieurs[choixParclosage.jointExterieur].designation };
+    var jointInt = { ref: choixParclosage.jointInterieur, designation: pcl.jointsInterieurs[choixParclosage.jointInterieur].designation };
     var acc = data.accessoires;
     var barresCfg = data.barres;
     var k = cfg.gauche, m = cfg.droite, n = k + m;
@@ -375,8 +401,8 @@
       ajouter('profil', art[montants[v - 1].g], Hv, '45° haut / 90° bas', 'Montant gauche', v);
       ajouter('profil', art[montants[v - 1].d], Hv, '45° haut / 90° bas', 'Montant droit', v);
       ajouter('profil', art.traverseBasse, Lv - c.traverseBasse, '90° / 90°', 'Traverse basse', v);
-      for (var p = 0; p < 2; p++) ajouter('parclose', remp.parclose, Lv - c.parcloseHorizontale, 'droite', 'Parclose horizontale', v);
-      for (p = 0; p < 2; p++) ajouter('parclose', remp.parclose, Hv - c.parcloseVerticale, 'droite', 'Parclose verticale', v);
+      for (var p = 0; p < 2; p++) ajouter('parclose', parclose, Lv - c.parcloseHorizontale, 'droite', 'Parclose horizontale', v);
+      for (p = 0; p < 2; p++) ajouter('parclose', parclose, Hv - c.parcloseVerticale, 'droite', 'Parclose verticale', v);
     }
 
     // Débit regroupé (article + longueur + coupe)
@@ -417,8 +443,8 @@
     var mlJointBattue = arrondi(n * (2 * Lv + 4 * Hv - c.jointBattueConstante) / 1000, 2);
     var accessoires = [
       { ref: acc.jointBattue.ref, designation: acc.jointBattue.designation, qte: mlJointBattue, unite: 'ML', aConfirmer: true },
-      { ref: acc.jointVitrageExt.ref, designation: acc.jointVitrageExt.designation, qte: mlJointVitrage, unite: 'ML' },
-      { ref: acc.jointVitrageInt.ref, designation: acc.jointVitrageInt.designation, qte: mlJointVitrage, unite: 'ML' },
+      { ref: jointExt.ref, designation: jointExt.designation, qte: mlJointVitrage, unite: 'ML' },
+      { ref: jointInt.ref, designation: jointInt.designation, qte: mlJointVitrage, unite: 'ML' },
       { ref: acc.boutonParclose.ref, designation: acc.boutonParclose.designation,
         qte: Math.floor(mlParclose / acc.boutonParclose.pasMetres + 0.5), unite: 'Pce' }
     ];
@@ -428,7 +454,7 @@
 
     // Verres
     var vL = Math.floor(Lv - c.verre + 0.5), vH = Math.floor(Hv - c.verre + 0.5);
-    var verres = [{ libelle: remp.libelle, qte: n, largeur: vL, hauteur: vH,
+    var verres = [{ libelle: 'Remplissage ' + epaisseur + ' mm', qte: n, largeur: vL, hauteur: vH,
       m2Unitaire: arrondi(vL * vH / 1e6, 2), m2Total: arrondi(n * vL * vH / 1e6, 2) }];
 
     var quincaillerie = [], libelleQuincaillerie = null;
@@ -461,6 +487,7 @@
       quincaillerie: quincaillerie,
       libelleQuincaillerie: libelleQuincaillerie,
       fermeture: ferm,
+      parclosage: { choix: choixParclosage, combinaisons: combinaisons },
       verres: verres
     };
   }
@@ -473,6 +500,7 @@
     quincaillerieFMF150: quincaillerieFMF150,
     quincaillerieFMF100: quincaillerieFMF100,
     fermeture: fermeture,
+    combinaisonsParclosage: combinaisonsParclosage,
     avecCremone: avecCremone,
     optimiserBarres: optimiserBarres,
     arrondi: arrondi

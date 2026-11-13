@@ -67,6 +67,10 @@ input[type=number], input[type=text] {
 input:focus { outline: 2px solid var(--fo-blue2); outline-offset: -1px; border-color: var(--fo-blue2); }
 .sous-bloc { margin: 8px 0 0 24px; padding-left: 10px; border-left: 2px solid #b9c3d0; }
 .sous-bloc .libelle { font-size: 14px; margin-bottom: 2px; }
+.etroit { display: block; font-size: 13px; color: var(--fo-ink-70); max-width: 140px; }
+.libelle-secondaire { display: block; font-size: 13px; color: var(--fo-ink-70); margin-top: 10px; }
+select { width: 100%; font: inherit; font-size: 14px; color: var(--fo-ink); border: 1px solid #b9c3d0; border-radius: 4px; padding: 6px 8px; background: #fff; margin-top: 3px; }
+select:focus { outline: 2px solid var(--fo-blue2); outline-offset: -1px; }
 .aide { font-size: 13px; color: var(--fo-ink-70); margin: 6px 0 0; }
 
 /* Boutons */

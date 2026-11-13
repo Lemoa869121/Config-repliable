@@ -60,9 +60,10 @@
 
       <fieldset class="bloc">
         <legend class="libelle">Remplissage</legend>
-        <label class="choix"><input type="radio" name="remplissage" value="9" checked> Verre 9 mm</label>
-        <label class="choix"><input type="radio" name="remplissage" value="24"> Verre 24 mm (4/16/4)</label>
-        <p class="aide">Autres épaisseurs : à venir.</p>
+        <label class="etroit">Épaisseur (mm)<input type="number" name="remplissage" min="4" max="27" step="1" value="9"></label>
+        <label class="libelle-secondaire" for="parclosage">Parclose et joints</label>
+        <select id="parclosage" name="parclosage"></select>
+        <p class="aide" id="aideParclosage">Tableau Forster Presto « vitrage à sec, 1 parclose » : 4 à 27 mm.</p>
       </fieldset>
 
       <fieldset class="bloc inactif">
