@@ -233,6 +233,37 @@
     });
   }
 
+  /* ---------- Fermeture : serrure, crémone, pièces de paumelle (consignes Forster du 13/11/2026) ----------
+   *  - serrure sur toutes les portes : 1 point ou 3 points ;
+   *  - crémone seulement si le nombre de vantaux est impair des deux côtés (3+1, 5+1, 3+3…) ;
+   *  - pièces de paumelle FFR.065F à FFR.069F : quantités par paumelle Mantion
+   *    (sets GJ10530HOL / HOR en FMF 150, charnières 1512SOG en FMF 100 ; aucune sans quincaillerie).
+   * Les articles identiques (ex. F19.3976.41 de la serrure 3 points et de la crémone) sont additionnés.
+   */
+  function avecCremone(k, m) { return k % 2 === 1 && m % 2 === 1; }
+
+  function fermeture(cfg, f, quincaillerie) {
+    var lignes = [], index = {};
+    function ajouter(a, qte, groupe) {
+      if (!(qte > 0)) return;
+      if (index[a.ref]) { index[a.ref].qte += qte; return; }
+      index[a.ref] = { ref: a.ref, designation: a.designation, qte: qte, unite: 'Pce', groupe: groupe };
+      lignes.push(index[a.ref]);
+    }
+    var serrure = f.serrures[cfg.serrure] || f.serrures['1pt'];
+    serrure.articles.forEach(function (a) { ajouter(a, a.qte, 'Serrure'); });
+    var cremone = null;
+    if (avecCremone(cfg.gauche, cfg.droite)) {
+      cremone = f.cremones[cfg.cremone] || f.cremones.levier;
+      cremone.articles.forEach(function (a) { ajouter(a, a.qte, 'Crémone'); });
+    }
+    var refsPaumelles = (f.piecesPaumelle.paumellesMantion[cfg.quincaillerie] || []);
+    var nbPaumelles = (quincaillerie || []).filter(function (q) { return refsPaumelles.indexOf(q.ref) >= 0; })
+      .reduce(function (s, q) { return s + q.qte; }, 0);
+    f.piecesPaumelle.articles.forEach(function (a) { ajouter(a, a.parPaumelle * nbPaumelles, 'Pièces de paumelle'); });
+    return { lignes: lignes, serrure: serrure.libelle, cremone: cremone ? cremone.libelle : null, paumellesMantion: nbPaumelles };
+  }
+
   /* ---------- Contrôle des saisies ---------- */
   function controler(cfg, data) {
     var erreurs = [], alertes = [];
@@ -411,6 +442,8 @@
       libelleQuincaillerie = q100.libelle + ' – fixation ' + (cfg.fixation === 'plafond' ? 'plafond' : 'murale');
     }
 
+    var ferm = data.fermeture ? fermeture(cfg, data.fermeture, quincaillerie) : null;
+
     return {
       ok: true,
       alertes: alertes,
@@ -427,6 +460,7 @@
       accessoires: accessoires,
       quincaillerie: quincaillerie,
       libelleQuincaillerie: libelleQuincaillerie,
+      fermeture: ferm,
       verres: verres
     };
   }
@@ -438,6 +472,8 @@
     decouperSurAxes: decouperSurAxes,
     quincaillerieFMF150: quincaillerieFMF150,
     quincaillerieFMF100: quincaillerieFMF100,
+    fermeture: fermeture,
+    avecCremone: avecCremone,
     optimiserBarres: optimiserBarres,
     arrondi: arrondi
   };

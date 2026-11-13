@@ -16,6 +16,7 @@ Application web qui sort la **liste matière d'une porte repliable** : débit de
 | Profils | Tout en corps de 50 | Corps de 20, corps de 20 avec profil serrure en 50 |
 | Remplissage | Verre 9 mm, verre 24 mm | Autres épaisseurs |
 | Traverses | – | Quantité et épaisseur (50 / 20 / 10) |
+| Serrurerie | Serrure 1 ou 3 points, crémone à levier ou à cylindre (si impair des deux côtés), pièces de paumelle | – |
 | Quincaillerie | FMF 150, FMF 100 (fixation murale ou plafond) – Mantion OPENTEC ; sans quincaillerie | – |
 
 Aucun prix n'est stocké dans le dépôt (dépôt public).
@@ -46,6 +47,7 @@ Un double-clic sur `index.html` ne fonctionne pas : le navigateur bloque la lect
 | `js/modele-import-excel.js` | Modèle de ce fichier (généré, ne pas modifier à la main) |
 | `data/presto.json` | Articles, cotes de déduction, règles Presto, limites |
 | `data/fmf150.json` | Articles et paramètres de la quincaillerie FMF 150 |
+| `data/fermeture-presto.json` | Serrures, crémones et pièces de paumelle Presto (codes F19) |
 | `data/fmf100.json` | Articles, paramètres et limites de la quincaillerie FMF 100 |
 | `tests/cas-pdf.json` | Positions de la liste de débit Forster utilisées comme référence |
 | `tests/cas-fmf150.json` | 40 devis Slidsoft FMF 150 (quantités dépendant du nombre de vantaux) |

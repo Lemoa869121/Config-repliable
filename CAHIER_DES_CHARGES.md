@@ -23,7 +23,7 @@ V1 : voir le tableau du README (options non documentées affichées « à venir 
 1. Seuls comptent les repères présents dans la liste matière ; un numéro du schéma absent de la liste est ignoré.
 2. Le plat de soudage 917017 est ignoré.
 3. Barres : longueur utile **5900 mm**. Une pièce plus longue est coupée en morceaux.
-4. Pas de serrure pour le moment.
+4. Serrurerie : voir §8 ter (consignes du 13/11/2026 ; remplace « pas de serrure » du 10/11/2026).
 5. À chaque jonction entre deux vantaux : **jamais un T face à un T, jamais un Z face à un Z**.
 6. Pièces intercalaires : **2 × 916320 + 2 × 916322 par vantail**, quel que soit le Din
    (les 985631 / 985632 sont remplacées par les 916320 / 916322).
@@ -127,6 +127,20 @@ Limites propres au FMF 100 (fiche Slidsoft), bloquantes : 3 à 8 vantaux, largeu
 pas de nombre pair de vantaux des deux côtés (4+2, 2+2, 6+0…).
 
 Vérification : 80 / 80 devis Slidsoft retrouvés (hors barres de 3 m que Slidsoft utilise jusqu'à 3000 mm).
+
+## 8 ter. Serrurerie (Presto standard)
+
+Source : application Serrure STD (Presto, protection Standard) et consignes Forster du 13/11/2026.
+Référence article = **code F19** (export Forster Pro). Fichier : `data/fermeture-presto.json`.
+
+| Élément | Quand | Articles |
+|---|---|---|
+| Serrure 1 point | toujours (choix 1 point) | F19.3969.41 (FFR042FND) + F19.3973.41 (FFR046FND) |
+| Serrure 3 points | toujours (choix 3 points) | F19.3974.41 (FFR047FND) + F19.3973.41 + F19.3976.41 (FFR049FND) + F19.3977.41 (FFR050FND) + F19.3913.41 (FFR019FND kit n°1) |
+| Crémone à levier / à cylindre | seulement si k et m sont tous les deux impairs (3+1, 5+1, 7+1, 3+3, 5+3…) | F19.3972.41 (FFR.045F.ND.A) ou F19.3975.41 (FFR.048F.ND.A) + F19.3976.41 + F19.3977.41 |
+| Pièces de paumelle | par paumelle Mantion : sets GJ10530HOL + HOR (FMF 150), charnières 1512SOG (FMF 100) ; aucune sans quincaillerie | F19.3985.41 ×1, F19.3986.41 ×2, F19.3987.41 ×1, F19.3983.41 ×2, F19.3989.41 ×1 (FFR.065F à FFR.069F) |
+
+Les articles communs (F19.3976.41, F19.3977.41 en serrure 3 points + crémone) sont additionnés.
 
 ## 9. Limites
 

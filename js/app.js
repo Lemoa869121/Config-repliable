@@ -32,7 +32,9 @@
       corps: f.get('corps') || '50',
       remplissage: f.get('remplissage') || '9',
       quincaillerie: f.get('quincaillerie') || 'aucune',
-      fixation: f.get('fixation') || 'murale'
+      fixation: f.get('fixation') || 'murale',
+      serrure: f.get('serrure') || '1pt',
+      cremone: (form.querySelector('input[name=cremone]:checked') || {}).value || 'levier'
     };
   }
 
@@ -159,6 +161,24 @@
           '</td><td class="n">' + (a.unite === 'ML' ? nf(a.qte, 2) : nf(a.qte)) + '</td><td>' + a.unite + '</td></tr>';
       }).join('') + '</tbody></table></section>');
 
+    // Fermeture (serrure, crémone, pièces de paumelle)
+    if (r.fermeture && r.fermeture.lignes.length) {
+      var note = r.fermeture.serrure + (r.fermeture.cremone ? ' + ' + r.fermeture.cremone : ' – sans crémone');
+      var groupes = ['Serrure', 'Crémone', 'Pièces de paumelle'];
+      var corps = '';
+      groupes.forEach(function (g) {
+        var rows = r.fermeture.lignes.filter(function (l) { return l.groupe === g; });
+        if (!rows.length) return;
+        corps += '<tr class="sous-titre"><td colspan="4">' + g +
+          (g === 'Pièces de paumelle' ? ' (' + r.fermeture.paumellesMantion + ' paumelle' + (r.fermeture.paumellesMantion > 1 ? 's' : '') + ' Mantion)' : '') + '</td></tr>';
+        rows.forEach(function (a) {
+          corps += '<tr><td class="ref">' + esc(a.ref) + '</td><td>' + esc(a.designation) + '</td><td class="n">' + nf(a.qte) + '</td><td>' + a.unite + '</td></tr>';
+        });
+      });
+      html.push('<section class="section"><div class="bandeau">Serrurerie <span class="note">' + esc(note) + '</span></div>' +
+        '<table><thead><tr><th>Réf.</th><th>Désignation</th><th class="n">Qté</th><th>Unité</th></tr></thead><tbody>' + corps + '</tbody></table></section>');
+    }
+
     // Quincaillerie
     if (r.quincaillerie.length) {
       html.push('<section class="section"><div class="bandeau">Quincaillerie <span class="note">' + esc(r.libelleQuincaillerie) + '</span></div>' +
@@ -202,6 +222,12 @@
     lignes.push(['ACCESSOIRES']);
     lignes.push(['Réf.', 'Désignation', 'Qté', 'Unité']);
     r.accessoires.forEach(function (a) { lignes.push([a.ref, a.designation, a.qte, a.unite]); });
+    if (r.fermeture && r.fermeture.lignes.length) {
+      lignes.push([]);
+      lignes.push(['SERRURERIE – ' + r.fermeture.serrure + (r.fermeture.cremone ? ' + ' + r.fermeture.cremone : '')]);
+      lignes.push(['Réf.', 'Désignation', 'Qté', 'Unité']);
+      r.fermeture.lignes.forEach(function (a) { lignes.push([a.ref, a.designation, a.qte, a.unite]); });
+    }
     if (r.quincaillerie.length) {
       lignes.push([]);
       lignes.push(['QUINCAILLERIE – ' + r.libelleQuincaillerie]);
@@ -273,6 +299,12 @@
   function recalculer() {
     var v = lireFormulaire();
     document.getElementById('blocFixation').hidden = v.quincaillerie !== 'fmf100';
+    var cremoneUtile = Calcul.avecCremone(v.gauche, v.droite);
+    document.getElementById('blocCremone').classList.toggle('inactif', !cremoneUtile);
+    Array.prototype.forEach.call(form.elements.cremone, function (r) { r.disabled = !cremoneUtile; });
+    document.getElementById('aideCremone').textContent = cremoneUtile
+      ? 'Nombre impair de vantaux des deux côtés : crémone ajoutée.'
+      : 'Pas de crémone pour ' + v.gauche + ' + ' + v.droite + ' (seulement si le nombre de vantaux est impair des deux côtés : 3+1, 5+1, 3+3…).';
     ecrireStockage(v);
     majTotal(v);
     document.getElementById('titreResultat').textContent = 'Liste matière' + (v.chantier ? ' – ' + v.chantier : '');
@@ -308,10 +340,11 @@
     });
   }
 
-  Promise.all([charger('data/presto.json'), charger('data/fmf150.json'), charger('data/fmf100.json')])
+  Promise.all([charger('data/presto.json'), charger('data/fmf150.json'), charger('data/fmf100.json'), charger('data/fermeture-presto.json')])
     .then(function (res) {
       data = res[0];
       data.quincailleries = { fmf150: res[1], fmf100: res[2] };
+      data.fermeture = res[3];
       remplirFormulaire(lireStockage());
       recalculer();
     })

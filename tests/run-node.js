@@ -86,4 +86,30 @@ data.quincailleries = { fmf100: q100 };
   if (ok !== t[2]) { echecs100++; console.log('✗ FMF100 contrôle ' + t[0] + '+' + t[1] + ' : ' + (ok ? 'accepté' : 'refusé')); }
 });
 console.log('Quincaillerie FMF100 : ' + (echecs100 ? echecs100 + ' écart(s)' : fmf100.cas.length + ' / ' + fmf100.cas.length + ' devis Slidsoft retrouvés + contrôles de saisie OK'));
-process.exit(res.echecs || echecsExport || echecsFmf || echecs100 ? 1 : 0);
+
+// Serrurerie : serrure toujours, crémone si impair des deux côtés, pièces de paumelle par paumelle Mantion
+var ferm = JSON.parse(fs.readFileSync(path.join(racine, 'data', 'fermeture-presto.json'), 'utf8'));
+data.quincailleries = { fmf150: q, fmf100: q100 };
+data.fermeture = ferm;
+var echecsFerm = 0;
+function qte(r, ref) { var l = r.fermeture.lignes.filter(function (x) { return x.ref === ref; })[0]; return l ? l.qte : 0; }
+[
+  // [gauche, droite, quincaillerie, serrure, crémone attendue ?, paumelles Mantion attendues, F19.3976.41 attendu]
+  [3, 1, 'fmf150', '1pt', true, 3, 1],
+  [2, 1, 'fmf150', '1pt', false, 3, 0],
+  [3, 2, 'fmf150', '3pts', false, 4, 1],
+  [3, 3, 'fmf150', '3pts', true, 4, 2],
+  [5, 3, 'fmf100', '1pt', true, 20, 1],
+  [3, 1, 'aucune', '1pt', true, 0, 1],
+  [3, 0, 'fmf150', '1pt', false, 2, 0]
+].forEach(function (t) {
+  var c = { corps: '50', sens: 'int', gauche: t[0], droite: t[1], largeur: Math.min(6000, 900 * (t[0] + t[1])), hauteur: 2200,
+    remplissage: '9', quincaillerie: t[2], fixation: 'murale', serrure: t[3], cremone: 'levier' };
+  var r = Calcul.calculer(c, data);
+  var ok = r.ok && (!!r.fermeture.cremone === t[4]) && r.fermeture.paumellesMantion === t[5] &&
+    qte(r, 'F19.3985.41') === t[5] && qte(r, 'F19.3986.41') === 2 * t[5] && qte(r, 'F19.3983.41') === 2 * t[5] &&
+    qte(r, 'F19.3976.41') === t[6] && qte(r, t[3] === '1pt' ? 'F19.3969.41' : 'F19.3974.41') === 1;
+  if (!ok) { echecsFerm++; console.log('✗ serrurerie ' + t[0] + '+' + t[1] + ' ' + t[2] + ' ' + t[3] + ' : ' + JSON.stringify(r.fermeture || r.erreurs)); }
+});
+console.log('Serrurerie : ' + (echecsFerm ? echecsFerm + ' écart(s)' : '7 / 7 cas conformes (serrure, crémone, pièces de paumelle)'));
+process.exit(res.echecs || echecsExport || echecsFmf || echecs100 || echecsFerm ? 1 : 0);
