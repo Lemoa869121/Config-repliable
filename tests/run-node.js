@@ -16,6 +16,13 @@ res.resultats.forEach(function (r) {
   ko.forEach(function (c) { console.log('    ✗ ' + c.nom + ' : ' + c.detail); });
 });
 res.aTrancher.forEach(function (pos) { console.log('⚠ ' + pos + ' : répartition T / Z à trancher (voir cas-pdf.json)'); });
+// Limite de largeur par vantail (data/presto.json)
+var lim = data.limites;
+[[lim.largeurParVantailMax * 3, true], [lim.largeurParVantailMax * 3 + 1, false], [lim.largeurParVantailMin * 3, true], [lim.largeurParVantailMin * 3 - 1, false]].forEach(function (t) {
+  var ok = Calcul.calculer({ corps: '50', sens: 'ext', gauche: 2, droite: 1, largeur: t[0], hauteur: 2165, remplissage: '9' }, data).ok;
+  if (ok !== t[1]) { res.echecs++; console.log('✗ limite par vantail : ' + t[0] + ' mm en 3 vantaux ' + (ok ? 'accepté' : 'refusé')); }
+});
+console.log('Largeur par vantail : ' + lim.largeurParVantailMin + ' à ' + lim.largeurParVantailMax + ' mm');
 console.log('\n' + (res.total - res.echecs) + ' / ' + res.total + ' contrôles réussis');
 
 // Export Excel (format « Import – Zusatzartikel ») : structure du fichier et lignes

@@ -130,7 +130,7 @@ Vérification : 80 / 80 devis Slidsoft retrouvés (hors barres de 3 m que Slidso
 
 ## 9. Limites
 
-Largeur par vantail (largeur de baie ÷ nombre de vantaux) : 500 à 1000 mm, bloquant. 2 à 13 vantaux.
+Largeur par vantail (largeur de baie ÷ nombre de vantaux) : 500 à 1100 mm (maximum porté de 1000 à 1100 mm le 13/11/2026), bloquant. 2 à 13 vantaux.
 
 ## 10. Export Excel (fichier d'import)
 

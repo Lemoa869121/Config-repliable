@@ -11,7 +11,7 @@ Application web qui sort la **liste matière d'une porte repliable** : débit de
 |---|---|---|
 | Gamme | Presto | Unico |
 | Sens d'ouverture | Extérieur, intérieur | – |
-| Vantaux | Repliés à gauche / à droite (2 à 13 au total, 500 à 1000 mm par vantail) | – |
+| Vantaux | Repliés à gauche / à droite (2 à 13 au total, 500 à 1100 mm par vantail) | – |
 | Dimensions | Largeur et hauteur de baie | Limites de hauteur |
 | Profils | Tout en corps de 50 | Corps de 20, corps de 20 avec profil serrure en 50 |
 | Remplissage | Verre 9 mm, verre 24 mm | Autres épaisseurs |

@@ -266,7 +266,8 @@
   function majTotal(v) {
     var n = v.gauche + v.droite;
     document.getElementById('totalVantaux').textContent = 'Total : ' + n + ' vantaux' +
-      (n && v.largeur ? ' – ' + nf(v.largeur / n, 0) + ' mm par vantail (500 à 1000)' : '');
+      (n && v.largeur ? ' – ' + nf(v.largeur / n, 0) + ' mm par vantail (' +
+        nf(data.limites.largeurParVantailMin) + ' à ' + nf(data.limites.largeurParVantailMax) + ')' : '');
   }
 
   function recalculer() {
