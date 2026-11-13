@@ -46,7 +46,7 @@ L = largeur baie, H = hauteur baie, n = nombre de vantaux.
 | Parclose verticale | idem | 2 / vantail | Hv − 180 | droite |
 | Verre | – | 1 / vantail | (Lv − 156) × (Hv − 156) | – |
 | Joint vitrage ext. / int. | selon le parclosage (§5 bis) | – | n × 2 × ((Lv − 140) + (Hv − 140)) | – |
-| Joint de battue | 905306 | – | n × (2 Lv + 4 Hv − 80) — **à confirmer** (vérifié à H = 2165 seulement) | – |
+| Joint de battue | 905306 | – | n × (2 Lv + 4 Hv − 80) — validée par Forster le 13/11/2026 | – |
 | Bouton de parclose | 906579 | arrondi(ml de parclose ÷ 0,20) | – | – |
 
 Arrondis : Lv au dixième ; verres au millimètre.
@@ -198,5 +198,5 @@ Les remplissages (pas de référence article) ne sont pas exportés.
 
 ## 12. Questions ouvertes
 
-joint de battue à une autre hauteur · limites de hauteur ·
+limites de hauteur ·
 bas de porte · corps 20 et mixte · autres remplissages · traverses · FMF 100 · Unico.

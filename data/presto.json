@@ -42,7 +42,8 @@
   "accessoires": {
     "jointBattue": {
       "ref": "905306",
-      "designation": "JOINT DE BATTUE"
+      "designation": "JOINT DE BATTUE",
+      "regle": "n × (2 × Lv + 4 × Hv − 80) mm – validée par Forster le 13/11/2026"
     },
     "boutonParclose": {
       "ref": "906579",
@@ -159,9 +160,7 @@
       ]
     ]
   },
-  "aConfirmer": [
-    "Joint de battue : formule vérifiée uniquement à 2165 mm de hauteur."
-  ],
+  "aConfirmer": [],
   "parclosage": {
     "source": "Forster Presto, Verarbeitung VP 3.8.22 / 3.8.23 « Variantes de vitrages – vitrage à sec (EPDM), 1 parclose » (parclosage.pdf, 01/21), acier",
     "remarque": "Tableau théorique valable pour des parcloses affleurées. Chaque ligne : [épaisseur y, parclose, joint extérieur, joint intérieur, a2]. Vérifié : y + a1 + a2 + b = 47. Pas autorisé pour coupe-feu.",

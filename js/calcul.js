@@ -442,7 +442,7 @@
     var mlJointVitrage = arrondi(n * 2 * (feuillureL + feuillureH) / 1000, 2);
     var mlJointBattue = arrondi(n * (2 * Lv + 4 * Hv - c.jointBattueConstante) / 1000, 2);
     var accessoires = [
-      { ref: acc.jointBattue.ref, designation: acc.jointBattue.designation, qte: mlJointBattue, unite: 'ML', aConfirmer: true },
+      { ref: acc.jointBattue.ref, designation: acc.jointBattue.designation, qte: mlJointBattue, unite: 'ML' },
       { ref: jointExt.ref, designation: jointExt.designation, qte: mlJointVitrage, unite: 'ML' },
       { ref: jointInt.ref, designation: jointInt.designation, qte: mlJointVitrage, unite: 'ML' },
       { ref: acc.boutonParclose.ref, designation: acc.boutonParclose.designation,
