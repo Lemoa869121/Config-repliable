@@ -87,31 +87,35 @@ data.quincailleries = { fmf100: q100 };
 });
 console.log('Quincaillerie FMF100 : ' + (echecs100 ? echecs100 + ' écart(s)' : fmf100.cas.length + ' / ' + fmf100.cas.length + ' devis Slidsoft retrouvés + contrôles de saisie OK'));
 
-// Serrurerie : serrure toujours, crémone si impair des deux côtés, pièces de paumelle par paumelle Mantion
+// Serrurerie : serrure toujours, crémone si impair des deux côtés, pièces de paumelle × paires de vantaux repliés
 var ferm = JSON.parse(fs.readFileSync(path.join(racine, 'data', 'fermeture-presto.json'), 'utf8'));
 data.quincailleries = { fmf150: q, fmf100: q100 };
 data.fermeture = ferm;
 var echecsFerm = 0;
 function qte(r, ref) { var l = r.fermeture.lignes.filter(function (x) { return x.ref === ref; })[0]; return l ? l.qte : 0; }
-[
-  // [gauche, droite, quincaillerie, serrure, crémone attendue ?, paumelles Mantion attendues, F19.3976.41 attendu]
-  [3, 1, 'fmf150', '1pt', true, 3, 1],
-  [2, 1, 'fmf150', '1pt', false, 3, 0],
-  [3, 2, 'fmf150', '3pts', false, 4, 1],
-  [3, 3, 'fmf150', '3pts', true, 4, 2],
-  [5, 3, 'fmf100', '1pt', true, 20, 1],
-  [3, 1, 'aucune', '1pt', true, 0, 1],
-  [3, 0, 'fmf150', '1pt', false, 2, 0]
-].forEach(function (t) {
-  var c = { corps: '50', sens: 'int', gauche: t[0], droite: t[1], largeur: Math.min(6000, 900 * (t[0] + t[1])), hauteur: 2200,
-    remplissage: '9', quincaillerie: t[2], fixation: 'murale', serrure: t[3], cremone: 'levier' };
-  var r = Calcul.calculer(c, data);
-  var ok = r.ok && (!!r.fermeture.cremone === t[4]) && r.fermeture.paumellesMantion === t[5] &&
-    qte(r, 'F19.3985.41') === t[5] && qte(r, 'F19.3986.41') === 2 * t[5] && qte(r, 'F19.3983.41') === 2 * t[5] &&
-    qte(r, 'F19.3976.41') === t[6] && qte(r, t[3] === '1pt' ? 'F19.3969.41' : 'F19.3974.41') === 1;
-  if (!ok) { echecsFerm++; console.log('✗ serrurerie ' + t[0] + '+' + t[1] + ' ' + t[2] + ' ' + t[3] + ' : ' + JSON.stringify(r.fermeture || r.erreurs)); }
+// Multiplicateurs donnés par Forster le 13/11/2026
+[[3, 1, 1], [4, 1, 2], [5, 1, 2], [6, 1, 3], [7, 1, 3], [8, 1, 4], [3, 2, 2], [3, 3, 2], [4, 2, 3], [4, 3, 3], [4, 4, 4], [5, 2, 3], [5, 3, 3], [5, 4, 4]].forEach(function (t) {
+  ['fmf150', 'aucune'].forEach(function (quinc) {
+    var c = { corps: '50', sens: 'int', gauche: t[0], droite: t[1], largeur: 900 * (t[0] + t[1]), hauteur: 2200,
+      remplissage: 9, quincaillerie: quinc, serrure: '1pt', cremone: 'levier' };
+    var r = Calcul.calculer(c, data);
+    var attendu = [1, 2, 1, 2, 1].map(function (x) { return x * t[2]; }).join(',');
+    var obtenu = r.ok ? ['F19.3985.41', 'F19.3986.41', 'F19.3987.41', 'F19.3983.41', 'F19.3989.41'].map(function (ref) { return qte(r, ref); }).join(',') : r.erreurs.join(' ');
+    if (obtenu !== attendu) { echecsFerm++; console.log('✗ pièces de paumelle ' + t[0] + '+' + t[1] + ' ' + quinc + ' : ' + obtenu + ' au lieu de ' + attendu); }
+  });
 });
-console.log('Serrurerie : ' + (echecsFerm ? echecsFerm + ' écart(s)' : '7 / 7 cas conformes (serrure, crémone, pièces de paumelle)'));
+[
+  // [gauche, droite, serrure, crémone attendue ?, F19.3976.41 attendu]
+  [3, 1, '1pt', true, 1], [2, 1, '1pt', false, 0], [3, 2, '3pts', false, 1], [3, 3, '3pts', true, 2], [3, 0, '1pt', false, 0]
+].forEach(function (t) {
+  var c = { corps: '50', sens: 'int', gauche: t[0], droite: t[1], largeur: 900 * (t[0] + t[1]), hauteur: 2200,
+    remplissage: 9, quincaillerie: 'fmf150', serrure: t[2], cremone: 'levier' };
+  var r = Calcul.calculer(c, data);
+  var ok = r.ok && (!!r.fermeture.cremone === t[3]) && qte(r, 'F19.3976.41') === t[4] &&
+    qte(r, t[2] === '1pt' ? 'F19.3969.41' : 'F19.3974.41') === 1;
+  if (!ok) { echecsFerm++; console.log('✗ serrurerie ' + t[0] + '+' + t[1] + ' ' + t[2] + ' : ' + JSON.stringify(r.fermeture || r.erreurs)); }
+});
+console.log('Serrurerie : ' + (echecsFerm ? echecsFerm + ' écart(s)' : '14 multiplicateurs Forster × 2 quincailleries + 5 cas serrure / crémone conformes'));
 
 // Parclosage : tableau Forster Presto (y + a1 + a2 + b = 47), choix par défaut, épaisseurs hors tableau
 var pcl = data.parclosage, echecsPcl = 0;

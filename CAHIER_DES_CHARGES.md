@@ -162,7 +162,7 @@ Référence article = **code F19** (export Forster Pro). Fichier : `data/fermetu
 | Serrure 1 point | toujours (choix 1 point) | F19.3969.41 (FFR042FND) + F19.3973.41 (FFR046FND) |
 | Serrure 3 points | toujours (choix 3 points) | F19.3974.41 (FFR047FND) + F19.3973.41 + F19.3976.41 (FFR049FND) + F19.3977.41 (FFR050FND) + F19.3913.41 (FFR019FND kit n°1) |
 | Crémone à levier / à cylindre | seulement si k et m sont tous les deux impairs (3+1, 5+1, 7+1, 3+3, 5+3…) | F19.3972.41 (FFR.045F.ND.A) ou F19.3975.41 (FFR.048F.ND.A) + F19.3976.41 + F19.3977.41 |
-| Pièces de paumelle | par paumelle Mantion : sets GJ10530HOL + HOR (FMF 150), charnières 1512SOG (FMF 100) ; aucune sans quincaillerie | F19.3985.41 ×1, F19.3986.41 ×2, F19.3987.41 ×1, F19.3983.41 ×2, F19.3989.41 ×1 (FFR.065F à FFR.069F) |
+| Pièces de paumelle | toujours, × nombre de paires de vantaux repliés = floor(k/2) + floor(m/2) (3+1 → 1 ; 4+1, 5+1, 3+2, 3+3 → 2 ; 6+1, 7+1, 4+2, 4+3, 5+2, 5+3 → 3 ; 8+1, 4+4, 5+4 → 4), quelle que soit la quincaillerie (consigne du 13/11/2026) | F19.3985.41 ×1, F19.3986.41 ×2, F19.3987.41 ×1, F19.3983.41 ×2, F19.3989.41 ×1 (FFR.065F à FFR.069F) |
 
 Les articles communs (F19.3976.41, F19.3977.41 en serrure 3 points + crémone) sont additionnés.
 

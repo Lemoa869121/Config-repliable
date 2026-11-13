@@ -16,7 +16,7 @@ Application web qui sort la **liste matière d'une porte repliable** : débit de
 | Profils | Tout en corps de 50 | Corps de 20, corps de 20 avec profil serrure en 50 |
 | Remplissage | Épaisseur libre de 4 à 27 mm ; parclose et joints selon le tableau Forster Presto (choix parmi les combinaisons possibles) | – |
 | Traverses | – | Quantité et épaisseur (50 / 20 / 10) |
-| Serrurerie | Serrure 1 ou 3 points, crémone à levier ou à cylindre (si impair des deux côtés), pièces de paumelle | – |
+| Serrurerie | Serrure 1 ou 3 points, crémone à levier ou à cylindre (si impair des deux côtés), pièces de paumelle (par paire de vantaux repliés) | – |
 | Quincaillerie | FMF 150, FMF 100 (fixation murale ou plafond) – Mantion OPENTEC ; sans quincaillerie | – |
 
 Aucun prix n'est stocké dans le dépôt (dépôt public).

@@ -172,7 +172,7 @@
         var rows = r.fermeture.lignes.filter(function (l) { return l.groupe === g; });
         if (!rows.length) return;
         corps += '<tr class="sous-titre"><td colspan="4">' + g +
-          (g === 'Pièces de paumelle' ? ' (' + r.fermeture.paumellesMantion + ' paumelle' + (r.fermeture.paumellesMantion > 1 ? 's' : '') + ' Mantion)' : '') + '</td></tr>';
+          (g === 'Pièces de paumelle' ? ' (× ' + r.fermeture.paires + ' : paire' + (r.fermeture.paires > 1 ? 's' : '') + ' de vantaux repliés)' : '') + '</td></tr>';
         rows.forEach(function (a) {
           corps += '<tr><td class="ref">' + esc(a.ref) + '</td><td>' + esc(a.designation) + '</td><td class="n">' + nf(a.qte) + '</td><td>' + a.unite + '</td></tr>';
         });
