@@ -183,4 +183,90 @@ c20.cas.forEach(function (cas) {
   if (ko.length) { echecs20++; console.log('✗ ' + cas.position); ko.forEach(function (x) { console.log('    ✗ ' + x); }); }
 });
 console.log('Corps 20 / mixte 20-50 : ' + (echecs20 ? echecs20 + ' position(s) en écart' : c20.cas.length + ' positions, ' + controles20 + ' contrôles OK'));
-process.exit(res.echecs || echecsExport || echecsFmf || echecs100 || echecsFerm || echecsPcl || echecs20 ? 1 : 0);
+
+// ---------- Unico : 22 positions du dossier Forster Pro du 19/11/2026 ----------
+function chargerUnico() {
+  var u = JSON.parse(fs.readFileSync(path.join(racine, 'data', 'unico.json'), 'utf8'));
+  u.quincailleries = { fmf150: JSON.parse(fs.readFileSync(path.join(racine, 'data', 'fmf-unico.json'), 'utf8')) };
+  u.fermeture = JSON.parse(fs.readFileSync(path.join(racine, 'data', 'fermeture-unico.json'), 'utf8'));
+  return u;
+}
+var dataU = chargerUnico();
+var cu = JSON.parse(fs.readFileSync(path.join(__dirname, 'cas-unico.json'), 'utf8'));
+var echecsU = 0, controlesU = 0, comparees = 0;
+cu.cas.forEach(function (cas) {
+  if (cas.anomalie) { console.log('⚠ Unico ' + cas.position + ' : ' + cas.anomalie); return; }
+  comparees++;
+  var r = Calcul.calculer({ gamme: 'unico', corps: cas.corps, sens: cas.sens, gauche: cas.gauche, droite: cas.droite,
+    largeur: cas.largeur, hauteur: cas.hauteur, remplissage: String(cu.remplissage), matiereParclose: 'acier', quincaillerie: 'fmf150' }, dataU);
+  var ko = [];
+  function ctrl(nom, ok, detail) { controlesU++; if (!ok) ko.push(nom + ' : ' + detail); }
+  if (!r.ok) { echecsU++; console.log('✗ Unico ' + cas.position + ' : ' + r.erreurs.join(' ')); return; }
+  // Ouvrants : article, longueur et angles (dossier « 135° - 90° » = nos « 135° haut / 90° bas » ; ordre des angles ignoré)
+  function cle(ref, lg, coupe) { var a = (coupe.match(/\d+(?=°)/g) || ['90', '90']).sort().join('/'); return ref + '|' + lg + '|' + a; }
+  function multi(l) { var o = {}; l.forEach(function (x) { o[x] = (o[x] || 0) + 1; }); return o; }
+  function ecarts(A, C) { return Object.keys(A).concat(Object.keys(C)).filter(function (k, i, t) { return t.indexOf(k) === i && A[k] !== C[k]; })
+    .map(function (k) { return k + ' attendu ' + (A[k] || 0) + ' / calculé ' + (C[k] || 0); }); }
+  var A = multi(cas.ouvrants.map(function (x) { return cle(x[0], x[1], x[2]); }));
+  var C = multi(r.pieces.filter(function (p) { return p.famille === 'profil' && p.vantail; }).map(function (p) { return cle(p.ref, p.longueur, p.coupe); }));
+  var e = ecarts(A, C); ctrl('ouvrants (article, longueur, coupes)', !e.length, e.join(' ; '));
+  var dm = r.pieces.filter(function (p) { return /^Dormant (gauche|droit)/.test(p.element); }).map(function (p) { return p.longueur; });
+  ctrl('montants de dormant', dm.join() === cas.dormant.montants.join(), dm + ' ≠ ' + cas.dormant.montants);
+  var dh = arrondi1(r.pieces.filter(function (p) { return p.element.indexOf('Dormant haut') === 0; }).reduce(function (s, p) { return s + p.longueur; }, 0));
+  ctrl('dormant haut (longueur totale)', Math.abs(dh - cas.dormant.hautTotal) < 0.15, dh + ' ≠ ' + cas.dormant.hautTotal);
+  var Pa = {}, Pc = {};
+  Object.keys(cas.parcloses).forEach(function (k) { Pa[Number(k)] = cas.parcloses[k]; });
+  r.pieces.filter(function (p) { return p.famille === 'parclose'; }).forEach(function (p) { Pc[p.longueur] = (Pc[p.longueur] || 0) + 1; });
+  e = ecarts(Pa, Pc); ctrl('parcloses 901246', !e.length && r.pieces.filter(function (p) { return p.famille === 'parclose'; }).every(function (p) { return p.ref === '901246'; }), e.join(' ; '));
+  var vr = r.verres.map(function (v) { return [v.qte, v.largeur, v.hauteur].join('x'); }).sort().join(' ');
+  var va = {}; cas.verres.forEach(function (v) { var k = v[1] + 'x' + v[2]; va[k] = (va[k] || 0) + v[0]; });
+  va = Object.keys(va).map(function (k) { return va[k] + 'x' + k; }).sort().join(' ');
+  ctrl('verres', vr === va, vr + ' ≠ ' + va);
+  // Joints (ML) : tolérance 1 cm (le dossier arrondit au cm)
+  var J = {}; r.accessoires.filter(function (x) { return x.unite === 'ML'; }).forEach(function (x) { J[x.ref] = arrondi2((J[x.ref] || 0) + x.qte); });
+  Object.keys(cas.joints).forEach(function (ref) {
+    ctrl('joint ' + ref, J[ref] != null && Math.abs(J[ref] - cas.joints[ref]) <= 0.0151, (J[ref] || 0) + ' ≠ ' + cas.joints[ref]);
+  });
+  // Pièces : ferrure, accessoires, quincaillerie
+  var Q = {}; r.accessoires.concat(r.fermeture.lignes, r.quincaillerie).filter(function (x) { return x.unite === 'Pce'; })
+    .forEach(function (x) { Q[x.ref] = (Q[x.ref] || 0) + x.qte; });
+  e = ecarts(cas.pieces, Q); ctrl('pièces (ferrure, accessoires, FMF)', !e.length, e.join(' ; '));
+  // Profilés Mantion : longueur totale par article
+  var F = {}; r.pieces.filter(function (p) { return p.famille === 'fmf'; }).forEach(function (p) { F[p.ref] = arrondi1((F[p.ref] || 0) + p.longueur); });
+  Object.keys(cas.fmfLongueurs).forEach(function (ref) {
+    ctrl('longueur ' + ref, Math.abs((F[ref] || 0) - cas.fmfLongueurs[ref]) < 0.15, (F[ref] || 0) + ' ≠ ' + cas.fmfLongueurs[ref]);
+  });
+  if (ko.length) { echecsU++; console.log('✗ Unico ' + cas.position); ko.forEach(function (x) { console.log('    ✗ ' + x); }); }
+});
+function arrondi1(x) { return Math.round(x * 10) / 10; }
+function arrondi2(x) { return Math.round(x * 100) / 100; }
+// Parclosage Unico : défaut du dossier à 24 mm, matières, bornes
+(function () {
+  var p = dataU.parclosage, ko = [];
+  var d24 = Calcul.combinaisonsParclosage(24, p, 'acier')[0];
+  if (d24.cle !== '901246|985302|905386') ko.push('défaut 24 mm acier : ' + d24.cle);
+  if (Calcul.combinaisonsParclosage(24, p, 'alu')[0].parclose !== '901335') ko.push('défaut 24 mm alu');
+  if (Calcul.combinaisonsParclosage(24, p, 'inox')[0].parclose !== '901546') ko.push('défaut 24 mm inox');
+  for (var y = 20; y <= 47; y++) ['acier', 'inox', 'alu'].forEach(function (mt) {
+    var cs = Calcul.combinaisonsParclosage(y, p, mt);
+    if (!cs.length) ko.push(y + ' mm ' + mt + ' : aucune combinaison');
+    cs.forEach(function (c) { if (c.epaisseur + p.jointsExterieurs[c.jointExterieur].a1 + c.a2 + c.b !== 67) ko.push('somme ≠ 67 : ' + c.cle); });
+  });
+  if (Calcul.calculer({ gamme: 'unico', corps: '50', sens: 'ext', gauche: 2, droite: 1, largeur: 3350, hauteur: 2500, remplissage: '19' }, dataU).ok) ko.push('19 mm accepté');
+  // Largeur de vantail Unico contrôlée sur Lv : 3350 / 3 → Lv 1100 accepté ; 3351 → refusé
+  if (!Calcul.calculer({ gamme: 'unico', corps: '50', sens: 'ext', gauche: 2, droite: 1, largeur: 3350, hauteur: 2500, remplissage: '24' }, dataU).ok) ko.push('Lv 1100 refusé');
+  if (Calcul.calculer({ gamme: 'unico', corps: '50', sens: 'ext', gauche: 2, droite: 1, largeur: 3351, hauteur: 2500, remplissage: '24' }, dataU).ok) ko.push('Lv 1100,3 accepté');
+  controlesU += 8;
+  if (ko.length) { echecsU++; console.log('✗ Unico parclosage / limites : ' + ko.join(' ; ')); }
+})();
+// Export Excel Unico
+(function () {
+  var r = Calcul.calculer({ gamme: 'unico', corps: '50+30', sens: 'int', gauche: 2, droite: 1, largeur: 3310, hauteur: 3036, remplissage: '24', quincaillerie: 'fmf150' }, dataU);
+  var lignes = ExportExcel.lignesImport(r), octets = ExportExcel.classeur(r);
+  var nbPieces = lignes.filter(function (l) { return l.anglePrimaire1; }).reduce(function (s, l) { return s + l.quantite; }, 0);
+  var mixte = lignes.filter(function (l) { return l.anglePrimaire1 === 121 || l.anglePrimaire2 === 121; }).length;
+  controlesU++;
+  if (!(octets[0] === 0x50 && nbPieces === r.pieces.length && mixte === 1)) { echecsU++; console.log('✗ Unico export Excel'); }
+})();
+console.log('Unico : ' + (echecsU ? echecsU + ' écart(s)' : comparees + ' positions du dossier Forster Pro, ' + controlesU + ' contrôles OK'));
+process.exit(res.echecs || echecsExport || echecsFmf || echecs100 || echecsFerm || echecsPcl || echecs20 || echecsU ? 1 : 0);

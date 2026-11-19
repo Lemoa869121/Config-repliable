@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "gamme": "unico",
+  "source": "Dossier de fabrication Forster Pro « FFR Unico Repliable » du 19/11/2026 (ferrure UNICO-FALT-01) – consigne Forster du 19/11/2026 : ferrure Unico du dossier à la place des choix Presto",
+  "remarque": "P = nombre de paires de vantaux = floor(n / 2) (2+1 → 1, 3+1 → 2, 8+1 → 4). Quantité = fixe + parPaire × P. Pas de choix serrure 1 point / 3 points ni de crémone en Unico : la ferrure est imposée par l'épaisseur.",
+  "ferrures": {
+    "50": {
+      "libelle": "Ferrure Unico 50 (serrure 3 points FFR018FND)",
+      "articles": [
+        { "ref": "FFR018FND", "designation": "SERRURE 3PTS UNICO PENE 1/2 TOUR TETIERE FILANTE", "fixe": 1, "groupe": "Serrure" },
+        { "ref": "907350", "designation": "POIGNEE EN ACIER INOX BROSSE, FORME RONDE", "fixe": 2, "groupe": "Serrure" },
+        { "ref": "907353", "designation": "ROSACE POUR CP, EN INOX BROSSE, FORME RONDE", "fixe": 2, "groupe": "Serrure" },
+        { "ref": "987010", "designation": "PLAQUE DE GUIDAGE 10 MM HAUTE", "parPaire": 1, "groupe": "Verrouillage des vantaux" },
+        { "ref": "987011", "designation": "PLAQUE DE GUIDAGE 10 MM BAS", "parPaire": 1, "groupe": "Verrouillage des vantaux" },
+        { "ref": "987072", "designation": "ATTACHE DE GUIDAGE", "parPaire": 3, "groupe": "Verrouillage des vantaux" },
+        { "ref": "987454", "designation": "SERRURE A VERROUILLAGE", "parPaire": 1, "groupe": "Verrouillage des vantaux" },
+        { "ref": "987702", "designation": "GARNITURE DE CREMONE A ENCASTRER", "parPaire": 1, "groupe": "Verrouillage des vantaux" },
+        { "ref": "987081", "designation": "PLAQUE DE FIXATION RC/E30/EW30", "parPaire": 2, "groupe": "Verrouillage des vantaux" }
+      ]
+    },
+    "30": {
+      "libelle": "Ferrure Unico 30 (serrure 987499)",
+      "articles": [
+        { "ref": "987499", "designation": "SERRURE A MORTAISER SIMPLE, PC", "fixe": 1, "groupe": "Serrure" },
+        { "ref": "907327", "designation": "POIGNEE INOX, RONDE", "fixe": 2, "groupe": "Serrure" },
+        { "ref": "907337", "designation": "ROSACE POUR PZ, EN INOX BROSSE", "fixe": 2, "groupe": "Serrure" },
+        { "ref": "987009", "designation": "GACHE", "fixe": 1, "groupe": "Serrure" },
+        { "ref": "987071", "designation": "ATTACHE", "fixe": 4, "parPaire": 2, "groupe": "Verrouillage des vantaux", "aConfirmer": "relevé sur 2 positions seulement (6 pour 2+1, 12 pour 8+1) : 4 + 2 × P ou n + 3, à confirmer" },
+        { "ref": "XA00001", "designation": "WSS 07.344.0000.426", "parPaire": 1, "groupe": "Verrouillage des vantaux", "aConfirmer": "référence provisoire du dossier" },
+        { "ref": "XA00002", "designation": "WSS 10.763.0003.505", "parPaire": 2, "groupe": "Verrouillage des vantaux", "aConfirmer": "référence provisoire du dossier" },
+        { "ref": "XA00003", "designation": "WSS 02.242.1225.112", "parPaire": 1, "groupe": "Verrouillage des vantaux", "aConfirmer": "référence provisoire du dossier" },
+        { "ref": "XA00004", "designation": "WSS 02.820.1120.010", "parPaire": 1, "groupe": "Verrouillage des vantaux", "aConfirmer": "référence provisoire du dossier" },
+        { "ref": "XA00005", "designation": "WSS 07.210.2000.010", "parPaire": 2, "groupe": "Verrouillage des vantaux", "aConfirmer": "référence provisoire du dossier" }
+      ]
+    }
+  },
+  "ferrureParCorps": { "50": "50", "30": "30", "50+30": "50" }
+}

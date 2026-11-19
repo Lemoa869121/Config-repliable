@@ -11,6 +11,7 @@ nombre de barres, accessoires et remplissages.
 
 - Liste de débit Forster « PRESTO repliables » (objet KDI-PRR), version corrigée du 10/11/2026.
 - Règles données par Xavier Guiraud le 10/11/2026.
+- Unico : dossier de fabrication Forster Pro « FFR Unico Repliable » du 19/11/2026 (22 positions) et tableau Forster unico 6.7.3 « Vitrage à sec » (V1.0 02-26).
 
 ## 3. Saisies
 
@@ -192,9 +193,74 @@ Référence article = **code F19** (export Forster Pro). Fichier : `data/fermetu
 
 Les articles communs (F19.3976.41, F19.3977.41 en serrure 3 points + crémone) sont additionnés.
 
+## 13. Gamme Unico (dossier Forster Pro du 19/11/2026)
+
+Répartition T / Z, Din et position du profil serrure : **mêmes règles que Presto** (§6). Correspondance :
+533.752 / 533.732 = T, 533.753 / 533.733 = Z. Vérifié sur les 21 positions exploitables du dossier
+(la position « Int 50mm 04 », libellée 3+2, est une copie de la 3+1 : écartée).
+
+### 13.1 Profils et cotes
+
+| | Unico 50 | Unico 30 |
+|---|---|---|
+| Dormant (haut L, montants H, coupes 135° / 90°) | 533751 | 533731 |
+| Ouvrants T / Z | 533752 / 533753 | 533732 / 533733 |
+| Traverse basse | 531755 | 531755 |
+| Largeur vantail Lv | (L − 110) / n + 20 | (L − 70) / n + 20 |
+| Hauteur vantail Hv (montants, coupe 135° haut / 90° bas) | H − 56,5 | H − 36,5 |
+| Traverse haute (coupe 135° / 135°) | Lv | Lv |
+| Traverse basse, parcloses horizontales | Lv − 130 | Lv − 90 |
+| Parcloses verticales | Hv − 175 | Hv − 155 |
+| Verre (arrondi inférieur, comme Forster Pro) | (Lv − 146) × (Hv − 150,5) | (Lv − 106) × (Hv − 130,5) |
+
+Traverse haute : Z en ouverture intérieure, T en extérieure. Cotes d'axe du schéma (calculées) : extrémités Lv + 35 (50) ou
+Lv + 15 (30), vantaux courants Lv − 20 ; leur somme vaut L.
+
+**50+30** = Unico 30 avec le montant serrure en 50 (533752 / 533753), à la place du profil serrure (§5 ter) :
+montant Hv − 6 coupé 121° / 90° ; traverse haute Lv + 10 coupée 135° / 149° ; traverse basse, parcloses horizontales
+et verre réduits de 20 mm ; même largeur de vantail.
+
+### 13.2 Parclosage (tableau 6.7.3, vitrage à sec seulement)
+
+y + a1 + a2 + b = 67, y de 20 à 47 mm. Joint extérieur 905812 (a1 = 2) ou 985302 (a1 = 5) ; joint intérieur
+905884 (a2 3–4), 905385 (5–6), 905386 (7–8), 905387 (9–10). Parclose au choix : acier 901247 / 901246 / 901228 /
+901227 / 901226, inox 901547 / 901546 / 901528 / 901527 / 901526, aluminium 901336 / 901335 / 901328 / 901327 / 901326
+(b = 35 / 30 / 25 / 20 / 15). Par défaut : 985302 d'abord, puis la parclose la plus étroite (24 mm → 901246 + 985302
++ 905386, comme le dossier). Ponts de feuillure : 4 par vantail, 986701 jusqu'à 27 mm, 986702 au-delà.
+
+### 13.3 Joints et boutons (en mm, déduits du dossier)
+
+Pv = périmètre de chaque vantail 2 (Lv + Hv) ; Pg = périmètre de chaque verre.
+
+| Article | Unico 50 | Unico 30 / 50+30 |
+|---|---|---|
+| Joints de vitrage ext. et int. | Σ Pg + 128 n | Σ Pg + 131 n |
+| 985305 | Σ Pg + 293 n | Σ Pg + 296 n |
+| 985304 ouvrants | Σ Pv + 111 n | Σ Pv + 152 n (− 20 en 50+30) |
+| 985304 dormant | L + 2 H + 33 n + 322 | L + 2 H + 33 n + 358 |
+| 985301 | Σ Pv + 245 n + 2 Hv + 185 | Σ Pv + 245 n + 2 Hv + 182 (+ 20 en 50+30) |
+| Boutons 906579 | 30 par vantail | 30 par vantail |
+
+À recontrôler : tous les vantaux du dossier font 1090 à 1100 × 3000 mm, la part largeur / hauteur ne peut pas être séparée.
+
+### 13.4 Ferrure (P = floor(n / 2))
+
+- Unico 50 et 50+30 : FFR018FND × 1, 907350 × 2, 907353 × 2 ; 987010, 987011, 987454, 987702 × P ; 987072 × 3P ; 987081 × 2P.
+- Unico 30 : 987499 × 1, 907327 × 2, 907337 × 2, 987009 × 1 ; 987071 × (4 + 2P) (à confirmer : n + 3 donne les mêmes valeurs
+  sur le dossier) ; XA00001, XA00003, XA00004 × P ; XA00002, XA00005 × 2P (références provisoires du dossier).
+- Pas de choix serrure / crémone ni de pièces de paumelle FFR.065F à 069F en Unico.
+
+### 13.5 Quincaillerie FMF 150 en Unico
+
+Rail 10500A/600 et bandeau GJ10530P : L ; profil bas GH10430R, joint GH10430DC, seuil GHPG16 : L − 100 (50) ou L − 60 (30, 50+30),
+en morceaux égaux de 6000 mm maximum. Supports GJ10530B et GJ10530BP : ceil((L − 50) / 500) + 1 chacun (le dossier n'est
+compatible qu'avec un retrait entre 10 et 90 mm) ; embouts GJ10530EN : 2 ; montures et paumelles : règles du §8.
+Pas d'aimants, pênes bas, gabarit, emballage ni notice (absents du dossier). FMF 100 non prévu en Unico.
+
 ## 9. Limites
 
 Largeur par vantail (largeur de baie ÷ nombre de vantaux) : 500 à 1100 mm (maximum porté de 1000 à 1100 mm le 13/11/2026), bloquant. 2 à 13 vantaux.
+Unico : la même plage est contrôlée sur la largeur réelle du vantail Lv (le dossier Forster Pro a des vantaux de 1100 mm pour 1116,7 mm de baie par vantail).
 
 ## 10. Export Excel (fichier d'import)
 
@@ -208,11 +274,11 @@ de la feuille Tabelle2 conservées). Une ligne par pièce identique (article, lo
 | Quantity | nombre de pièces | 1 | nombre de pièces |
 | Formula | Fixed Length | Fixed Length | Fixed Length |
 | Location | Top (dormant haut), Left (dormant gauche), Right (dormant droit), Free (le reste) | Free | Free |
-| Primary Angles 1 / 2 | angle de coupe à chaque bout (45 ou 90) | vide | vide |
+| Primary Angles 1 / 2 | angle de coupe à chaque bout (Presto 45 / 90 ; Unico 135 / 90, 121 et 149 comme Forster Pro) | vide | vide |
 | Secondary Angles 1 / 2 | 90 / 90 | vide | vide |
 | Per Meter, Extension, Colour, Price, Formula 2, Length 2, Assembly Name | vides | vides | vides |
 
-La quincaillerie est exportée comme les accessoires à la pièce (Lenght = 0).
+La quincaillerie est exportée comme les accessoires à la pièce (Lenght = 0). En Unico, les profilés Mantion (rail, bandeau, profil bas, joint, seuil) sont exportés comme des profilés (longueur réelle, 90 / 90, Free).
 
 Les remplissages (pas de référence article) ne sont pas exportés.
 
@@ -225,4 +291,4 @@ Les remplissages (pas de référence article) ne sont pas exportés.
 ## 12. Questions ouvertes
 
 limites de hauteur ·
-bas de porte · corps 20 et mixte · autres remplissages · traverses · FMF 100 · Unico.
+bas de porte · autres remplissages · traverses · Unico : joints sur une autre taille de vantail, 987071, références XA00001 à XA00005, quantité des supports GJ10530B / BP (sets de 4 ?), aimants / pênes / notice absents du dossier, FMF 100.

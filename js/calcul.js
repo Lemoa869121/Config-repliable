@@ -179,8 +179,8 @@
    *  - rail, profil bas, joint, seuil : barres de 6000 mm → arrondi supérieur de L / 6000 ;
    *  - supports : 1 à chaque bout + 1 tous les 500 mm → ceil(L / 500) + 1 supports, par sets de 4.
    */
-  function quincaillerieFMF150(k, m, sens, largeur, q) {
-    var n = k + m, a = q.articles;
+  function montagesFMF150(k, m, sens) {
+    var n = k + m;
     function sets(g) { return g > 0 ? Math.floor(g / 2) + 1 : 0; }
     var hol = (k > 0 ? 1 : 0) + (m > 0 ? sets(m) - 1 : 0);
     var hor = (k > 0 ? sets(k) - 1 : 0) + (m > 0 ? 1 : 0);
@@ -191,6 +191,12 @@
       var pairAGauche = k % 2 === 0;
       if ((sens === 'int') === pairAGauche) ehl = 1; else ehr = 1;
     }
+    return { hol: hol, hor: hor, montures: montures, ehl: ehl, ehr: ehr };
+  }
+
+  function quincaillerieFMF150(k, m, sens, largeur, q) {
+    var n = k + m, a = q.articles, mt = montagesFMF150(k, m, sens);
+    var hol = mt.hol, hor = mt.hor, montures = mt.montures, ehl = mt.ehl, ehr = mt.ehr;
     var barres = Math.ceil(largeur / q.barres.longueur - 1e-9);
     var nbSupports = Math.ceil(largeur / q.supports.entraxe - 1e-9) + 1;
     var lignes = [
@@ -204,6 +210,40 @@
     return lignes.filter(function (l) { return l[1] > 0; }).map(function (l) {
       return { ref: l[0].ref, designation: l[0].designation, qte: l[1], unite: 'Pce' };
     });
+  }
+
+  /* ---------- Quincaillerie FMF 150 en Unico (dossier Forster Pro du 19/11/2026) ----------
+   *  - rail et bandeau : longueur L ; profil bas, joint et seuil : L − déduction (100 en 50, 60 en 30) ;
+   *    pièces de plus de 6000 mm coupées en morceaux égaux ;
+   *  - supports équerre GJ10530B et supports de bandeau GJ10530BP : ceil((L − 50) / 500) + 1 chacun
+   *    (le dossier donne 8 pour 3350, 12 pour 5510, 15 pour 6590, 21 pour 9830) ; embouts GJ10530EN : 2 ;
+   *  - montures et paumelles : règles FMF 150 (montagesFMF150), identiques au dossier.
+   * Renvoie les pièces à débiter (famille « fmf ») et les articles à la pièce.
+   */
+  function quincaillerieFMFUnico(k, m, sens, largeur, deduction, q) {
+    var a = q.articles, mt = montagesFMF150(k, m, sens), maxi = q.barres.longueur;
+    var pieces = [];
+    function profil(article, longueur, element) {
+      var nb = Math.ceil(longueur / maxi - 1e-9);
+      for (var i = 0; i < nb; i++) {
+        pieces.push({ famille: 'fmf', ref: article.ref, designation: article.designation, longueur: arrondi(longueur / nb, 1),
+          coupe: '90° / 90°', element: element + (nb > 1 ? ' (morceau ' + (i + 1) + '/' + nb + ')' : ''), vantail: null });
+      }
+    }
+    profil(a.rail, largeur, 'Rail');
+    profil(a.bandeau, largeur, 'Bandeau');
+    profil(a.profilBas, largeur - deduction, 'Profil bas');
+    profil(a.joint, largeur - deduction, 'Joint cache-poussière');
+    profil(a.seuil, largeur - deduction, 'Seuil');
+    var supports = Math.ceil((largeur - q.supports.retrait) / q.supports.entraxe - 1e-9) + 1;
+    var lignes = [
+      [a.supports, supports], [a.supportsBandeau, supports], [a.emboutsBandeau, q.embouts],
+      [a.montureIntermediaire, mt.montures - mt.ehl - mt.ehr], [a.montureExtremiteGauche, mt.ehl], [a.montureExtremiteDroite, mt.ehr],
+      [a.paumellesGauche, mt.hol], [a.paumellesDroite, mt.hor]
+    ].filter(function (l) { return l[1] > 0; }).map(function (l) {
+      return { ref: l[0].ref, designation: l[0].designation, qte: l[1], unite: 'Pce' };
+    });
+    return { pieces: pieces, lignes: lignes };
   }
 
   /* ---------- Quincaillerie FMF 100 (Mantion OPENTEC) ----------
@@ -278,17 +318,35 @@
     return { lignes: lignes, serrure: serrure.libelle, cremone: cremone ? cremone.libelle : null, paires: paires };
   }
 
+  /* ---------- Ferrure Unico (dossier Forster Pro du 19/11/2026) ----------
+   * Quantité = fixe + parPaire × P, avec P = floor(n / 2). Pas de choix serrure / crémone en Unico. */
+  function fermetureUnico(cfg, f) {
+    var fe = f.ferrures[f.ferrureParCorps[cfg.corps]];
+    var P = Math.floor((cfg.gauche + cfg.droite) / 2);
+    var lignes = fe.articles.map(function (a) {
+      return { ref: a.ref, designation: a.designation, qte: (a.fixe || 0) + (a.parPaire || 0) * P, unite: 'Pce',
+        groupe: a.groupe, aConfirmer: a.aConfirmer || null };
+    }).filter(function (l) { return l.qte > 0; });
+    return { lignes: lignes, serrure: fe.libelle, cremone: null, paires: P, unico: true };
+  }
+
   /* ---------- Parclosage (tableau Forster Presto VP 3.8.22 / 3.8.23) ----------
    * Pour une épaisseur de remplissage y, liste des combinaisons parclose + joint extérieur + joint intérieur
    * possibles, triées par préférence : joint extérieur 905312 avant 905314 ; joint intérieur 905316,
    * puis 905315, puis 905317 ; à égalité, parclose la plus large.
    */
-  function combinaisonsParclosage(y, p) {
-    var pe = p.priorite.jointsExterieurs, pi = p.priorite.jointsInterieurs;
-    return p.tableau.filter(function (l) { return l[0] === y; }).map(function (l) {
+  /* Unico (tableau 6.7.3, consigne du 19/11/2026) : matière de parclose au choix (acier, inox, aluminium) ;
+   * joint extérieur 985302 avant 905812, puis parclose la plus étroite. */
+  function combinaisonsParclosage(y, p, matiere) {
+    var pe = p.priorite.jointsExterieurs, pi = p.priorite.jointsInterieurs, etroite = p.priorite.parclose === 'etroite';
+    if (p.matieres && !p.matieres[matiere]) matiere = Object.keys(p.matieres)[0];
+    return p.tableau.filter(function (l) {
+      return l[0] === y && (!p.matieres || p.parcloses[l[1]].matiere === matiere);
+    }).map(function (l) {
       return { cle: l[1] + '|' + l[2] + '|' + l[3], epaisseur: l[0], parclose: l[1], jointExterieur: l[2], jointInterieur: l[3], a2: l[4],
         b: p.parcloses[l[1]].b };
     }).sort(function (x, z) {
+      if (etroite) return pe.indexOf(x.jointExterieur) - pe.indexOf(z.jointExterieur) || x.b - z.b;
       return pe.indexOf(x.jointExterieur) - pe.indexOf(z.jointExterieur) ||
         pi.indexOf(x.jointInterieur) - pi.indexOf(z.jointInterieur) || z.b - x.b;
     });
@@ -309,22 +367,27 @@
     else if (Math.round(ep) !== ep) erreurs.push('Épaisseur du remplissage : nombre entier de millimètres (tableau de parclosage).');
     else if (ep < pc.epaisseurMin || ep > pc.epaisseurMax) {
       erreurs.push('Épaisseur du remplissage hors tableau de parclosage : ' + pc.epaisseurMin + ' à ' + pc.epaisseurMax + ' mm.');
-    } else if (!combinaisonsParclosage(ep, pc).length) erreurs.push('Aucune parclose ne convient pour ' + ep + ' mm.');
+    } else if (!combinaisonsParclosage(ep, pc, cfg.matiereParclose).length) erreurs.push('Aucune parclose ne convient pour ' + ep + ' mm.');
     if (n >= 1 && cfg.largeur > 0) {
-      var parVantail = cfg.largeur / n;
+      var cs = data.corps[cfg.corps], parLv = lim.controleLargeur === 'vantail' && cs;
+      // Presto : baie ÷ n ; Unico : largeur réelle du vantail Lv = (L − dormant) / n + recouvrement
+      var D = parLv ? cs.cotes.dormantLargeur : 0, rc = parLv ? cs.cotes.recouvrementOuvrant : 0;
+      var parVantail = (cfg.largeur - D) / n + rc;
+      var libLarg = parLv ? 'Largeur de vantail' : 'Largeur par vantail';
       if (lim.largeurParVantailMax && parVantail > lim.largeurParVantailMax + 1e-9) {
-        erreurs.push('Largeur par vantail trop grande : ' + arrondi(parVantail, 1) + ' mm (maximum ' + lim.largeurParVantailMax +
-          ' mm). Il faut au moins ' + Math.ceil(cfg.largeur / lim.largeurParVantailMax - 1e-9) + ' vantaux.');
+        erreurs.push(libLarg + ' trop grande : ' + arrondi(parVantail, 1) + ' mm (maximum ' + lim.largeurParVantailMax +
+          ' mm). Il faut au moins ' + Math.ceil((cfg.largeur - D) / (lim.largeurParVantailMax - rc) - 1e-9) + ' vantaux.');
       }
       if (lim.largeurParVantailMin && parVantail < lim.largeurParVantailMin - 1e-9) {
-        erreurs.push('Largeur par vantail trop petite : ' + arrondi(parVantail, 1) + ' mm (minimum ' + lim.largeurParVantailMin +
-          ' mm). Au plus ' + Math.floor(cfg.largeur / lim.largeurParVantailMin + 1e-9) + ' vantaux.');
+        erreurs.push(libLarg + ' trop petite : ' + arrondi(parVantail, 1) + ' mm (minimum ' + lim.largeurParVantailMin +
+          ' mm). Au plus ' + Math.floor((cfg.largeur - D) / (lim.largeurParVantailMin - rc) + 1e-9) + ' vantaux.');
       }
     }
     if (cfg.quincaillerie && cfg.quincaillerie !== 'aucune') {
       var qc = data.quincailleries && data.quincailleries[cfg.quincaillerie];
       if (!qc) {
-        erreurs.push('Quincaillerie non disponible pour le moment.');
+        erreurs.push(data.gamme === 'unico' ? 'Quincaillerie non disponible en Unico (seul le FMF 150 du dossier Forster Pro est prévu).'
+          : 'Quincaillerie non disponible pour le moment.');
       } else if (qc.limites) {
         var lq = qc.limites, nomQ = qc.libelle.replace(/ \(.*\)$/, '');
         if (lq.vantauxMin && n < lq.vantauxMin) erreurs.push(nomQ + ' : au moins ' + lq.vantauxMin + ' vantaux.');
@@ -359,10 +422,13 @@
     var ctl = controler(cfg, data);
     if (ctl.erreurs.length) return { ok: false, erreurs: ctl.erreurs, alertes: ctl.alertes };
 
+    var unico = data.gamme === 'unico';
     var corps = data.corps[cfg.corps];
     var c = corps.cotes, art = corps.articles;
+    // Coupes : Presto en 45°, Unico en 135° (notation Forster Pro)
+    var cp = data.coupes || { angle: 45, dormantMontant: '45° haut / 90° bas', traverseHaute: '45° / 45°', montant: '45° haut / 90° bas' };
     var pcl = data.parclosage, epaisseur = Number(cfg.remplissage);
-    var combinaisons = combinaisonsParclosage(epaisseur, pcl);
+    var combinaisons = combinaisonsParclosage(epaisseur, pcl, cfg.matiereParclose);
     var choixParclosage = combinaisons.filter(function (x) { return x.cle === cfg.parclosage; })[0] || combinaisons[0];
     var parclose = { ref: choixParclosage.parclose, designation: pcl.parcloses[choixParclosage.parclose].designation };
     var jointExt = { ref: choixParclosage.jointExterieur, designation: pcl.jointsExterieurs[choixParclosage.jointExterieur].designation };
@@ -374,7 +440,7 @@
 
     var LvBrut = (L - c.dormantLargeur) / n + c.recouvrementOuvrant;
     var Lv = arrondi(LvBrut, 1);
-    var Hv = H - c.dormantHauteur;
+    var Hv = arrondi(H - c.dormantHauteur, 1);
     // Largeurs d'axe (cotes du schéma) : valeurs exactes pour les calculs, arrondies pour l'affichage
     var axesBruts = [];
     for (var i = 0; i < n; i++) axesBruts.push(LvBrut + (i === 0 || i === n - 1 ? c.axeExtreme : c.axeCourant));
@@ -399,100 +465,56 @@
         barresCfg.longueurUtile + ' mm maximum.');
     }
     morceauxHaut.forEach(function (lg, idx) {
-      var gauche = idx === 0 ? '45°' : '90°', droite = idx === morceauxHaut.length - 1 ? '45°' : '90°';
+      var gauche = idx === 0 ? cp.angle + '°' : '90°', droite = idx === morceauxHaut.length - 1 ? cp.angle + '°' : '90°';
       ajouter('profil', art.dormant, lg, gauche + ' / ' + droite,
         morceauxHaut.length > 1 ? 'Dormant haut (morceau ' + (idx + 1) + '/' + morceauxHaut.length + ')' : 'Dormant haut');
     });
-    ajouter('profil', art.dormant, H, '45° haut / 90° bas', 'Dormant gauche');
-    ajouter('profil', art.dormant, H, '45° haut / 90° bas', 'Dormant droit');
+    ajouter('profil', art.dormant, H, cp.dormantMontant, 'Dormant gauche');
+    ajouter('profil', art.dormant, H, cp.dormantMontant, 'Dormant droit');
     if (H > barresCfg.longueurUtile) {
       alertes.push('Les montants de dormant dépassent ' + barresCfg.longueurUtile + ' mm : cas non prévu.');
     }
 
     // Ouvrants
     var ps = corps.profilSerrure ? positionProfilSerrure(k, m) : null;
-    var largeursVantaux = [];
+    var largeursVantaux = [], reductionsRemplissage = [];
     for (var v = 1; v <= n; v++) {
       var serrureIci = ps && ps.vantail === v;
-      var Lvv = serrureIci ? Lv - corps.profilSerrure.reductionLargeurVantail : Lv;
-      largeursVantaux.push(Lvv);
-      ajouter('profil', art[profilTraverseHaute], Lvv, '45° / 45°', 'Traverse haute', v);
+      var Lvv = serrureIci ? Lv - (corps.profilSerrure.reductionLargeurVantail || 0) : Lv;
+      // Unico 50+30 : remplissage, traverse basse et parcloses horizontales du vantail serrure réduits de 20 mm
+      var red = serrureIci ? (corps.profilSerrure.reductionRemplissage || 0) : 0;
+      largeursVantaux.push(Lvv); reductionsRemplissage.push(red);
+      if (serrureIci && corps.profilSerrure.ajoutTraverseHaute) {
+        ajouter('profil', art[profilTraverseHaute], Lvv + corps.profilSerrure.ajoutTraverseHaute, corps.profilSerrure.coupeTraverseHaute,
+          'Traverse haute (vantail serrure)', v);
+      } else {
+        ajouter('profil', art[profilTraverseHaute], Lvv, cp.traverseHaute, 'Traverse haute', v);
+      }
       ['g', 'd'].forEach(function (cote) {
         var nom = cote === 'g' ? 'Montant gauche' : 'Montant droit';
         if (serrureIci && ps.cote === cote) {
-          ajouter('profil', corps.profilSerrure[montants[v - 1][cote]], H, '45° haut / 90° bas', nom + ' (profil serrure)', v);
+          var pS = corps.profilSerrure;
+          // Presto 20-50 : montant serrure à la hauteur H ; Unico 50+30 : Hv − 6, coupe 121°
+          var lgS = pS.reductionMontant != null ? Hv - pS.reductionMontant : H;
+          ajouter('profil', pS[montants[v - 1][cote]], lgS, pS.coupeMontant || cp.montant, nom + ' (profil serrure)', v);
         } else {
-          ajouter('profil', art[montants[v - 1][cote]], Hv, '45° haut / 90° bas', nom, v);
+          ajouter('profil', art[montants[v - 1][cote]], Hv, cp.montant, nom, v);
         }
       });
-      ajouter('profil', art.traverseBasse, Lvv - c.traverseBasse, '90° / 90°', 'Traverse basse', v);
-      for (var p = 0; p < 2; p++) ajouter('parclose', parclose, Lvv - c.parcloseHorizontale, 'droite', 'Parclose horizontale', v);
+      ajouter('profil', art.traverseBasse, Lvv - c.traverseBasse - red, '90° / 90°', 'Traverse basse', v);
+      for (var p = 0; p < 2; p++) ajouter('parclose', parclose, Lvv - c.parcloseHorizontale - red, 'droite', 'Parclose horizontale', v);
       for (p = 0; p < 2; p++) ajouter('parclose', parclose, Hv - c.parcloseVerticale, 'droite', 'Parclose verticale', v);
     }
 
-    // Débit regroupé (article + longueur + coupe)
-    var debit = [];
-    pieces.forEach(function (pc) {
-      var cle = pc.ref + '|' + pc.longueur + '|' + pc.coupe + '|' + pc.element.replace(/ \(morceau.*\)/, '');
-      var ligne = debit.filter(function (d) { return d.cle === cle; })[0];
-      if (!ligne) {
-        ligne = { cle: cle, famille: pc.famille, ref: pc.ref, designation: pc.designation, longueur: pc.longueur,
-          coupe: pc.coupe, element: pc.element.replace(/ \(morceau.*\)/, ''), qte: 0, vantaux: [] };
-        debit.push(ligne);
-      }
-      ligne.qte++;
-      if (pc.vantail && ligne.vantaux.indexOf(pc.vantail) < 0) ligne.vantaux.push(pc.vantail);
-    });
-    debit.sort(function (a, b) {
-      return a.famille.localeCompare(b.famille) || a.ref.localeCompare(b.ref) || b.longueur - a.longueur;
-    });
-
-    // Barres par article
-    var parArticle = {};
-    pieces.forEach(function (pc) {
-      (parArticle[pc.ref] = parArticle[pc.ref] || { ref: pc.ref, designation: pc.designation, famille: pc.famille, longueurs: [] })
-        .longueurs.push(pc.longueur);
-    });
-    var barres = Object.keys(parArticle).sort().map(function (ref) {
-      var a = parArticle[ref];
-      var opt = optimiserBarres(a.longueurs, barresCfg.longueurUtile, barresCfg.traitDeScie);
-      return { ref: ref, designation: a.designation, famille: a.famille, pieces: a.longueurs.length,
-        ml: arrondi(opt.netMm / 1000, 2), barres: opt.nombre, chutePct: opt.chutePct, detail: opt.barres };
-    });
-
-    // Accessoires
-    var mlParclose = arrondi(pieces.filter(function (x) { return x.famille === 'parclose'; })
-      .reduce(function (s, x) { return s + x.longueur; }, 0) / 1000, 2);
-    var fH = c.feuillureHauteur || c.feuillure, vHd = c.verreHauteur || c.verre;
-    var feuillureL = Lv - c.feuillure, feuillureH = Hv - fH;
-    // Joint vitrage : périmètre de feuillure de chaque vantail (largeur réelle, y compris vantail à profil serrure)
-    var mlJointVitrage = arrondi(largeursVantaux.reduce(function (s, lv) {
-      return s + 2 * ((lv - c.feuillure) + feuillureH);
-    }, 0) / 1000, 2);
-    var mlJointBattue = arrondi(n * (2 * Lv + 4 * Hv - c.jointBattueConstante) / 1000, 2);
-    var accessoires = [
-      { ref: acc.jointBattue.ref, designation: acc.jointBattue.designation, qte: mlJointBattue, unite: 'ML' },
-      { ref: jointExt.ref, designation: jointExt.designation, qte: mlJointVitrage, unite: 'ML' },
-      { ref: jointInt.ref, designation: jointInt.designation, qte: mlJointVitrage, unite: 'ML' },
-      { ref: acc.boutonParclose.ref, designation: acc.boutonParclose.designation,
-        qte: Math.floor(mlParclose / acc.boutonParclose.pasMetres + 0.5), unite: 'Pce' }
-    ];
-    acc.piecesAngle.forEach(function (a) {
-      accessoires.push({ ref: a.ref, designation: a.designation, qte: a.parVantail * n, unite: 'Pce' });
-    });
-
-    // Verres
-    var vH = Math.floor(Hv - vHd + 0.5), verres = [];
-    largeursVantaux.forEach(function (lv) {
-      var vL = Math.floor(lv - c.verre + 0.5);
-      var g = verres.filter(function (x) { return x.largeur === vL; })[0];
-      if (g) { g.qte++; return; }
-      verres.push({ libelle: 'Remplissage ' + epaisseur + ' mm', qte: 1, largeur: vL, hauteur: vH, m2Unitaire: arrondi(vL * vH / 1e6, 2) });
-    });
-    verres.forEach(function (x) { x.m2Total = arrondi(x.qte * x.largeur * x.hauteur / 1e6, 2); });
-
+    // Quincaillerie
     var quincaillerie = [], libelleQuincaillerie = null;
-    if (cfg.quincaillerie === 'fmf150') {
+    if (cfg.quincaillerie === 'fmf150' && unico) {
+      var qu = data.quincailleries.fmf150;
+      var fu = quincaillerieFMFUnico(k, m, cfg.sens, L, c.deductionSeuil, qu);
+      quincaillerie = fu.lignes;
+      fu.pieces.forEach(function (x) { pieces.push(x); });
+      libelleQuincaillerie = qu.libelle;
+    } else if (cfg.quincaillerie === 'fmf150') {
       var q = data.quincailleries.fmf150;
       quincaillerie = quincaillerieFMF150(k, m, cfg.sens, L, q);
       libelleQuincaillerie = q.libelle;
@@ -502,10 +524,103 @@
       libelleQuincaillerie = q100.libelle + ' – fixation ' + (cfg.fixation === 'plafond' ? 'plafond' : 'murale');
     }
 
-    var ferm = data.fermeture ? fermeture(cfg, data.fermeture, quincaillerie) : null;
+    // Débit regroupé (article + longueur + coupe)
+    var debit = [];
+    pieces.forEach(function (pc) {
+      var elt = pc.element.replace(/ \(morceau.*\)/, '');
+      var cle = pc.famille + '|' + pc.ref + '|' + pc.longueur + '|' + pc.coupe + '|' + elt;
+      var ligne = debit.filter(function (d) { return d.cle === cle; })[0];
+      if (!ligne) {
+        ligne = { cle: cle, famille: pc.famille, ref: pc.ref, designation: pc.designation, longueur: pc.longueur,
+          coupe: pc.coupe, element: elt, qte: 0, vantaux: [] };
+        debit.push(ligne);
+      }
+      ligne.qte++;
+      if (pc.vantail && ligne.vantaux.indexOf(pc.vantail) < 0) ligne.vantaux.push(pc.vantail);
+    });
+    debit.sort(function (a, b) {
+      return a.famille.localeCompare(b.famille) || a.ref.localeCompare(b.ref) || b.longueur - a.longueur;
+    });
+
+    // Barres par article (profilés Mantion du FMF Unico : barres de 6000 mm)
+    var parArticle = {};
+    pieces.forEach(function (pc) {
+      (parArticle[pc.ref] = parArticle[pc.ref] || { ref: pc.ref, designation: pc.designation, famille: pc.famille, longueurs: [] })
+        .longueurs.push(pc.longueur);
+    });
+    var barres = Object.keys(parArticle).sort().map(function (ref) {
+      var a = parArticle[ref];
+      var lu = a.famille === 'fmf' ? data.quincailleries.fmf150.barres.longueur : barresCfg.longueurUtile;
+      var opt = optimiserBarres(a.longueurs, lu, a.famille === 'fmf' ? 0 : barresCfg.traitDeScie);
+      return { ref: ref, designation: a.designation, famille: a.famille, pieces: a.longueurs.length, longueurBarre: lu,
+        ml: arrondi(opt.netMm / 1000, 2), barres: opt.nombre, chutePct: opt.chutePct, detail: opt.barres };
+    });
+
+    // Accessoires
+    var mlParclose = arrondi(pieces.filter(function (x) { return x.famille === 'parclose'; })
+      .reduce(function (s, x) { return s + x.longueur; }, 0) / 1000, 2);
+    var fH = c.feuillureHauteur || c.feuillure, vHd = c.verreHauteur || c.verre;
+    var feuillureL = Lv - (c.feuillure || 0), feuillureH = Hv - (fH || 0);
+    var accessoires;
+    if (unico) {
+      // Unico (dossier Forster Pro du 19/11/2026) – longueurs en mm, constantes par épaisseur (corps.joints)
+      var cj = corps.joints, ja = acc.joints;
+      var perimVerres = largeursVantaux.reduce(function (s, lv, idx) {
+        return s + 2 * ((lv - c.verre - reductionsRemplissage[idx]) + (Hv - c.verreHauteur));
+      }, 0);
+      var perimVantaux = largeursVantaux.reduce(function (s, lv) { return s + 2 * (lv + Hv); }, 0);
+      var ml = function (mm) { return arrondi(mm / 1000, 2); };
+      // Vantail serrure en 50 (Unico 50+30) : écarts relevés sur le dossier (985301 + 20 mm, 985304 − 20 mm)
+      var aj = (ps && corps.profilSerrure.ajustementsJoints) || {};
+      var mlVitrage = ml(perimVerres + n * cj.vitrageParVantail);
+      var pont = pcl.pontsFeuillure.filter(function (x) { return epaisseur <= x.max; })[0];
+      accessoires = [
+        { ref: jointExt.ref, designation: jointExt.designation, qte: mlVitrage, unite: 'ML' },
+        { ref: jointInt.ref, designation: jointInt.designation, qte: mlVitrage, unite: 'ML' },
+        { ref: '985301', designation: ja['985301'].designation, qte: ml(perimVantaux + n * cj['985301ParVantail'] + 2 * Hv + cj['985301Fixe'] + (aj['985301'] || 0)), unite: 'ML' },
+        { ref: '985304', designation: ja['985304'].designation + ' – dormant', qte: ml(L + 2 * H + n * cj['985304Dormant'].parVantail + cj['985304Dormant'].fixe), unite: 'ML' },
+        { ref: '985304', designation: ja['985304'].designation + ' – ouvrants', qte: ml(perimVantaux + n * cj['985304Ouvrant'] + (aj['985304'] || 0)), unite: 'ML' },
+        { ref: '985305', designation: ja['985305'].designation, qte: ml(perimVerres + n * cj['985305']), unite: 'ML' },
+        { ref: acc.boutonParclose.ref, designation: acc.boutonParclose.designation, qte: acc.boutonParclose.parVantail * n, unite: 'Pce' },
+        { ref: pont.ref, designation: pont.designation, qte: acc.pontsParVantail * n, unite: 'Pce' }
+      ];
+      // Les deux lignes 985304 sont additionnées pour la commande (affichées séparément pour le contrôle)
+    } else {
+      // Joint vitrage : périmètre de feuillure de chaque vantail (largeur réelle, y compris vantail à profil serrure)
+      var mlJointVitrage = arrondi(largeursVantaux.reduce(function (s, lv) {
+        return s + 2 * ((lv - c.feuillure) + feuillureH);
+      }, 0) / 1000, 2);
+      var mlJointBattue = arrondi(n * (2 * Lv + 4 * Hv - c.jointBattueConstante) / 1000, 2);
+      accessoires = [
+        { ref: acc.jointBattue.ref, designation: acc.jointBattue.designation, qte: mlJointBattue, unite: 'ML' },
+        { ref: jointExt.ref, designation: jointExt.designation, qte: mlJointVitrage, unite: 'ML' },
+        { ref: jointInt.ref, designation: jointInt.designation, qte: mlJointVitrage, unite: 'ML' },
+        { ref: acc.boutonParclose.ref, designation: acc.boutonParclose.designation,
+          qte: Math.floor(mlParclose / acc.boutonParclose.pasMetres + 0.5), unite: 'Pce' }
+      ];
+      acc.piecesAngle.forEach(function (a) {
+        accessoires.push({ ref: a.ref, designation: a.designation, qte: a.parVantail * n, unite: 'Pce' });
+      });
+    }
+
+    // Verres
+    // Presto : arrondi au mm le plus proche ; Unico : arrondi inférieur (comme Forster Pro : 2869,5 → 2869)
+    var arr = data.arrondiVerre === 'inferieur' ? function (x) { return Math.floor(x + 1e-6); } : function (x) { return Math.floor(x + 0.5); };
+    var vH = arr(Hv - vHd), verres = [];
+    largeursVantaux.forEach(function (lv, idx) {
+      var vL = arr(lv - c.verre - reductionsRemplissage[idx]);
+      var g = verres.filter(function (x) { return x.largeur === vL; })[0];
+      if (g) { g.qte++; return; }
+      verres.push({ libelle: 'Remplissage ' + epaisseur + ' mm', qte: 1, largeur: vL, hauteur: vH, m2Unitaire: arrondi(vL * vH / 1e6, 2) });
+    });
+    verres.forEach(function (x) { x.m2Total = arrondi(x.qte * x.largeur * x.hauteur / 1e6, 2); });
+
+    var ferm = null;
+    if (data.fermeture) ferm = unico ? fermetureUnico(cfg, data.fermeture) : fermeture(cfg, data.fermeture, quincaillerie);
 
     return {
       ok: true,
+      gamme: data.gamme,
       alertes: alertes,
       aConfirmer: data.aConfirmer || [],
       entree: cfg,
@@ -515,6 +630,7 @@
           traverseHaute: profilTraverseHaute, cote: idx < k ? 'gauche' : 'droite',
           profilSerrure: ps && ps.vantail === idx + 1 ? ps.cote : null };
       }),
+      vantailPrincipal: positionProfilSerrure(k, m),
       pieces: pieces,
       debit: debit,
       barres: barres,
@@ -534,6 +650,9 @@
     decouperSurAxes: decouperSurAxes,
     quincaillerieFMF150: quincaillerieFMF150,
     quincaillerieFMF100: quincaillerieFMF100,
+    quincaillerieFMFUnico: quincaillerieFMFUnico,
+    montagesFMF150: montagesFMF150,
+    fermetureUnico: fermetureUnico,
     fermeture: fermeture,
     combinaisonsParclosage: combinaisonsParclosage,
     positionProfilSerrure: positionProfilSerrure,

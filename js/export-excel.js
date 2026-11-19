@@ -7,7 +7,7 @@
  *  - joints au mètre : Lenght = longueur totale en mm, Quantity = 1 ;
  *  - accessoires, serrurerie et quincaillerie à la pièce : Lenght = 0, Quantity = nombre de pièces ;
  *  - Location : dormant haut = Top, dormant gauche = Left, dormant droit = Right, le reste = Free ;
- *  - Primary Angles 1 / 2 = angle de coupe à chaque bout (45 ou 90), Secondary Angles 1 / 2 = 90 (profilés et parcloses) ;
+ *  - Primary Angles 1 / 2 = angle de coupe à chaque bout (Presto 45 / 90 ; Unico 135 / 90, 121 et 149 comme Forster Pro), Secondary Angles 1 / 2 = 90 (profilés et parcloses) ;
  *  - Price, Colour, Extension, Per Meter, Formula 2, Length 2, Assembly Name : vides.
  * Les remplissages (verres) n'ont pas de référence article : ils ne sont pas exportés.
  */
@@ -38,7 +38,7 @@
   /* Lignes d'import à partir du résultat de Calcul.calculer */
   function lignesImport(r) {
     var lignes = [], index = {};
-    var ordre = { profil: 0, parclose: 1 };
+    var ordre = { profil: 0, parclose: 1, fmf: 2 };
     r.debit.slice().sort(function (x, y) { return ordre[x.famille] - ordre[y.famille]; }).forEach(function (d) {
       var a = angles(d.coupe), lieu = emplacement(d.element);
       // Regroupe les pièces identiques (même article, longueur, coupes et emplacement)

@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "code": "fmf150",
+  "libelle": "FMF 150 (Mantion OPENTEC) – selon dossier Forster Pro Unico",
+  "source": "Dossier de fabrication Forster Pro « FFR Unico Repliable » du 19/11/2026 – consigne Forster du 19/11/2026 : quincaillerie comme le dossier",
+  "remarque": "Rail et bandeau : longueur L ; profil bas, joint et seuil : L − déduction (100 en Unico 50, 60 en Unico 30 et 50+30) ; pièces de plus de 6000 mm coupées en morceaux égaux. Supports équerre GJ10530B et supports de bandeau GJ10530BP : arrondi supérieur de (L − 50) / 500 + 1 chacun, comptés comme dans le dossier. Embouts de bandeau : 2. Montures et paumelles : mêmes règles que le FMF 150 Presto (vérifiées sur les 21 positions du dossier).",
+  "articles": {
+    "rail": { "ref": "10500A/600", "designation": "RAIL ALU 72X64 ANODISE 20µ PERCE 6M MANTION®" },
+    "bandeau": { "ref": "GJ10530P", "designation": "BANDEAU ALU 10500 BRUT 6M MANTION®" },
+    "profilBas": { "ref": "GH10430R", "designation": "PROFIL BAS ENCASTRE 6M ANOD. 20µ FWF-FMF MANTION®" },
+    "joint": { "ref": "GH10430DC", "designation": "JOINT CACHE POUSSIERE 6M MANTION®" },
+    "seuil": { "ref": "GHPG16", "designation": "SEUIL TAPEE DE PORTE 6M AVEC JOINT MANTION®" },
+    "supports": { "ref": "GJ10530B", "designation": "SET 4 SUPPORTS EQUERRE ANODISEES 20µ FMF150 MANTION®" },
+    "supportsBandeau": { "ref": "GJ10530BP", "designation": "SET 4 SUPPORTS BANDEAU 10500 MANTION®" },
+    "emboutsBandeau": { "ref": "GJ10530EN", "designation": "SET EMBOUT BANDEAU 10500 MANTION®" },
+    "montureIntermediaire": { "ref": "GJ10530IH", "designation": "SET MONTURE INTERMEDIAIRE FMF150 MANTION®" },
+    "montureExtremiteGauche": { "ref": "GJ10530EHL", "designation": "SET MONTURE EXTREMITE GAUCHE FMF150 MANTION®" },
+    "montureExtremiteDroite": { "ref": "GJ10530EHR", "designation": "SET MONTURE EXTREMITE DROIT FMF150 MANTION®" },
+    "paumellesGauche": { "ref": "GJ10530HOL", "designation": "SET 3 PAUMELLES GAUCHE DEP REG FMF150 MANTION®" },
+    "paumellesDroite": { "ref": "GJ10530HOR", "designation": "SET 3 PAUMELLES DROITE DEP REG FMF150 MANTION®" }
+  },
+  "barres": { "longueur": 6000 },
+  "supports": { "entraxe": 500, "retrait": 50 },
+  "embouts": 2
+}
